@@ -3,13 +3,14 @@
 Character::Character(std::uint32_t id, std::string character_name) : character_name_{std::move(character_name)},
 																	 uuid_(boost::uuids::random_generator()()),
 																	 id_{id},
-																	 level_manager_{&character_level_},
+																	 character_data_updater_{&character_statistics_,
+																							 &character_attributes_},
 																	 item_manager_{
 																		 &character_inventory_,
 																		 &character_equipment_,
 																		 &character_level_, id_} {
-  item_manager_.RegisterHandler(&character_attributes_);
-  level_manager_.RegisterHandler(&character_attributes_);
+  item_manager_.RegisterHandler(&character_data_updater_);
+  character_level_.RegisterHandler(&character_data_updater_);
 }
 
 bool Character::operator==(const Character &character) {

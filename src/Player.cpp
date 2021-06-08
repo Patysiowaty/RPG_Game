@@ -1,32 +1,8 @@
 #include "Player.hpp"
 
-Player::Player() {
+#include <utility>
 
-}
-
-void Player::OnAttributesUpdate() {
-
-}
-
-void Player::OnLevelUpdate() {
-  character_attributes_.RaiseBaseAttributes();
-}
-
-void Player::OnExperienceUpdate(bool is_leveled_up) {
-  if (is_leveled_up) character_level_.LevelUp();
-}
-
-
-
-/*void Player::OnTakeOffItem(const std::shared_ptr<Item> &item) {
-  character_attributes_.SubtractStrength(item->GetStrength());
-  character_attributes_.SubtractDexterity(item->GetDexterity());
-  character_attributes_.SubtractVitality(item->GetVitality());
-  character_attributes_.SubtractIntelligence(item->GetIntelligence());
-  character_inventory_.PutItem(item);
-}*/
-
-void Player::OnStatisticsUpdate() {
+Player::Player(std::uint32_t id, std::string character_name) : Character{id, std::move(character_name)} {
 
 }
 
@@ -56,5 +32,6 @@ void Player::MoveCharacter() {
 }
 
 void Player::OnBattleEnd(bool winner) {
-player_experience_.AddExperience(12313);
+
 }
+

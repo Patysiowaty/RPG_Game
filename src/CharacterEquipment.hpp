@@ -5,7 +5,7 @@
 #include <map>
 #include "item_types/Item.hpp"
 #include "enums/ItemType.hpp"
-#include "IItemList.hpp"
+#include "Interfaces/IItemList.hpp"
 
 class CharacterEquipment : public IItemList {
  public:

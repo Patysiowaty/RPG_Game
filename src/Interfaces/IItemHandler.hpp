@@ -1,6 +1,6 @@
 #ifndef IITEMHANDLER_HPP
 #define IITEMHANDLER_HPP
-#include "item_types/Item.hpp"
+#include "../item_types/Item.hpp"
 #include <memory>
 
 class IItemHandler {

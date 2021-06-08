@@ -12,7 +12,7 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid.hpp>
 #include "ItemManager.hpp"
-#include "LevelManager.hpp"
+#include "CharacterDataUpdater.hpp"
 
 class Character {
  public:
@@ -30,7 +30,6 @@ class Character {
   CharacterClass GetCharacterClass() const { return character_class_; }
 
   ItemManager &GetItemManager() { return item_manager_; }
-  LevelManager &GetLevelManager() { return level_manager_; }
 
   virtual void OnAttributesUpdate() = 0;
   virtual void OnStatisticsUpdate() = 0;
@@ -54,7 +53,7 @@ class Character {
   CharacterInventory character_inventory_;
   CharacterLevel character_level_;
   ItemManager item_manager_;
-  LevelManager level_manager_;
+  CharacterDataUpdater character_data_updater_;
 };
 
 #endif //CHARACTER_HPP
