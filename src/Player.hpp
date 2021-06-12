@@ -10,7 +10,6 @@ class Player : public Character {
 
   void Attack() override;
   void MoveCharacter() override;
-  void OnBattleEnd(bool winner) override;
 
  private:
 };

@@ -8,7 +8,7 @@ enum class ItemType : uint16_t {
   kRing = 2,
   kNecklace = 3,
   kGloves = 4,
-  kWeapon = 5,
+  kOneHandedSword = 5,
   kArmor = 6,
   kOffHand = 7,
   kPants = 8,

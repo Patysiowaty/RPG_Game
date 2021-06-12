@@ -5,7 +5,7 @@ CharacterEquipment::CharacterEquipment() {
   equipment_.emplace(ItemType::kRing, nullptr);
   equipment_.emplace(ItemType::kNecklace, nullptr);
   equipment_.emplace(ItemType::kGloves, nullptr);
-  equipment_.emplace(ItemType::kWeapon, nullptr);
+  equipment_.emplace(ItemType::kOneHandedSword, nullptr);
   equipment_.emplace(ItemType::kArmor, nullptr);
   equipment_.emplace(ItemType::kOffHand, nullptr);
   equipment_.emplace(ItemType::kPants, nullptr);
@@ -18,7 +18,7 @@ bool CharacterEquipment::PutItem(const std::shared_ptr<Item> &item) {
   const auto item_type = item->GetItemType();
   equipment_.at(item_type) = item;
   item->SetIsEquipped(true);
-  item->ChangeItemLocation(ItemLocation::kCharacterEquipment);
+  item->SetItemLocation(ItemLocation::kCharacterEquipment);
   return true;
 }
 
@@ -30,7 +30,7 @@ bool CharacterEquipment::RemoveItem(const std::shared_ptr<Item> &item) {
   auto item_type = item->GetItemType();
   equipment_.at(item_type) = nullptr;
   item->SetIsEquipped(false);
-  item->ChangeItemLocation(ItemLocation::kNone);
+  item->SetItemLocation(ItemLocation::kNone);
   return true;
 }
 

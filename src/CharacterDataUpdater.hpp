@@ -1,6 +1,6 @@
 #ifndef CHARACTERDATAUPDATER_HPP
 #define CHARACTERDATAUPDATER_HPP
-#include "Interfaces/IItemHandler.hpp"
+#include "interfaces/IItemHandler.hpp"
 #include "CharacterStatistics.hpp"
 #include "CharacterAttributes.hpp"
 #include "item_types/Item.hpp"

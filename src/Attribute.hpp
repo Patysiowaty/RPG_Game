@@ -1,6 +1,6 @@
 #ifndef ATTRIBUTE_HPP
 #define ATTRIBUTE_HPP
-#include "Interfaces/IBaseValueContainer.hpp"
+#include "interfaces/IBaseValueContainer.hpp"
 #include <cstdint>
 #include "enums/AttributeType.hpp"
 

@@ -31,10 +31,6 @@ class Character {
 
   ItemManager &GetItemManager() { return item_manager_; }
 
-  virtual void OnAttributesUpdate() = 0;
-  virtual void OnStatisticsUpdate() = 0;
-
-  virtual void OnBattleEnd(bool winner) = 0;
   virtual void Attack() = 0;
   virtual void MoveCharacter() = 0;
 

@@ -10,9 +10,11 @@ class CharacterStatistics {
   CharacterStatistics();
 
   std::shared_ptr<Statistic> GetStatistic(StatisticType statistic_type) const;
+  void AddStatistic(StatisticType statistic_type, std::int32_t value = 0);
+  void AddStatistic(std::shared_ptr<Statistic> statistic);
 
  private:
-  std::vector<std::shared_ptr<Statistic>> statistic_;
+  std::vector<std::shared_ptr<Statistic>> statistics_;
 };
 
 #endif //CHARACTERSTATISTICS_HPP

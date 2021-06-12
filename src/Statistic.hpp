@@ -1,6 +1,6 @@
 #ifndef STATISTIC_HPP
 #define STATISTIC_HPP
-#include "Interfaces/IRangeValueContainer.hpp"
+#include "interfaces/IRangeValueContainer.hpp"
 #include <cstdint>
 #include "enums/StatisticType.hpp"
 
@@ -15,7 +15,7 @@ class Statistic : public IRangeValueContainer<std::int32_t> {
   void SubtractValue(std::int32_t value) override;
   void SubtractMaxValue(std::int32_t value) override;
 
-  std::int32_t GetMaxValue(std::int32_t value) const override;
+  std::int32_t GetMaxValue() const override;
   virtual std::int32_t GetValue() const override;
   double GetPercent() const override;
   StatisticType GetType() const;

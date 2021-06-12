@@ -12,7 +12,7 @@ class IRangeValueContainer : public IBaseValueContainer<T> {
   virtual void SetMaxValue(T value) = 0;
   virtual void AddMaxValue(T value) = 0;
   virtual void SubtractMaxValue(T value) = 0;
-  virtual T GetMaxValue(T value) const = 0;
+  virtual T GetMaxValue() const = 0;
 
   virtual double GetPercent() const = 0;
 };

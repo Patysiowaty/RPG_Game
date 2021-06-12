@@ -4,8 +4,8 @@
 #include <memory>
 #include <cstdint>
 #include <vector>
-#include "Interfaces/ILevelHandler.hpp"
-#include "Interfaces/IPublisher.hpp"
+#include "interfaces/ILevelHandler.hpp"
+#include "interfaces/IPublisher.hpp"
 
 class CharacterLevel : public IPublisher<ILevelHandler> {
  public:

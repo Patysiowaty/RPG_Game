@@ -4,7 +4,7 @@
 #include "CharacterEquipment.hpp"
 #include "enums/ErrorCodes/ItemManagerEC.hpp"
 #include "CharacterLevel.hpp"
-#include "Interfaces/IItemHandler.hpp"
+#include "interfaces/IItemHandler.hpp"
 
 class ItemManager {
  public:

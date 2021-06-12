@@ -5,7 +5,7 @@
 #include <vector>
 #include "item_types/Item.hpp"
 #include "enums/ErrorCodes/ItemManagerEC.hpp"
-#include "Interfaces/IItemList.hpp"
+#include "interfaces/IItemList.hpp"
 
 class CharacterInventory : IItemList {
  public:

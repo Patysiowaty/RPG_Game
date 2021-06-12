@@ -3,8 +3,8 @@
 
 #include <cstdint>
 #include <memory>
-#include "Interfaces/IItemHandler.hpp"
-#include "Interfaces/ILevelHandler.hpp"
+#include "interfaces/IItemHandler.hpp"
+#include "interfaces/ILevelHandler.hpp"
 #include "Attribute.hpp"
 
 class CharacterAttributes {
@@ -16,6 +16,8 @@ class CharacterAttributes {
 
   void RaiseAttributes();
   void LowerAttributes();
+  void AddAttribute(AttributeType attribute_type, std::int32_t value = 0);
+  void AddAttribute(std::shared_ptr<Attribute> attribute);
 
  private:
   static constexpr int16_t kAttributesBaseModifier{3};

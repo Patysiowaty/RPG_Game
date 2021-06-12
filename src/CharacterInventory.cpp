@@ -31,7 +31,7 @@ bool CharacterInventory::RemoveItem(const std::shared_ptr<Item> &item) {
 
   inventory_.erase(it);
   remaining_slots_++;
-  item->ChangeItemLocation(ItemLocation::kNone);
+  item->SetItemLocation(ItemLocation::kNone);
   return true;
 }
 
@@ -42,7 +42,7 @@ bool CharacterInventory::PutItem(const std::shared_ptr<Item> &item, std::uint16_
   if (!IsFreeSlot(position)) return false;
 
   inventory_.at(position) = item;
-  item->ChangeItemLocation(ItemLocation::kCharacterInventory);
+  item->SetItemLocation(ItemLocation::kCharacterInventory);
   remaining_slots_--;
   return true;
 }
@@ -54,7 +54,7 @@ bool CharacterInventory::PutItem(const std::shared_ptr<Item> &item) {
   const auto it = std::find(inventory_.begin(), inventory_.end(), nullptr);
   inventory_.insert(it, item);
   remaining_slots_--;
-  item->ChangeItemLocation(ItemLocation::kCharacterInventory);
+  item->SetItemLocation(ItemLocation::kCharacterInventory);
   return true;
 }
 
@@ -74,12 +74,9 @@ bool CharacterInventory::SwapItems(const std::shared_ptr<Item> &lhs,
 }
 
 bool CharacterInventory::ChangePosition(const std::shared_ptr<Item> &item, std::uint16_t position) {
-  if (!item) return bool
-  ::kItemDoesNotExist;
-  if (!IsInInventory(item)) return bool
-  ::kItemIsNotInInventory;
-  if (!IsAvailableTab(position)) return bool
-  ::kSlotIsUnavailable;
+  if (!item) return false;
+  if (!IsInInventory(item)) return false;
+  if (!IsAvailableTab(position)) return false;
 
   if (!IsFreeSlot(position)) {
 	const auto &item_at_pos = inventory_.at(position);
@@ -87,8 +84,7 @@ bool CharacterInventory::ChangePosition(const std::shared_ptr<Item> &item, std::
   }
 
   inventory_.at(position) = item;
-  return bool
-  ::kNone;
+  return true;
 }
 
 bool CharacterInventory::IsFullInventory() const {

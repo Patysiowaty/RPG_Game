@@ -30,8 +30,3 @@ void Player::Attack() {
 void Player::MoveCharacter() {
 
 }
-
-void Player::OnBattleEnd(bool winner) {
-
-}
-

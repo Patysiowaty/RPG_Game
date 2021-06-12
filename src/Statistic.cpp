@@ -10,6 +10,7 @@ void Statistic::SetValue(std::int32_t value) {
 
 void Statistic::SetMaxValue(std::int32_t value) {
   max_statistic_ = value > 0 ? value > kMaxStatisticValue ? kMaxStatisticValue : value : max_statistic_;
+  SetValue(value);
 }
 
 void Statistic::AddValue(std::int32_t value) {
@@ -41,7 +42,7 @@ std::int32_t Statistic::GetValue() const {
   return statistic_;
 }
 
-std::int32_t Statistic::GetMaxValue(std::int32_t value) const {
+std::int32_t Statistic::GetMaxValue() const {
   return max_statistic_;
 }
 

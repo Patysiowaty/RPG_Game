@@ -1,7 +1,5 @@
 #include "Item.hpp"
-Item::Item() {
-
-}
+Item::Item() = default;
 
 Item::~Item() = default;
 
@@ -25,11 +23,11 @@ void Item::SetIsEquipped(bool is_equipped) {
   is_equipped_ = is_equipped;
 }
 
-void Item::ChangeItemLocation(ItemLocation item_location) {
+void Item::SetItemLocation(ItemLocation item_location) {
   item_location_ = item_location;
 }
 
-void Item::SetEquipmentType(ItemType item_type) {
+void Item::SetItemType(ItemType item_type) {
   item_type_ = item_type;
 }
 
@@ -49,20 +47,12 @@ void Item::SetCharacterClassRequirement(const std::vector<CharacterClass> &chara
   character_class_requirement_ = character_class_requirement;
 }
 
-void Item::SetStrength(int32_t strength) {
-  strength_ = strength;
+void Item::SetRarity(ItemRarity item_rarity) {
+  item_rarity_ = item_rarity;
 }
 
-void Item::SetDexterity(int32_t dexterity) {
-  dexterity_ = dexterity;
-}
-
-void Item::SetVitality(int32_t vitality) {
-  vitality_ = vitality;
-}
-
-void Item::SetIntelligence(int32_t intelligence) {
-  intelligence_ = intelligence;
+void Item::SetAttributes(const std::vector<Attribute> &attributes) {
+  attributes_ = attributes;
 }
 
 
