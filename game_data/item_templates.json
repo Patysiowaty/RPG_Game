@@ -1,43 +1,51 @@
 {
-  "itemTemplates": {
-    "1": {
-      "name": "Leather helmet",
-      "description": "Junk",
-      "type": 1,
-      "rarity": 1,
-      "levelRequire": 1,
-      "classRequire": [
-        1
-      ],
-      "statistics": {
-        "strength": 1,
-        "vitality": 1
-      },
-      "maxHealth": 1
+  "1": {
+    "name": "Leather helmet",
+    "description": "Junk",
+    "type": 1,
+    "rarity": 1,
+    "levelRequire": 1,
+    "classRequire": [
+      1
+    ],
+    "statistics": {
+      "strength": 1,
+      "dexterity": 0,
+      "vitality": 1,
+      "intelligence": 0
     },
-    "2": {
-      "name": "Rusty sword",
-      "description": "Junk",
-      "type": 5,
-      "rarity": 1,
-      "levelRequire": 1,
-      "classRequire": [
-        1
-      ],
-      "statistics": {
-        "strength": 2,
-        "dexterity": 1
-      },
-      "criticalStrikeRatio": 1
+    "maxHealth": 1
+  },
+  "2": {
+    "name": "Rusty sword",
+    "description": "Junk",
+    "type": 5,
+    "rarity": 1,
+    "levelRequire": 1,
+    "classRequire": [
+      1
+    ],
+    "statistics": {
+      "strength": 2,
+      "dexterity": 1,
+      "vitality": 0,
+      "intelligence": 0
     },
-    "3": {
-      "name": "Old ring",
-      "type": 2,
-      "rarity": 1,
-      "levelRequire": 1,
-      "classRequire": [
-        1
-      ]
+    "criticalStrikeRatio": 1
+  },
+  "3": {
+    "name": "Old ring",
+    "type": 2,
+    "rarity": 1,
+    "levelRequire": 1,
+    "classRequire": [
+      1
+    ],
+    "statistics": {
+      "strength": 1,
+      "dexterity": 1,
+      "vitality": 1,
+      "intelligence": 1
     }
   }
 }
