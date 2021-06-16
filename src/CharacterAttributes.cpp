@@ -20,11 +20,17 @@ std::shared_ptr<Attribute> CharacterAttributes::GetAttribute(AttributeType attri
 void CharacterAttributes::RaiseAttributes() {
   for (const auto &attribute : attributes_)
 	attribute->AddValue(kAttributesBaseModifier);
+
+  for (const auto handler: handlers_)
+	handler->OnAttributesRaise();
 }
 
 void CharacterAttributes::LowerAttributes() {
   for (const auto &attribute : attributes_)
 	attribute->SubtractValue(kAttributesBaseModifier);
+
+  for (const auto handler: handlers_)
+	handler->OnAttributesLower();
 }
 
 void CharacterAttributes::AddAttribute(AttributeType attribute_type, std::int32_t value) {
@@ -32,7 +38,16 @@ void CharacterAttributes::AddAttribute(AttributeType attribute_type, std::int32_
 }
 
 void CharacterAttributes::AddAttribute(std::shared_ptr<Attribute> attribute) {
-  attributes_.push_back(std::move(attribute));
+  attributes_.emplace_back(std::move(attribute));
+}
+
+void CharacterAttributes::RegisterHandler(IAttributesHandler *handler) {
+  handlers_.push_back(handler);
+}
+
+void CharacterAttributes::SetAttributes(const std::vector<std::int32_t> &attributes) {
+  for (int i = 0; i < attributes.size(); ++i)
+	attributes_.at(i)->SetValue(attributes.at(i));
 }
 
 

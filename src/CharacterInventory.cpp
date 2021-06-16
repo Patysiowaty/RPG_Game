@@ -9,8 +9,7 @@ CharacterInventory::CharacterInventory(std::uint16_t available_tabs) : inventory
   inventory_.resize(inventory_space_);
 }
 
-CharacterInventory::~CharacterInventory() {
-}
+CharacterInventory::~CharacterInventory() = default;
 
 bool CharacterInventory::ExpandInventory() {
   if (inventory_available_tabs_ >= 4) return false;
@@ -21,7 +20,7 @@ bool CharacterInventory::ExpandInventory() {
   return true;
 }
 
-bool CharacterInventory::RemoveItem(const std::shared_ptr<Item> &item) {
+bool CharacterInventory::RemoveItem(std::shared_ptr<Item> item) {
   if (!item) return false;
   if (!IsInInventory(item)) return false;
 
@@ -30,24 +29,25 @@ bool CharacterInventory::RemoveItem(const std::shared_ptr<Item> &item) {
 	throw std::logic_error{"CharacterInventory::RemoveItem -> Does not find an item."};
 
   inventory_.erase(it);
+  item.reset();
   remaining_slots_++;
   item->SetItemLocation(ItemLocation::kNone);
   return true;
 }
 
-bool CharacterInventory::PutItem(const std::shared_ptr<Item> &item, std::uint16_t position) {
+bool CharacterInventory::PutItem(std::shared_ptr<Item> item, std::uint16_t position) {
   if (!item) return false;
   if (IsFullInventory()) return false;
   if (!IsAvailableTab(position)) return false;
   if (!IsFreeSlot(position)) return false;
 
   inventory_.at(position) = item;
-  item->SetItemLocation(ItemLocation::kCharacterInventory);
   remaining_slots_--;
+  item->SetItemLocation(ItemLocation::kCharacterInventory);
   return true;
 }
 
-bool CharacterInventory::PutItem(const std::shared_ptr<Item> &item) {
+bool CharacterInventory::PutItem(std::shared_ptr<Item> item) {
   if (!item) return false;
   if (IsFullInventory()) return false;
 
@@ -101,7 +101,7 @@ bool CharacterInventory::IsAvailableTab(std::uint16_t position) const {
 }
 
 bool CharacterInventory::IsInInventory(const std::shared_ptr<Item> &item) const {
-  return item->GetCurrentLocation() == ItemLocation::kCharacterInventory;
+  return item->GetItemLocation() == ItemLocation::kCharacterInventory;
 }
 
 

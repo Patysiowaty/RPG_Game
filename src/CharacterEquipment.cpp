@@ -12,7 +12,7 @@ CharacterEquipment::CharacterEquipment() {
   equipment_.emplace(ItemType::kBoots, nullptr);
 }
 
-bool CharacterEquipment::PutItem(const std::shared_ptr<Item> &item) {
+bool CharacterEquipment::PutItem(std::shared_ptr<Item> item) {
   if (!item) return false;
 
   const auto item_type = item->GetItemType();
@@ -22,7 +22,7 @@ bool CharacterEquipment::PutItem(const std::shared_ptr<Item> &item) {
   return true;
 }
 
-bool CharacterEquipment::RemoveItem(const std::shared_ptr<Item> &item) {
+bool CharacterEquipment::RemoveItem(std::shared_ptr<Item> item) {
   if (!item) return false;
 
   if (!item->IsEquipped()) return false;
@@ -38,7 +38,7 @@ bool CharacterEquipment::IsEmptySlot(ItemType item_type) const {
   return equipment_.at(item_type) == nullptr;
 }
 
-const std::shared_ptr<Item>& CharacterEquipment::GetItemAtSlot(ItemType item_type) const {
+std::shared_ptr<Item> CharacterEquipment::GetItemAtSlot(ItemType item_type) const {
   return equipment_.at(item_type);
 }
 

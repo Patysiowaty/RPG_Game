@@ -3,8 +3,8 @@
 
 class IItemList {
  public:
-  virtual bool PutItem(const std::shared_ptr<Item> &item) = 0;
-  virtual bool RemoveItem(const std::shared_ptr<Item> &item) = 0;
+  virtual bool PutItem(std::shared_ptr<Item> item) = 0;
+  virtual bool RemoveItem(std::shared_ptr<Item> item) = 0;
 };
 
 #endif //IITEMLIST_HPP

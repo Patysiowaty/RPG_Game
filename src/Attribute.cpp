@@ -9,13 +9,13 @@ void Attribute::SetValue(int value) {
 }
 
 void Attribute::AddValue(int value) {
-  if (value < 0) SubtractValue(-value);
+  if (value < 0) return SubtractValue(-value);
 
   attribute_ = (attribute_ + value) > kMaxAttributeValue ? kMaxAttributeValue : attribute_ + value;
 }
 
 void Attribute::SubtractValue(int value) {
-  if (value < 0) AddValue(-value);
+  if (value < 0) return AddValue(-value);
 
   attribute_ = (attribute_ - value) < 0 ? 0 : attribute_ + value;
 }

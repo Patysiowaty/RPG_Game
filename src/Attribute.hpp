@@ -10,8 +10,8 @@ class Attribute : public IBaseValueContainer<std::int32_t> {
 
   void SetValue(int value) override;
   void AddValue(int value) override;
-
   void SubtractValue(int value) override;
+
   std::int32_t GetValue() const override;
   AttributeType GetType() const;
 

@@ -8,12 +8,12 @@
     "classRequire": [
       1
     ],
-    "statistics": {
-      "strength": 1,
-      "dexterity": 0,
-      "vitality": 1,
-      "intelligence": 0
-    },
+    "attributes": [
+      1,
+      1,
+      0,
+      0
+    ],
     "maxHealth": 1
   },
   "2": {
@@ -25,12 +25,12 @@
     "classRequire": [
       1
     ],
-    "statistics": {
-      "strength": 2,
-      "dexterity": 1,
-      "vitality": 0,
-      "intelligence": 0
-    },
+    "attributes": [
+      2,
+      1,
+      0,
+      0
+    ],
     "criticalStrikeRatio": 1
   },
   "3": {
@@ -41,11 +41,11 @@
     "classRequire": [
       1
     ],
-    "statistics": {
-      "strength": 1,
-      "dexterity": 1,
-      "vitality": 1,
-      "intelligence": 1
-    }
+    "attributes": [
+      1,
+      1,
+      1,
+      1
+    ]
   }
 }

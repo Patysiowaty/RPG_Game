@@ -24,11 +24,11 @@ void Item::SetIsEquipped(bool is_equipped) {
 }
 
 void Item::SetItemLocation(ItemLocation item_location) {
-  item_location_ = item_location;
+  location_ = item_location;
 }
 
 void Item::SetItemType(ItemType item_type) {
-  item_type_ = item_type;
+  type_ = item_type;
 }
 
 void Item::SetName(const std::string &name) {
@@ -48,7 +48,7 @@ void Item::SetCharacterClassRequirement(const std::vector<CharacterClass> &chara
 }
 
 void Item::SetRarity(ItemRarity item_rarity) {
-  item_rarity_ = item_rarity;
+  rarity_ = item_rarity;
 }
 
 void Item::SetAttributes(const std::vector<Attribute> &attributes) {

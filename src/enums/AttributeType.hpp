@@ -4,8 +4,8 @@
 enum class AttributeType {
   kNone = 0,
   kStrength,
-  kVitality,
   kDexterity,
+  kVitality,
   kIntelligence
 };
 

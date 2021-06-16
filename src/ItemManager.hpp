@@ -6,14 +6,14 @@
 #include "CharacterLevel.hpp"
 #include "interfaces/IItemHandler.hpp"
 
-class ItemManager {
+class ItemManager : public IPublisher<IItemHandler> {
  public:
   ItemManager(CharacterInventory *inventory, CharacterEquipment *equipment, CharacterLevel *level, std::uint32_t id);
   ItemManagerEC EquipItem(const std::shared_ptr<Item> &item);
   ItemManagerEC TakeOffItem(const std::shared_ptr<Item> &item);
   ItemManagerEC UseItem(const std::shared_ptr<Item> &item);
 
-  void RegisterHandler(IItemHandler *handler) { handlers_.push_back(handler); }
+  void RegisterHandler(IItemHandler *handler) override { handlers_.push_back(handler); }
 
  private:
   ItemManagerEC Swap(const std::shared_ptr<Item> &inventory_item, const std::shared_ptr<Item> &equipment_item);

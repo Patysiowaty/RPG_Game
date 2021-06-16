@@ -19,11 +19,13 @@ class Item {
   bool operator==(const Item &item);
   bool operator!=(const Item &item);
 
-  bool IsEquipped() const { return is_equipped_; }
-  ItemType GetItemType() const { return item_type_; }
-
-  ItemLocation GetCurrentLocation() const { return item_location_; }
+  uint32_t GetItemId() const { return id_; }
   uint32_t GetOwnerId() const { return owner_id_; }
+  bool IsEquipped() const { return is_equipped_; }
+  ItemType GetItemType() const { return type_; }
+  ItemLocation GetItemLocation() const { return location_; }
+  ItemRarity GetItemRarity() const { return rarity_; }
+  const std::string &GetItemName() const { return name_; }
   uint16_t GetLevelRequirement() const { return level_requirement_; }
   const std::vector<CharacterClass> &GetClassRequirement() const { return character_class_requirement_; }
   const std::vector<Attribute> &GetAttributes() const { return attributes_; }
@@ -32,22 +34,22 @@ class Item {
   void SetOwnerId(uint32_t owner_id);
   void SetIsEquipped(bool is_equipped);
   void SetItemType(ItemType item_type);
+  void SetItemLocation(ItemLocation item_location);
   void SetRarity(ItemRarity item_rarity);
   void SetName(const std::string &name);
   void SetDescription(const std::string &description);
   void SetLevelRequirement(uint16_t level_requirement);
   void SetCharacterClassRequirement(const std::vector<CharacterClass> &character_class_requirement);
   void SetAttributes(const std::vector<Attribute> &attributes);
-  void SetItemLocation(ItemLocation item_location);
 
  private:
   uint32_t id_ = 0;
   uint32_t owner_id_ = 0;
   bool is_equipped_ = false;
 
-  ItemType item_type_ = ItemType::kNone;
-  ItemLocation item_location_ = ItemLocation::kNone;
-  ItemRarity item_rarity_ = ItemRarity::kCommon;
+  ItemType type_ = ItemType::kNone;
+  ItemLocation location_ = ItemLocation::kNone;
+  ItemRarity rarity_ = ItemRarity::kCommon;
 
   std::string name_;
   std::string description_;

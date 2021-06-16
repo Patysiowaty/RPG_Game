@@ -1,0 +1,60 @@
+{
+  "id": 0,
+  "uuid": 0,
+  "name": "",
+  "gender": 0,
+  "race": 0,
+  "class": 0,
+  "level": 0,
+  "experience": 0,
+  "attributes": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "statistics": {
+    "attack": 0,
+    "attackMax": 0,
+    "health": 0,
+    "healthMax": 0,
+    "stamina": 0,
+    "staminaMax": 0,
+    "mana": 0,
+    "manaMax": 0,
+    "armor": 0
+  },
+  "inventory": [
+    {
+      "itemId": 0,
+      "templateId": 0
+    },
+    {
+      "itemId": 0,
+      "templateId": 0
+    },
+    {
+      "itemId": 0,
+      "templateId": 0
+    },
+    {
+      "itemId": 0,
+      "templateId": 0
+    }
+  ],
+  "inventorySize": 1,
+  "equipment": [
+    {
+      "itemId": 0,
+      "templateId": 0
+    },
+    {
+      "itemId": 0,
+      "templateId": 0
+    },
+    {
+      "itemId": 0,
+      "templateId": 0
+    }
+  ]
+}

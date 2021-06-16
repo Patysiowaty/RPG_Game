@@ -13,9 +13,10 @@ class CharacterInventory : IItemList {
   ~CharacterInventory();
 
   bool ExpandInventory();
-  bool RemoveItem(const std::shared_ptr<Item> &item) override;
-  bool PutItem(const std::shared_ptr<Item> &item, uint16_t position);
-  bool PutItem(const std::shared_ptr<Item> &item) override;
+  bool RemoveItem(std::shared_ptr<Item> item) override;
+  bool PutItem(std::shared_ptr<Item> item, uint16_t position);
+  bool PutItem(std::shared_ptr<Item> item) override;
+
   bool ChangePosition(const std::shared_ptr<Item> &item, std::uint16_t position);
   bool SwapItems(const std::shared_ptr<Item> &lhs, const std::shared_ptr<Item> &rhs);
   bool IsFullInventory() const;
