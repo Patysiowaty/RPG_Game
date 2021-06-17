@@ -8,7 +8,7 @@
 
 class ItemManager : public IPublisher<IItemHandler> {
  public:
-  ItemManager(CharacterInventory *inventory, CharacterEquipment *equipment, CharacterLevel *level, std::uint32_t id);
+  ItemManager(CharacterInventory *inventory, CharacterEquipment *equipment, CharacterLevel *level, std::uint32_t *id);
   ItemManagerEC EquipItem(const std::shared_ptr<Item> &item);
   ItemManagerEC TakeOffItem(const std::shared_ptr<Item> &item);
   ItemManagerEC UseItem(const std::shared_ptr<Item> &item);
@@ -22,7 +22,7 @@ class ItemManager : public IPublisher<IItemHandler> {
   CharacterInventory *inventory_;
   CharacterEquipment *equipment_;
   CharacterLevel *level_;
-  std::uint32_t id_;
+  std::uint32_t *id_;
   std::vector<IItemHandler *> handlers_;
 };
 #endif //ITEMMANAGER_HPP

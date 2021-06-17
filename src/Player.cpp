@@ -1,32 +1,51 @@
 #include "Player.hpp"
 
-#include <utility>
+#include <boost/uuid/uuid_io.hpp>
 
-Player::Player(std::uint32_t id, std::string character_name) : Character{id, std::move(character_name)} {
+Player::Player() {
 
 }
 
-/*void Player::OnUsedItem(const std::shared_ptr<Item> &item) {
-  if (item->GetItemType() == ItemType::kConsumptive) {
-	auto cons_item = std::dynamic_pointer_cast<ConsumptiveItem>(item);
-	if (const auto health_regen = cons_item->GetHealthRegen(); health_regen)
-	  character_statistics_.RecoverHealth(health_regen);
-	if (const auto mana_regen = cons_item->GetManaRegen(); mana_regen)
-	  character_statistics_.RecoverMana(cons_item->GetManaRegen());
-	if (const auto stamina_regen = cons_item->GetStaminaRegen(); stamina_regen)
-	  character_statistics_.RecoverStamina(stamina_regen);
-	if (const auto additional_health = cons_item->GetAdditionalHealthMax(); additional_health)
-	  character_statistics_.IncreaseMaxHealth(additional_health);
-	if (const auto additional_mana = cons_item->GetAdditionalMana(); additional_mana)
-	  character_statistics_.IncreaseMaxMana(additional_mana);
-	if (const auto additional_stamina = cons_item->GetAdditionalStamina(); additional_stamina)
-	  character_statistics_.IncreaseMaxStamina(additional_stamina);
-  }
-}*/
 void Player::Attack() {
 
 }
 
 void Player::MoveCharacter() {
+
+}
+
+boost::property_tree::ptree Player::Serialize() {
+  boost::property_tree::ptree ptree;
+
+  ptree.put("id", GetId());
+  ptree.put("uuid", boost::uuids::to_string(GetUuid()));
+  ptree.put("name", GetName());
+  ptree.put("gender", static_cast<int>(GetGender()));
+  ptree.put("race", static_cast<int>(GetRace()));
+  ptree.put("class", static_cast<int>(GetClass()));
+  ptree.put("level", GetLevel().GetLevel());
+  ptree.put("experience", GetLevel().GetExperience().first);
+
+  ptree.put("attributes.strength", GetAttributes().GetAttribute(AttributeType::kStrength)->GetValue());
+  ptree.add("attributes.dexterity", GetAttributes().GetAttribute(AttributeType::kDexterity)->GetValue());
+  ptree.add("attributes.vitality", GetAttributes().GetAttribute(AttributeType::kVitality)->GetValue());
+  ptree.add("attributes.intelligence", GetAttributes().GetAttribute(AttributeType::kIntelligence)->GetValue());
+
+  ptree.put("statistics.attack", GetStatistics().GetStatistic(StatisticType::kAttack)->GetValue());
+  ptree.add("statistics.attackMax", GetStatistics().GetStatistic(StatisticType::kAttack)->GetMaxValue());
+  ptree.add("statistics.health", GetStatistics().GetStatistic(StatisticType::kHealth)->GetValue());
+  ptree.add("statistics.healthMax", GetStatistics().GetStatistic(StatisticType::kHealth)->GetMaxValue());
+  ptree.add("statistics.stamina", GetStatistics().GetStatistic(StatisticType::kStamina)->GetValue());
+  ptree.add("statistics.staminaMax", GetStatistics().GetStatistic(StatisticType::kStamina)->GetMaxValue());
+  ptree.add("statistics.mana", GetStatistics().GetStatistic(StatisticType::kMana)->GetValue());
+  ptree.add("statistics.manaMax", GetStatistics().GetStatistic(StatisticType::kMana)->GetMaxValue());
+  ptree.add("statistics.armor", GetStatistics().GetStatistic(StatisticType::kArmor)->GetValue());
+
+  return ptree;
+}
+
+void Player::Deserialize(const boost::property_tree::ptree &ptree) {
+  SetId(ptree.get<int>("id"));
+  SetName(ptree.get<std::string>("name"));
 
 }

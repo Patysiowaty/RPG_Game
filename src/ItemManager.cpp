@@ -1,12 +1,12 @@
 #include "ItemManager.hpp"
 
 ItemManager::ItemManager(CharacterInventory *inventory, CharacterEquipment *equipment, CharacterLevel *level,
-						 std::uint32_t id)
+						 std::uint32_t *id)
 	: inventory_{inventory}, equipment_{equipment}, level_{level}, id_{id} {}
 
 ItemManagerEC ItemManager::EquipItem(const std::shared_ptr<Item> &item) {
   if (!item) return ItemManagerEC::kItemDoesNotExist;
-  if (item->GetOwnerId() != id_) return ItemManagerEC::kItemDoesNotBelongToCharacter;
+  if (item->GetOwnerId() != *id_) return ItemManagerEC::kItemDoesNotBelongToCharacter;
   if (!inventory_->IsInInventory(item)) return ItemManagerEC::kItemIsNotInInventory;
   if (level_->GetLevel() < item->GetLevelRequirement()) return ItemManagerEC::kLevelIsTooLow;
 
@@ -35,7 +35,7 @@ ItemManagerEC ItemManager::EquipItem(const std::shared_ptr<Item> &item) {
 
 ItemManagerEC ItemManager::TakeOffItem(const std::shared_ptr<Item> &item) {
   if (!item) return ItemManagerEC::kItemDoesNotExist;
-  if (item->GetOwnerId() != id_) return ItemManagerEC::kItemDoesNotBelongToCharacter;
+  if (item->GetOwnerId() != *id_) return ItemManagerEC::kItemDoesNotBelongToCharacter;
   if (!item->IsEquipped() && equipment_->GetItemAtSlot(item->GetItemType()) != item)
 	return ItemManagerEC::kItemIsNotEquipped;
   if (inventory_->IsFullInventory()) return ItemManagerEC::kInventoryIsFull;
@@ -59,7 +59,7 @@ ItemManagerEC ItemManager::TakeOffItem(const std::shared_ptr<Item> &item) {
 
 ItemManagerEC ItemManager::UseItem(const std::shared_ptr<Item> &item) {
   if (!item) return ItemManagerEC::kItemDoesNotExist;
-  if (item->GetOwnerId() != id_) return ItemManagerEC::kItemDoesNotBelongToCharacter;
+  if (item->GetOwnerId() != *id_) return ItemManagerEC::kItemDoesNotBelongToCharacter;
   if (!inventory_->IsInInventory(item)) return ItemManagerEC::kItemIsNotInInventory;
   if (level_->GetLevel() < item->GetLevelRequirement()) return ItemManagerEC::kLevelIsTooLow;
   if (!inventory_->RemoveItem(item)) return ItemManagerEC::kFailedRemovingItem;
@@ -72,7 +72,7 @@ ItemManagerEC ItemManager::UseItem(const std::shared_ptr<Item> &item) {
 
 ItemManagerEC ItemManager::Swap(const std::shared_ptr<Item> &inventory_item,
 								const std::shared_ptr<Item> &equipment_item) {
-  if (equipment_item->GetOwnerId() != id_) return ItemManagerEC::kItemDoesNotBelongToCharacter;
+  if (equipment_item->GetOwnerId() != *id_) return ItemManagerEC::kItemDoesNotBelongToCharacter;
   if (!equipment_->RemoveItem(equipment_item)) return ItemManagerEC::kItemIsNotEquipped;
   if (inventory_->IsFullInventory() && !inventory_->PutItem(equipment_item)) return ItemManagerEC::kInventoryIsFull;
   if (!equipment_->IsEmptySlot(equipment_item->GetItemType())) return ItemManagerEC::kFailedTakingOffItem;
