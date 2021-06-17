@@ -15,7 +15,8 @@ class ItemBuilder : private IItemBuilder {
   bool BuildStatistics() override;
 
  private:
-  int32_t CalculateAttribute(int value);
+  std::int32_t CalculateAttribute(int value);
+  std::unique_ptr<Attribute> GetAttributeValue(const std::string &attribute_name, AttributeType attribute_type);
 
  private:
   static std::uint32_t next_item_id_;

@@ -30,11 +30,6 @@ std::shared_ptr<Item> ItemBuilder::MakeItem() {
 	item_.reset();
 	return item_;
   }
-  if (!BuildOptionalData()) {
-	item_.reset();
-	return item_;
-  }
-
   next_item_id_++;
   return item_;
 }
@@ -81,20 +76,18 @@ bool ItemBuilder::BuildRawItem() {
 }
 
 bool ItemBuilder::BuildAttributes() {
+  const std::vector<std::pair<std::string, AttributeType>> pairs = {{"strength", AttributeType::kStrength},
+																	{"vitality", AttributeType::kVitality},
+																	{"dexterity", AttributeType::kDexterity},
+																	{"intelligence", AttributeType::kIntelligence}};
   try {
 	if (item_template_.find("attributes") == item_template_.not_found()) return true;
-
-	const auto template_attributes = item_template_.get_child("statistics");
-
 	std::vector<Attribute> item_attributes;
-	int iteration = 0;
-	for (const auto &attribute: template_attributes) {
-	  iteration++;
-	  const auto attribute_value = attribute.second.get<int>("");
-	  if (attribute_value == 0) continue;
-	  const std::uint32_t item_attr_value = CalculateAttribute(attribute_value);
-	  item_attributes.emplace_back(AttributeType(iteration), item_attr_value);
-	}
+
+	for (const auto&[name, type] : pairs)
+	  if (auto ptr = GetAttributeValue(name, type); ptr != nullptr)
+		item_attributes.emplace_back(*ptr);
+
 	item_->SetAttributes(item_attributes);
 	return true;
   } catch (boost::property_tree::ptree_bad_path &ptree_bad_path) {
@@ -127,6 +120,16 @@ int32_t ItemBuilder::CalculateAttribute(int value) {
   const auto kRarityModifier = static_cast<int>(item_->GetItemRarity());
 
   return std::ceil(kLevelModifier * kRarityModifier * value / std::pow(kBonusModifier, value));
+}
+
+std::unique_ptr<Attribute> ItemBuilder::GetAttributeValue(const std::string &attribute_name,
+														  AttributeType attribute_type) {
+  const auto template_attributes = item_template_.get_child("attributes");
+  if (const auto kFind = template_attributes.find(attribute_name); kFind != template_attributes.not_found()) {
+	const auto kValue = CalculateAttribute(kFind->second.get<int>(""));
+	return std::make_unique<Attribute>(attribute_type, kValue);
+  }
+  return nullptr;
 }
 
 

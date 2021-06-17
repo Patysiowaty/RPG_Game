@@ -7,12 +7,12 @@
   "class": 0,
   "level": 0,
   "experience": 0,
-  "attributes": [
-    0,
-    0,
-    0,
-    0
-  ],
+  "attributes": {
+    "strength": 0,
+    "agility": 0,
+    "vitality": 0,
+    "intelligence": 0
+  },
   "statistics": {
     "attack": 0,
     "attackMax": 0,
