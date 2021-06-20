@@ -3,9 +3,8 @@
 
 #include <cstdint>
 enum class CharacterRace : uint16_t {
-  kNone = 1 << 0,
-  kHuman = 1 << 1,
+  kNone = 0,
+  kHuman
 };
-
 
 #endif //CHARACTERRACE_HPP

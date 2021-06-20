@@ -1,13 +1,11 @@
 #ifndef IATTRIBUTESHANDLER_HPP
 #define IATTRIBUTESHANDLER_HPP
-#include "../enums/AttributeType.hpp"
 
+class Attribute;
 class IAttributesHandler {
  public:
-  virtual void OnAttributesRaise() = 0;
-  virtual void OnAttributesLower() = 0;
-  virtual void OnAttributeRaise(AttributeType attribute_type) = 0;
-  virtual void OnAttributeLower(AttributeType attribute_type) = 0;
+  virtual void OnAttributesUpdate(const std::vector<std::shared_ptr<Attribute>> &attributes) = 0;
+  virtual void OnAttributeUpdate(const std::shared_ptr<Attribute> &attribute) = 0;
 };
 
 #endif //IATTRIBUTESHANDLER_HPP

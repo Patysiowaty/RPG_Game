@@ -5,19 +5,21 @@
 
 std::uint32_t ItemBuilder::next_item_id_ = 1;
 
-ItemBuilder::ItemBuilder(std::uint32_t template_id, uint32_t next_item_id) {
-  item_ = std::make_shared<Item>();
-  template_id_ = std::to_string(template_id);
-  boost::property_tree::ptree data;
-  boost::property_tree::read_json("../game_data/item_templates.json", data);
-  if (data.find(template_id_) == data.not_found())
-	throw std::invalid_argument{"ItemBuilder::ItemBuilder -> not found template " + template_id_};
-  item_template_ = data.get_child(template_id_);
+ItemBuilder::ItemBuilder(uint32_t next_item_id) {
   if (!next_item_id)
 	next_item_id_ = next_item_id;
 }
 
-std::shared_ptr<Item> ItemBuilder::MakeItem() {
+void ItemBuilder::SetTemplateId(std::uint32_t template_id) {
+  template_id_ = std::to_string(template_id);
+}
+
+std::shared_ptr<Item> ItemBuilder::MakeItem(std::uint32_t template_id) {
+  SetTemplateId(template_id);
+  ReadTemplateFromFile();
+  if (item_) item_.reset();
+  item_ = std::make_shared<Item>(next_item_id_);
+
   if (!BuildRawItem()) {
 	item_.reset();
 	return item_;
@@ -34,10 +36,30 @@ std::shared_ptr<Item> ItemBuilder::MakeItem() {
   return item_;
 }
 
+std::shared_ptr<Item> ItemBuilder::MakeItem(std::uint32_t template_id, std::uint32_t item_id) {
+  SetTemplateId(template_id);
+  ReadTemplateFromFile();
+  if (item_) item_.reset();
+  item_ = std::make_shared<Item>(item_id);
+
+  if (!BuildRawItem()) {
+	item_.reset();
+	return item_;
+  }
+  if (!BuildAttributes()) {
+	item_.reset();
+	return item_;
+  }
+  if (!BuildStatistics()) {
+	item_.reset();
+	return item_;
+  }
+
+  return item_;
+}
+
 bool ItemBuilder::BuildRawItem() {
   try {
-	item_->SetId(next_item_id_);
-
 	const auto item_name = item_template_.get<std::string>("name");
 	item_->SetName(item_name);
 
@@ -66,11 +88,11 @@ bool ItemBuilder::BuildRawItem() {
 
 	return true;
   } catch (boost::property_tree::ptree_bad_path &ptree_bad_path) {
-	std::cerr << "ItemBuilder::BuildRawItem() -> failed build item id: " + template_id_ + "\n"
+	std::cerr << "ItemBuilder::BuildRawItem() -> failed build template id: " + template_id_ + "\n"
 			  << ptree_bad_path.path<std::string>() << "\n" << ptree_bad_path.what() << "\n";
 	return false;
   } catch (std::exception &e) {
-	std::cerr << "ItemBuilder::BuildRawItem() -> failed build item id: " + template_id_ + "\n" << e.what() << "\n";
+	std::cerr << "ItemBuilder::BuildRawItem() -> failed build template id: " + template_id_ + "\n" << e.what() << "\n";
 	return false;
   }
 }
@@ -91,11 +113,12 @@ bool ItemBuilder::BuildAttributes() {
 	item_->SetAttributes(item_attributes);
 	return true;
   } catch (boost::property_tree::ptree_bad_path &ptree_bad_path) {
-	std::cerr << "ItemBuilder::BuildAttributes() -> failed build item id: " + template_id_ + "\n"
+	std::cerr << "ItemBuilder::BuildAttributes() -> failed build template id: " + template_id_ + "\n"
 			  << ptree_bad_path.path<std::string>() << "\n" << ptree_bad_path.what() << "\n";
 	return false;
   } catch (std::exception &e) {
-	std::cerr << "ItemBuilder::BuildAttributes() -> failed build item id: " + template_id_ + "\n" << e.what() << "\n";
+	std::cerr << "ItemBuilder::BuildAttributes() -> failed build template id: " + template_id_ + "\n" << e.what()
+			  << "\n";
 	return false;
   }
 }
@@ -109,7 +132,8 @@ bool ItemBuilder::BuildStatistics() {
 			  << ptree_bad_path.path<std::string>() << "\n" << ptree_bad_path.what() << "\n";
 	return false;
   } catch (std::exception &e) {
-	std::cerr << "ItemBuilder::BuildStatistics() -> failed build item id: " + template_id_ + "\n" << e.what() << "\n";
+	std::cerr << "ItemBuilder::BuildStatistics() -> failed build template id: " + template_id_ + "\n" << e.what()
+			  << "\n";
 	return false;
   }
 }
@@ -131,5 +155,15 @@ std::unique_ptr<Attribute> ItemBuilder::GetAttributeValue(const std::string &att
   }
   return nullptr;
 }
+
+void ItemBuilder::ReadTemplateFromFile() {
+  boost::property_tree::ptree data;
+  boost::property_tree::read_json("../game_data/item_templates.json", data);
+  if (data.find(template_id_) == data.not_found())
+	throw std::invalid_argument{"ItemBuilder::SetTemplateId -> not found template " + template_id_};
+  item_template_ = data.get_child(template_id_);
+}
+
+
 
 

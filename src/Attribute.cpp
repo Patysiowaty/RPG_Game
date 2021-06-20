@@ -5,7 +5,7 @@ Attribute::Attribute(AttributeType attribute_type, std::int32_t value) : attribu
 }
 
 void Attribute::SetValue(int value) {
-
+  attribute_ = value > kMaxAttributeValue ? kMaxAttributeValue : value;
 }
 
 void Attribute::AddValue(int value) {

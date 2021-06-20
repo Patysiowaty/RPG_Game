@@ -1,10 +1,12 @@
 #include "Player.hpp"
 #include "JsonSerializer.hpp"
-
+#include "ItemBuilder.hpp"
 int main() {
-  JSONSerializer json_serializer;
+  ItemBuilder item_builder(1);
+  JSONSerializer serializer;
   Player player;
-  json_serializer.LoadAndDeserialize(&player, "../game_data/player_data.json");
+  player.GetLevel().SetLevel(20);
 
+  //serializer.LoadAndDeserialize(&player, "../game_data/test.json");
 
 }

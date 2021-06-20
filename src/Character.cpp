@@ -1,11 +1,6 @@
 #include "Character.hpp"
 
-Character::Character() : uuid_(boost::uuids::random_generator()()),
-						 character_data_manager_{&character_statistics_, &character_attributes_, &character_level_},
-						 item_manager_{&character_inventory_, &character_equipment_, &character_level_, &id_} {
-  item_manager_.RegisterHandler(&character_data_manager_);
-  character_level_.RegisterHandler(&character_data_manager_);
-  character_attributes_.RegisterHandler(&character_data_manager_);
+Character::Character() : uuid_(boost::uuids::random_generator()()) {
 }
 
 bool Character::operator==(const Character &character) {
@@ -16,12 +11,28 @@ bool Character::operator!=(const Character &character) {
   return !(*this == character);
 }
 
-void Character::SetName(const std::string &name) {
-  character_name_ = name;
+void Character::SetName(const std::string &value) {
+  character_name_ = value;
 }
 
-void Character::SetId(uint32_t id) {
-  id_ = id;
+void Character::SetId(uint32_t value) {
+  id_ = value;
+}
+
+void Character::SetAlive(bool value) {
+  is_alive_ = value;
+}
+
+void Character::SetGender(CharacterGender value) {
+  character_gender_ = value;
+}
+
+void Character::SetRace(CharacterRace value) {
+  character_race_ = value;
+}
+
+void Character::SetClass(CharacterClass value) {
+  character_class_ = value;
 }
 
 

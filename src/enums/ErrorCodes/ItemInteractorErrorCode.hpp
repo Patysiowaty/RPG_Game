@@ -1,7 +1,7 @@
-#ifndef ITEMMANAGEREC_HPP
-#define ITEMMANAGEREC_HPP
+#ifndef ITEMINTERACTORERRORCODE_HPP
+#define ITEMINTERACTORERRORCODE_HPP
 
-enum class ItemManagerEC {
+enum class ItemInteractorErrorCode {
   kNone = 0,
   kItemDoesNotExist,
   kItemDoesNotBelongToCharacter,
@@ -16,4 +16,4 @@ enum class ItemManagerEC {
   kLevelIsTooLow
 };
 
-#endif //ITEMMANAGEREC_HPP
+#endif //ITEMINTERACTORERRORCODE_HPP

@@ -61,3 +61,8 @@ bool Statistic::operator==(const Statistic &rhs) {
 bool Statistic::operator!=(const Statistic &rhs) {
   return !(*this == rhs);
 }
+
+void Statistic::Set(int32_t max_value, int32_t value) {
+  SetMaxValue(max_value);
+  SetValue(value);
+}

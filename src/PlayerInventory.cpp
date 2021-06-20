@@ -1,17 +1,14 @@
-#include "CharacterInventory.hpp"
+#include "PlayerInventory.hpp"
 
-#include <utility>
-#include "Character.hpp"
-
-CharacterInventory::CharacterInventory(std::uint16_t available_tabs) : inventory_available_tabs_{available_tabs} {
-  inventory_space_ = inventory_available_tabs_ * kInventoryMaxTabs;
+PlayerInventory::PlayerInventory(std::uint16_t available_tabs) : inventory_available_tabs_{available_tabs} {
+  inventory_space_ = inventory_available_tabs_ * kInventoryTabCapacity;
   remaining_slots_ = inventory_space_;
   inventory_.resize(inventory_space_);
 }
 
-CharacterInventory::~CharacterInventory() = default;
+PlayerInventory::~PlayerInventory() = default;
 
-bool CharacterInventory::ExpandInventory() {
+bool PlayerInventory::ExpandInventory() {
   if (inventory_available_tabs_ >= 4) return false;
   inventory_available_tabs_ += 1;
   inventory_space_ += kInventoryTabCapacity;
@@ -20,22 +17,22 @@ bool CharacterInventory::ExpandInventory() {
   return true;
 }
 
-bool CharacterInventory::RemoveItem(std::shared_ptr<Item> item) {
+bool PlayerInventory::RemoveItem(std::shared_ptr<Item> item) {
   if (!item) return false;
   if (!IsInInventory(item)) return false;
 
   const auto it = std::find(inventory_.begin(), inventory_.end(), item);
   if (it == inventory_.end())
-	throw std::logic_error{"CharacterInventory::RemoveItem -> Does not find an item."};
+	throw std::logic_error{"PlayerInventory::RemoveItem -> Does not find an item."};
 
   inventory_.erase(it);
-  item.reset();
   remaining_slots_++;
   item->SetItemLocation(ItemLocation::kNone);
+  item.reset();
   return true;
 }
 
-bool CharacterInventory::PutItem(std::shared_ptr<Item> item, std::uint16_t position) {
+bool PlayerInventory::PutItem(std::shared_ptr<Item> item, std::uint16_t position) {
   if (!item) return false;
   if (IsFullInventory()) return false;
   if (!IsAvailableTab(position)) return false;
@@ -47,7 +44,7 @@ bool CharacterInventory::PutItem(std::shared_ptr<Item> item, std::uint16_t posit
   return true;
 }
 
-bool CharacterInventory::PutItem(std::shared_ptr<Item> item) {
+bool PlayerInventory::PutItem(std::shared_ptr<Item> item) {
   if (!item) return false;
   if (IsFullInventory()) return false;
 
@@ -58,8 +55,7 @@ bool CharacterInventory::PutItem(std::shared_ptr<Item> item) {
   return true;
 }
 
-bool CharacterInventory::SwapItems(const std::shared_ptr<Item> &lhs,
-								   const std::shared_ptr<Item> &rhs) {
+bool PlayerInventory::SwapItems(const std::shared_ptr<Item> &lhs, const std::shared_ptr<Item> &rhs) {
   if (!lhs && !rhs) return false;
   if (!IsInInventory(lhs) && !IsInInventory(rhs)) return false;
 
@@ -73,7 +69,7 @@ bool CharacterInventory::SwapItems(const std::shared_ptr<Item> &lhs,
   return true;
 }
 
-bool CharacterInventory::ChangePosition(const std::shared_ptr<Item> &item, std::uint16_t position) {
+bool PlayerInventory::ChangePosition(const std::shared_ptr<Item> &item, std::uint16_t position) {
   if (!item) return false;
   if (!IsInInventory(item)) return false;
   if (!IsAvailableTab(position)) return false;
@@ -87,21 +83,40 @@ bool CharacterInventory::ChangePosition(const std::shared_ptr<Item> &item, std::
   return true;
 }
 
-bool CharacterInventory::IsFullInventory() const {
-  return remaining_slots_ >= inventory_available_tabs_ * kInventoryTabCapacity;
+bool PlayerInventory::IsFullInventory() const {
+  return remaining_slots_ == 0;
 }
 
-bool CharacterInventory::IsFreeSlot(std::uint16_t position) const {
+bool PlayerInventory::IsFreeSlot(std::uint16_t position) const {
   if (!IsAvailableTab(position)) return false;
   return inventory_.at(position) == nullptr;
 }
 
-bool CharacterInventory::IsAvailableTab(std::uint16_t position) const {
+bool PlayerInventory::IsAvailableTab(std::uint16_t position) const {
   return position < inventory_space_;
 }
 
-bool CharacterInventory::IsInInventory(const std::shared_ptr<Item> &item) const {
+bool PlayerInventory::IsInInventory(const std::shared_ptr<Item> &item) const {
   return item->GetItemLocation() == ItemLocation::kCharacterInventory;
+}
+
+void PlayerInventory::SetInventoryAvailableTabs(std::uint16_t value) {
+  while (value-- && ExpandInventory());
+}
+
+std::uint16_t PlayerInventory::GetInventoryAvailableTabs() const {
+  return inventory_available_tabs_;
+}
+
+std::shared_ptr<Item> PlayerInventory::GetItem(std::uint32_t item_id) const {
+  const auto it = std::find_if(inventory_.cbegin(), inventory_.cend(), [=](const auto &item) {
+	return item->GetItemId() == item_id;
+  });
+
+  if (!*it)
+	throw std::invalid_argument{"PlayerInventory::GetItem -> no matching item with id: " + std::to_string(item_id)};
+
+  return *it;
 }
 
 

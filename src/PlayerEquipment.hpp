@@ -1,5 +1,5 @@
-#ifndef CHARACTEREQUIPMENT_HPP
-#define CHARACTEREQUIPMENT_HPP
+#ifndef PLAYEREQUIPMENT_HPP
+#define PLAYEREQUIPMENT_HPP
 
 #include <memory>
 #include <map>
@@ -7,9 +7,9 @@
 #include "enums/ItemType.hpp"
 #include "interfaces/IItemList.hpp"
 
-class CharacterEquipment : public IItemList {
+class PlayerEquipment : public IItemList {
  public:
-  CharacterEquipment();
+  PlayerEquipment();
 
   bool PutItem(std::shared_ptr<Item> item) override;
   bool RemoveItem(std::shared_ptr<Item> item) override;
@@ -20,4 +20,4 @@ class CharacterEquipment : public IItemList {
   std::map<ItemType, std::shared_ptr<Item>> equipment_;
 };
 
-#endif //CHARACTEREQUIPMENT_HPP
+#endif //PLAYEREQUIPMENT_HPP

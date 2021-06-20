@@ -9,6 +9,8 @@ class IRangeValueContainer : public IBaseValueContainer<T> {
   virtual void SubtractValue(T value) = 0;
   virtual T GetValue() const = 0;
 
+  virtual void Set(T max_value, T value) = 0;
+
   virtual void SetMaxValue(T value) = 0;
   virtual void AddMaxValue(T value) = 0;
   virtual void SubtractMaxValue(T value) = 0;

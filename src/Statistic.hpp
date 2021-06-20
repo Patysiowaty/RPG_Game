@@ -14,6 +14,7 @@ class Statistic : public IRangeValueContainer<std::int32_t> {
   void AddMaxValue(std::int32_t value) override;
   void SubtractValue(std::int32_t value) override;
   void SubtractMaxValue(std::int32_t value) override;
+  void Set(int32_t max_value, int32_t value) override;
 
   std::int32_t GetMaxValue() const override;
   virtual std::int32_t GetValue() const override;

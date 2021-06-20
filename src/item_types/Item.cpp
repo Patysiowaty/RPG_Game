@@ -1,6 +1,10 @@
 #include "Item.hpp"
 Item::Item() = default;
 
+Item::Item(std::uint32_t item_id) {
+  id_ = item_id;
+}
+
 Item::~Item() = default;
 
 bool Item::operator==(const Item &item) {
@@ -54,5 +58,6 @@ void Item::SetRarity(ItemRarity item_rarity) {
 void Item::SetAttributes(const std::vector<Attribute> &attributes) {
   attributes_ = attributes;
 }
+
 
 

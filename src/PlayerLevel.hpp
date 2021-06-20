@@ -1,5 +1,5 @@
-#ifndef CHARACTERLEVEL_HPP
-#define CHARACTERLEVEL_HPP
+#ifndef PLAYERLEVEL_HPP
+#define PLAYERLEVEL_HPP
 
 #include <memory>
 #include <cstdint>
@@ -7,9 +7,9 @@
 #include "interfaces/ILevelHandler.hpp"
 #include "interfaces/IPublisher.hpp"
 
-class CharacterLevel : public IPublisher<ILevelHandler> {
+class PlayerLevel : public IPublisher<ILevelHandler> {
  public:
-  explicit CharacterLevel(std::uint16_t level = 0, std::size_t total_exp = 0);
+  explicit PlayerLevel(std::uint16_t level = 1, std::size_t total_exp = 0);
 
   void AddExperience(int32_t value);
   void RegisterHandler(ILevelHandler *level_handler) override;
@@ -30,7 +30,7 @@ class CharacterLevel : public IPublisher<ILevelHandler> {
 
  private:
   static constexpr std::uint16_t kLevelCap{50};
-  std::uint16_t level_{0};
+  std::uint16_t level_{1};
 
   std::size_t total_experience_{0};
   std::size_t next_level_experience_{0};
@@ -38,4 +38,4 @@ class CharacterLevel : public IPublisher<ILevelHandler> {
   std::vector<ILevelHandler *> handlers_;
 };
 
-#endif //CHARACTERLEVEL_HPP
+#endif //PLAYERLEVEL_HPP

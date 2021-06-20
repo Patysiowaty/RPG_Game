@@ -2,6 +2,7 @@
 #define JSONSERIALIZER_HPP
 
 #include "interfaces/IjsonSerializable.hpp"
+
 class JSONSerializer {
  public:
   JSONSerializer() = default;

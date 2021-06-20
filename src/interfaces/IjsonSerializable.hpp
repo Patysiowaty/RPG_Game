@@ -1,6 +1,9 @@
 #ifndef IJSONSERIALIZABLE_HPP
 #define IJSONSERIALIZABLE_HPP
 #include <boost/property_tree/ptree.hpp>
+#include <string>
+#include <any>
+
 
 class IJSONSerializable {
  public:

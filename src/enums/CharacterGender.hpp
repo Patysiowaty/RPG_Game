@@ -4,9 +4,9 @@
 #include <cstdint>
 
 enum class CharacterGender : uint16_t {
-  kNone = 1 << 0,
-  kMale = 1 << 1,
-  kFemale = 1 << 2
+  kNone = 0,
+  kMale,
+  kFemale
 };
 
 #endif //CHARACTERGENDER_HPP

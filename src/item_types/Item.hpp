@@ -14,19 +14,20 @@
 class Item {
  public:
   Item();
+  explicit Item(std::uint32_t item_id);
   virtual ~Item();
 
   bool operator==(const Item &item);
   bool operator!=(const Item &item);
 
-  uint32_t GetItemId() const { return id_; }
-  uint32_t GetOwnerId() const { return owner_id_; }
+  std::uint32_t GetItemId() const { return id_; }
+  std::uint32_t GetOwnerId() const { return owner_id_; }
   bool IsEquipped() const { return is_equipped_; }
   ItemType GetItemType() const { return type_; }
   ItemLocation GetItemLocation() const { return location_; }
   ItemRarity GetItemRarity() const { return rarity_; }
   const std::string &GetItemName() const { return name_; }
-  uint16_t GetLevelRequirement() const { return level_requirement_; }
+  std::uint16_t GetLevelRequirement() const { return level_requirement_; }
   const std::vector<CharacterClass> &GetClassRequirement() const { return character_class_requirement_; }
   const std::vector<Attribute> &GetAttributes() const { return attributes_; }
 
@@ -43,8 +44,8 @@ class Item {
   void SetAttributes(const std::vector<Attribute> &attributes);
 
  private:
-  uint32_t id_ = 0;
-  uint32_t owner_id_ = 0;
+  std::uint32_t id_ = 0;
+  std::uint32_t owner_id_ = 0;
   bool is_equipped_ = false;
 
   ItemType type_ = ItemType::kNone;
@@ -54,7 +55,7 @@ class Item {
   std::string name_;
   std::string description_;
 
-  uint16_t level_requirement_ = 0;
+  std::uint16_t level_requirement_ = 0;
   std::vector<CharacterClass> character_class_requirement_;
 
   std::vector<Attribute> attributes_;

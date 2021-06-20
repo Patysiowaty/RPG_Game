@@ -7,7 +7,7 @@
 
 class IItemBuilder {
  public:
-  virtual std::shared_ptr<Item> MakeItem() = 0;
+  virtual std::shared_ptr<Item> MakeItem(std::uint32_t template_id) = 0;
   virtual bool BuildRawItem() = 0;
   virtual bool BuildAttributes() = 0;
   virtual bool BuildStatistics() = 0;
