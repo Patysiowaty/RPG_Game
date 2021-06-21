@@ -3,12 +3,14 @@
 
 #include "../enums/StatisticType.hpp"
 #include "../enums/AttributeType.hpp"
+#include "../Statistic.hpp"
+#include "../Attribute.hpp"
 
 class ConsumptionEffect {
  public:
 
-  void SetAttributesEffect(const std::vector<Attribute> &attributes);
-  void SetStatisticEffect(const std::vector<> &statistics);
+  void SetAttributesEffect(const std::vector<Attribute> &attributes) {}
+  void SetStatisticEffect(const std::vector<Statistic> &statistics) {}
 
   const std::vector<std::pair<AttributeType, std::int32_t>> &GetAttributesEffect() const { return attributes_list_; }
   const std::vector<std::pair<StatisticType, std::int32_t>> &GetStatisticsEffect() const { return statistics_list_; }

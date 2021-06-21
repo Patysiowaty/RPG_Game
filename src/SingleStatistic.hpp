@@ -7,7 +7,7 @@ class SingleStatistic : public Statistic, public ISingleArithmeticValue<std::int
  public:
   explicit SingleStatistic(StatisticType statistic_type, std::int32_t value = 0);
 
-  virtual void AddValue(std::int32_t value);
+  virtual void AddValue(std::int32_t value) override;
   void SubtractValue(std::int32_t value) override;
 
   SingleStatistic &operator+=(const Statistic &rhs);
