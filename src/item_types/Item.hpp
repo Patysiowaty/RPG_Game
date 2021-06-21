@@ -54,6 +54,8 @@ class Item {
 
   std::string name_;
   std::string description_;
+  std::string icon_;
+  std::uint32_t price_;
 
   std::uint16_t level_requirement_ = 0;
   std::vector<CharacterClass> character_class_requirement_;

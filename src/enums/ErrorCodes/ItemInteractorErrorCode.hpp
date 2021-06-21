@@ -13,7 +13,8 @@ enum class ItemInteractorErrorCode {
   kFailedTakingOffItem,
   kFailedInsertItem,
   kFailedRemovingItem,
-  kLevelIsTooLow
+  kLevelIsTooLow,
+  kWrongItemType
 };
 
 #endif //ITEMINTERACTORERRORCODE_HPP

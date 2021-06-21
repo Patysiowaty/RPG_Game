@@ -61,16 +61,17 @@ void Player::Deserialize(const boost::property_tree::ptree &ptree) {
   player_attributes_.GetAttribute(AttributeType::kDexterity)->SetValue(ptree.get<int32_t>("attributes.dexterity"));
   player_attributes_.GetAttribute(AttributeType::kVitality)->SetValue(ptree.get<int32_t>("attributes.vitality"));
   player_attributes_.GetAttribute(AttributeType::kIntelligence)->SetValue(ptree.get<int32_t>("attributes.intelligence"));
-  player_statistics_.GetStatistic(StatisticType::kAttack)->Set(ptree.get<std::int32_t>("statistics.attackMax"),
-															   ptree.get<std::int32_t>("statistics.attack"));
-  player_statistics_.GetStatistic(StatisticType::kHealth)->Set(ptree.get<std::int32_t>("statistics.healthMax"),
-															   ptree.get<std::int32_t>("statistics.health"));
-  player_statistics_.GetStatistic(StatisticType::kStamina)->Set(ptree.get<std::int32_t>("statistics.staminaMax"),
-																ptree.get<std::int32_t>("statistics.stamina"));
-  player_statistics_.GetStatistic(StatisticType::kMana)->Set(ptree.get<std::int32_t>("statistics.manaMax"),
-															 ptree.get<std::int32_t>("statistics.mana"));
-  player_statistics_.GetStatistic(StatisticType::kArmor)->Set(ptree.get<std::int32_t>("statistics.armor"),
-															  ptree.get<std::int32_t>("statistics.armor"));
+  player_statistics_.GetStatistic(StatisticType::kAttack)->SetMaxMinValue(ptree.get<std::int32_t>("statistics.attackMax"),
+																		  ptree.get<std::int32_t>("statistics.attack"));
+  player_statistics_.GetStatistic(StatisticType::kHealth)->SetMaxMinValue(ptree.get<std::int32_t>("statistics.healthMax"),
+																		  ptree.get<std::int32_t>("statistics.health"));
+  player_statistics_.GetStatistic(StatisticType::kStamina)->SetMaxMinValue(ptree.get<std::int32_t>(
+	  "statistics.staminaMax"),
+																		   ptree.get<std::int32_t>("statistics.stamina"));
+  player_statistics_.GetStatistic(StatisticType::kMana)->SetMaxMinValue(ptree.get<std::int32_t>("statistics.manaMax"),
+																		ptree.get<std::int32_t>("statistics.mana"));
+  player_statistics_.GetStatistic(StatisticType::kArmor)->SetMaxMinValue(ptree.get<std::int32_t>("statistics.armor"),
+																		 ptree.get<std::int32_t>("statistics.armor"));
   player_inventory_.SetInventoryAvailableTabs(ptree.get<std::uint16_t>("inventorySize"));
 
   ItemBuilder item_builder;

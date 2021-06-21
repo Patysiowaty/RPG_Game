@@ -18,6 +18,7 @@ class Player : public Character, public IJSONSerializable {
   ItemsInteractor &GetItemsInteractor() { return items_interactor_; }
   PlayerLevel &GetLevel() { return player_level_; }
 
+
  private:
   PlayerAttributes player_attributes_;
   PlayerStatistics player_statistics_;

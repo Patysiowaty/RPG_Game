@@ -60,10 +60,12 @@ ItemInteractorErrorCode ItemsInteractor::UseItem(const std::shared_ptr<Item> &it
   if (item->GetOwnerId() != *id_) return ItemInteractorErrorCode::kItemDoesNotBelongToCharacter;
   if (!inventory_->IsInInventory(item)) return ItemInteractorErrorCode::kItemIsNotInInventory;
   if (level_->GetLevel() < item->GetLevelRequirement()) return ItemInteractorErrorCode::kLevelIsTooLow;
+  if (item->GetItemType() != ItemType::kConsumptive) return ItemInteractorErrorCode::kWrongItemType;
+
   if (!inventory_->RemoveItem(item)) return ItemInteractorErrorCode::kFailedRemovingItem;
 
   for (const auto handler : handlers_) {
-	handler->OnUsedItem(item);
+	handler->OnUsedItem(std::dynamic_pointer_cast<IConsumable>(item));
   }
   return ItemInteractorErrorCode::kNone;
 }

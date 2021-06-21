@@ -1,34 +1,26 @@
 #ifndef STATISTIC_HPP
 #define STATISTIC_HPP
-#include "interfaces/IRangeValueContainer.hpp"
-#include <cstdint>
-#include "enums/StatisticType.hpp"
+#include "interfaces/IStatistic.hpp"
+#include "interfaces/IBaseValueContainer.hpp"
 
-class Statistic : public IRangeValueContainer<std::int32_t> {
+class Statistic : public IStatistic, public IBaseValueContainer<std::int32_t> {
  public:
-  explicit Statistic(StatisticType statistic_type, std::int32_t max_value = 0, std::int32_t value = 0);
+  explicit Statistic(StatisticType statistic_type, std::int32_t value = 0);
 
-  void SetValue(std::int32_t value) override;
-  void SetMaxValue(std::int32_t value) override;
-  void AddValue(std::int32_t value) override;
-  void AddMaxValue(std::int32_t value) override;
-  void SubtractValue(std::int32_t value) override;
-  void SubtractMaxValue(std::int32_t value) override;
-  void Set(int32_t max_value, int32_t value) override;
+  virtual void SetValue(std::int32_t value) override;
 
-  std::int32_t GetMaxValue() const override;
-  virtual std::int32_t GetValue() const override;
-  double GetPercent() const override;
-  StatisticType GetType() const;
+  StatisticType GetType() const override;
+  std::int32_t GetValue() const override;
+  virtual double GetPercentageValue() const;
+  std::int32_t GetMaxStatisticValue() const;
 
   bool operator==(const Statistic &rhs);
   bool operator!=(const Statistic &rhs);
 
  private:
   constexpr static std::int32_t kMaxStatisticValue{999999};
-  StatisticType statistic_type_;
-  std::int32_t statistic_;
-  std::int32_t max_statistic_;
+  StatisticType statistic_type_{StatisticType::kNone};
+  std::int32_t statistic_value_{0};
 };
 
 #endif //STATISTIC_HPP
