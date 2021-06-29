@@ -3,20 +3,20 @@
 
 #include <memory>
 #include <vector>
-#include "SingleStatistic.hpp"
-#include "RangeStatistic.hpp"
+#include "SinglePlayerStatistic.hpp"
 #include "interfaces/IAttributesHandler.hpp"
 #include "interfaces/ILevelHandler.hpp"
 #include "interfaces/IItemHandler.hpp"
+
+using StatisticsList = std::vector<std::unique_ptr<SinglePlayerStatistic>>;
+using StatisticPtr = std::unique_ptr<SinglePlayerStatistic>;
 
 class PlayerStatistics : public IAttributesHandler, public ILevelHandler, public IItemHandler {
  public:
   PlayerStatistics();
 
-  const std::unique_ptr<SingleStatistic> &GetSingleStatistic(StatisticType statistic_type) const;
-  const std::unique_ptr<RangeStatistic> &GetRangeStatistic(StatisticType statistic_type) const;
-  void AddSingleStatistic(StatisticType statistic_type, std::int32_t value = 0);
-  void AddRangeStatistic(StatisticType statistic_type, std::int32_t value = 0);
+  const StatisticPtr &GetStatistic(StatisticType statistic_type) const;
+  void AddNewStatistic(StatisticType statistic_type, std::int32_t max_value = 0, std::int32_t value = 0);
 
   void OnAttributesUpdate(const std::vector<std::unique_ptr<Attribute>> &attributes) override;
   void OnAttributeUpdate(const std::unique_ptr<Attribute> &attribute) override;
@@ -31,8 +31,7 @@ class PlayerStatistics : public IAttributesHandler, public ILevelHandler, public
   void ReloadStatistics(const std::unique_ptr<Attribute> &attribute);
 
  private:
-  std::vector<std::unique_ptr<SingleStatistic>> single_statistics_;
-  std::vector<std::unique_ptr<RangeStatistic>> range_statistics_;
+  StatisticsList statistic_list_;
   uint16_t player_level_{1};
 };
 

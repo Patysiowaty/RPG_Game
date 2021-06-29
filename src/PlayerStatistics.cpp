@@ -1,52 +1,34 @@
 #include "PlayerStatistics.hpp"
+#include <iostream>
 PlayerStatistics::PlayerStatistics() {
-  single_statistics_.emplace_back(std::make_unique<SingleStatistic>(StatisticType::kAttack, 0));
-  single_statistics_.emplace_back(std::make_unique<SingleStatistic>(StatisticType::kMagicAttack));
-  single_statistics_.emplace_back(std::make_unique<SingleStatistic>(StatisticType::kArmor));
-  single_statistics_.emplace_back(std::make_unique<SingleStatistic>(StatisticType::kCriticalStrikeRatio));
-  single_statistics_.emplace_back(std::make_unique<SingleStatistic>(StatisticType::kCriticalStrikeForce));
-  single_statistics_.emplace_back(std::make_unique<SingleStatistic>(StatisticType::kEvadeRatio));
-  range_statistics_.emplace_back(std::make_unique<RangeStatistic>(StatisticType::kHealth));
-  range_statistics_.emplace_back(std::make_unique<RangeStatistic>(StatisticType::kStamina));
-  range_statistics_.emplace_back(std::make_unique<RangeStatistic>(StatisticType::kMana));
+  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kAttack, 0));
+  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kMagicAttack, 0));
+  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kArmor, 0));
+  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kCriticalStrikeRatio, 0));
+  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kCriticalStrikeForce, 1));
+  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kEvadeRatio, 0));
+  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kHealth, 100, 100));
+  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kStamina, 100, 100));
+  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kMana, 100, 100));
 }
 
-const std::unique_ptr<SingleStatistic> &PlayerStatistics::GetSingleStatistic(StatisticType statistic_type) const {
-  auto it = std::find_if(single_statistics_.begin(), single_statistics_.end(),
-						 [=](const std::unique_ptr<SingleStatistic> &statistic) {
+const StatisticPtr &PlayerStatistics::GetStatistic(StatisticType statistic_type) const {
+  auto it = std::find_if(statistic_list_.begin(), statistic_list_.end(),
+						 [=](const std::unique_ptr<SinglePlayerStatistic> &statistic) {
 						   return statistic->GetType() == statistic_type;
 						 });
 
-  if (it != single_statistics_.end())
-	throw std::invalid_argument{"layerStatistics::GetSingleStatistic -> invalid statistic type."};
-
-  return *it;
-}
-
-const std::unique_ptr<RangeStatistic> &PlayerStatistics::GetRangeStatistic(StatisticType statistic_type) const {
-  auto it = std::find_if(range_statistics_.begin(), range_statistics_.end(),
-						 [=](const std::unique_ptr<RangeStatistic> &statistic) {
-						   return statistic->GetType() == statistic_type;
-						 });
-
-  if (it != range_statistics_.end())
+  if (it != statistic_list_.end())
 	throw std::invalid_argument{"layerStatistics::GetRangeStatistic -> invalid statistic type."};
 
   return *it;
 }
 
-void PlayerStatistics::AddSingleStatistic(StatisticType statistic_type, std::int32_t value) {
-  if (GetSingleStatistic(statistic_type))
-	throw std::invalid_argument{"PlayerStatistics::AddSingleStatistic -> statistic already exist"};
-
-  single_statistics_.emplace_back(std::make_unique<SingleStatistic>(statistic_type, value));
-}
-
-void PlayerStatistics::AddRangeStatistic(StatisticType statistic_type, std::int32_t value) {
-  if (GetRangeStatistic(statistic_type))
+void PlayerStatistics::AddNewStatistic(StatisticType statistic_type, std::int32_t max_value, std::int32_t value) {
+  if (GetStatistic(statistic_type))
 	throw std::invalid_argument{"PlayerStatistics::AddRangeStatistic -> statistic already exist"};
 
-  range_statistics_.emplace_back(std::make_unique<RangeStatistic>(statistic_type, value));
+  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(statistic_type, max_value, value));
 }
 
 void PlayerStatistics::OnAttributesUpdate(const std::vector<std::unique_ptr<Attribute>> &attributes) {
@@ -61,13 +43,13 @@ void PlayerStatistics::OnAttributeUpdate(const std::unique_ptr<Attribute> &attri
 void PlayerStatistics::OnLevelRaise() {
   player_level_++;
 
-  const auto &health = GetRangeStatistic(StatisticType::kHealth);
+  const auto &health = GetStatistic(StatisticType::kHealth);
   health->SetValue(health->GetMaxValue());
 
-  const auto &stamina = GetRangeStatistic(StatisticType::kStamina);
+  const auto &stamina = GetStatistic(StatisticType::kStamina);
   stamina->SetValue(stamina->GetMaxValue());
 
-  const auto &mana = GetRangeStatistic(StatisticType::kMana);
+  const auto &mana = GetStatistic(StatisticType::kMana);
   mana->SetValue(mana->GetMaxValue());
 }
 
@@ -97,7 +79,6 @@ void PlayerStatistics::ReloadStatistics(const std::unique_ptr<Attribute> &attrib
 }
 
 void PlayerStatistics::OnEquipItem(const std::shared_ptr<Item> &item) {
-
 }
 
 void PlayerStatistics::OnTakeOffItem(const std::shared_ptr<Item> &item) {
@@ -107,8 +88,14 @@ void PlayerStatistics::OnTakeOffItem(const std::shared_ptr<Item> &item) {
 void PlayerStatistics::OnUsedItem(const std::shared_ptr<IConsumable> &item) {
   const auto &effect = item->GetAfterConsumptionEffect().GetStatisticsEffect();
 
-  for (const auto&[type, value]: effect)
-	GetRangeStatistic(type)->AddValue(value);
+  for (const auto&[type, value]: effect) {
+	try {
+	  GetStatistic(type)->AddValue(value);
+	} catch (std::invalid_argument &e) {
+	  std::cerr << e.what();
+	  continue;
+	}
+  }
 }
 
 

@@ -50,11 +50,11 @@ boost::property_tree::ptree Player::Serialize() {
 }
 
 void Player::Deserialize(const boost::property_tree::ptree &ptree) {
-  SetId(ptree.get<int>("id"));
-  SetName(ptree.get<std::string>("name"));
-  SetGender(CharacterGender(ptree.get<int>("gender")));
-  SetRace(CharacterRace(ptree.get<int>("race")));
-  SetClass(CharacterClass(ptree.get<int>("class")));
+  Character::SetId(ptree.get<int>("id"));
+  Character::SetName(ptree.get<std::string>("name"));
+  Character::SetGender(CharacterGender(ptree.get<int>("gender")));
+  Character::SetRace(CharacterRace(ptree.get<int>("race")));
+  Character::SetClass(CharacterClass(ptree.get<int>("class")));
   player_level_.SetLevel(ptree.get<uint16_t>("level"));
   player_level_.SetExperience(ptree.get<std::size_t>("experience"));
 
