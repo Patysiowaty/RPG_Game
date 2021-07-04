@@ -1,12 +1,13 @@
 #include "PlayerStatistics.hpp"
 #include <iostream>
 PlayerStatistics::PlayerStatistics() {
-  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kAttack, 0));
-  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kMagicAttack, 0));
-  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kArmor, 0));
-  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kCriticalStrikeRatio, 0));
+  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kAttack, 3, 1));
+  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kMagicAttack));
+  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kArmor));
+  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kMagicResistance));
+  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kCriticalStrikeRatio));
   statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kCriticalStrikeForce, 1));
-  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kEvadeRatio, 0));
+  statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kEvadeRatio));
   statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kHealth, 100, 100));
   statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kStamina, 100, 100));
   statistic_list_.emplace_back(std::make_unique<SinglePlayerStatistic>(StatisticType::kMana, 100, 100));
@@ -18,8 +19,8 @@ const StatisticPtr &PlayerStatistics::GetStatistic(StatisticType statistic_type)
 						   return statistic->GetType() == statistic_type;
 						 });
 
-  if (it != statistic_list_.end())
-	throw std::invalid_argument{"layerStatistics::GetRangeStatistic -> invalid statistic type."};
+  if (it == statistic_list_.end())
+	throw std::invalid_argument{"PlayerStatistics::GetStatistic -> invalid statistic type."};
 
   return *it;
 }
