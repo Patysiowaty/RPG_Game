@@ -1,7 +1,7 @@
 #include "Game.hpp"
 int main() {
-  Game game_core;
+  Game game;
 
-  game_core.InitializeResources();
-  game_core.Run();
+  game.InitializeResources();
+  game.Run();
 }
