@@ -9,6 +9,7 @@ enum class StatisticType {
   kStamina,
   kMana,
   kArmor,
+  kMagicResistance,
   kEvadeRatio,
   kCriticalStrikeRatio,
   kCriticalStrikeForce
