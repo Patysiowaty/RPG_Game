@@ -11,16 +11,15 @@ class NPC : public ICharacter {
   void SetGender(CharacterGender value) override;
   void SetRace(CharacterRace value) override;
   void SetClass(CharacterClass value) override;
-  void SetAlive(bool value) override;
 
   const std::string &GetName() const override;
   uint32_t GetId() const override;
-  bool IsAlive() const override;
+
   boost::uuids::uuid GetUuid() const override;
   CharacterClass GetClass() const override;
   CharacterGender GetGender() const override;
   CharacterRace GetRace() const override;
-  void Attack() override;
+
 
  private:
   std::uint32_t id_;

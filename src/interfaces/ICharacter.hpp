@@ -15,17 +15,13 @@ class ICharacter {
   virtual void SetGender(CharacterGender value) = 0;
   virtual void SetRace(CharacterRace value) = 0;
   virtual void SetClass(CharacterClass value) = 0;
-  virtual void SetAlive(bool value) = 0;
 
   virtual const std::string &GetName() const = 0;
   virtual std::uint32_t GetId() const = 0;
-  virtual bool IsAlive() const = 0;
   virtual boost::uuids::uuid GetUuid() const = 0;
   virtual CharacterClass GetClass() const = 0;
   virtual CharacterGender GetGender() const = 0;
   virtual CharacterRace GetRace() const = 0;
-
-  virtual void Attack() = 0;
 };
 
 #endif //ICHARACTER_HPP

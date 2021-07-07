@@ -4,20 +4,17 @@
 #include "Player.hpp"
 #include "PlayerController.hpp"
 #include "GameStatesManager.hpp"
+#include "ConsoleView.hpp"
 
 class Game {
  public:
   Game();
   void InitializeResources();
   void Run();
-  void Quit();
 
  private:
-  void OnQuit();
-
- private:
-  bool run_;
   GameStatesManager game_states_manager_;
+  ConsoleView console_view_;
 };
 
 #endif //GAME_HPP

@@ -20,9 +20,6 @@ void NPC::SetClass(CharacterClass value) {
   class_ = value;
 }
 
-void NPC::SetAlive(bool value) {
-  alive_ = value;
-}
 
 const std::string &NPC::GetName() const {
   return name_;
@@ -32,9 +29,6 @@ uint32_t NPC::GetId() const {
   return id_;
 }
 
-bool NPC::IsAlive() const {
-  return alive_;
-}
 
 boost::uuids::uuid NPC::GetUuid() const {
   return uuid_;
@@ -50,8 +44,4 @@ CharacterGender NPC::GetGender() const {
 
 CharacterRace NPC::GetRace() const {
   return race_;
-}
-
-void NPC::Attack() {
-
 }

@@ -6,12 +6,12 @@ PlayerLevel::PlayerLevel(std::uint16_t level, std::size_t total_exp) {
   SetExperience(total_exp);
 }
 
-void PlayerLevel::AddExperience(int32_t value) {
+void PlayerLevel::AddExperience(size_t value) {
   total_experience_ += value;
 
   while (total_experience_ >= next_level_experience_) {
 	if (LevelUp()) {
-	  CalculateNextLevelExperience();
+	  next_level_experience_ = CalculateNextLevelExperience();
 	  for (auto handler: handlers_) {
 		handler->OnLevelRaise();
 	  }
@@ -31,7 +31,7 @@ void PlayerLevel::SetExperience(std::size_t value) {
 
   while (total_experience_ >= next_level_experience_) {
 	if (LevelUp()) {
-	  CalculateNextLevelExperience();
+	  next_level_experience_ = CalculateNextLevelExperience();
 	  for (auto handler: handlers_) {
 		handler->OnLevelRaise();
 	  }

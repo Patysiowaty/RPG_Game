@@ -5,7 +5,7 @@
 class MenuGameState : public IGameState {
  public:
   void Initialize() override;
-  void Draw(double delta_time) override;
+  void Draw(IViewContext *view_context, double delta_time) override;
   void Update(double delta_time) override;
   void HandleEvent() override;
   void Cleanup() override;

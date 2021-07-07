@@ -33,20 +33,12 @@ void Player::SetClass(CharacterClass value) {
   class_ = value;
 }
 
-void Player::SetAlive(bool value) {
-  is_alive_ = value;
-}
-
 const std::string &Player::GetName() const {
   return name_;
 }
 
 uint32_t Player::GetId() const {
   return id_;
-}
-
-bool Player::IsAlive() const {
-  return is_alive_;
 }
 
 boost::uuids::uuid Player::GetUuid() const {
@@ -136,6 +128,35 @@ void Player::Deserialize(const boost::property_tree::ptree &ptree) {
 
 }
 
-void Player::Attack() {
+std::int32_t Player::Attack() const {
+  const auto min_value = player_statistics_.GetStatistic(StatisticType::kAttack)->GetValue();
+  const auto max_value = player_statistics_.GetStatistic(StatisticType::kAttack)->GetMaxValue();
 
+  //TODO: implement random
+  return std::rand() % (max_value - min_value) + min_value;
 }
+
+void Player::TakeDamage(std::int32_t value) {
+  player_statistics_.GetStatistic(StatisticType::kHealth)->SubtractValue(value);
+}
+
+std::int32_t Player::GetCurrentHealth() const {
+  return player_statistics_.GetStatistic(StatisticType::kHealth)->GetValue();
+}
+
+void Player::SetBattleState(BattleStates battle_state) {
+  battle_state_ = battle_state;
+}
+
+bool Player::IsAlive() const {
+  return is_alive_;
+}
+
+std::uint16_t Player::GetLevel() const {
+  return player_level_.GetLevel();
+}
+
+void Player::AddExperience(std::size_t value) {
+  player_level_.AddExperience(value);
+}
+

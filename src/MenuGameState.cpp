@@ -3,7 +3,7 @@ void MenuGameState::Initialize() {
 
 }
 
-void MenuGameState::Draw(double delta_time) {
+void MenuGameState::Draw(IViewContext *view_context, double delta_time) {
 
 }
 

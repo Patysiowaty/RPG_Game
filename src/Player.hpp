@@ -10,8 +10,9 @@
 #include "PlayerStatistics.hpp"
 #include "PlayerEquipment.hpp"
 #include "PlayerInventory.hpp"
+#include "interfaces/IFightable.hpp"
 
-class Player : public ICharacter, public IJSONSerializable {
+class Player : public ICharacter, public IJSONSerializable, public IFightable {
  public:
   Player();
 
@@ -20,10 +21,8 @@ class Player : public ICharacter, public IJSONSerializable {
   void SetGender(CharacterGender value) override;
   void SetRace(CharacterRace value) override;
   void SetClass(CharacterClass value) override;
-  void SetAlive(bool value) override;
   const std::string &GetName() const override;
   uint32_t GetId() const override;
-  bool IsAlive() const override;
   boost::uuids::uuid GetUuid() const override;
   CharacterClass GetClass() const override;
   CharacterGender GetGender() const override;
@@ -31,20 +30,25 @@ class Player : public ICharacter, public IJSONSerializable {
 
   boost::property_tree::ptree Serialize() override;
   void Deserialize(const boost::property_tree::ptree &ptree) override;
-  void Attack() override;
 
-  ItemsInteractor &GetItemsInteractor() { return items_interactor_; }
-  PlayerLevel &GetLevel() { return player_level_; }
+  std::int32_t Attack() const override;
+  void TakeDamage(std::int32_t value) override;
+  std::int32_t GetCurrentHealth() const override;
+  void SetBattleState(BattleStates battle_state) override;
+  bool IsAlive() const override;
+  std::uint16_t GetLevel() const override;
+  void AddExperience(std::size_t value) override;
 
  private:
   std::uint32_t id_;
   boost::uuids::uuid uuid_;
   std::string name_;
   bool is_alive_{true};
+  BattleStates battle_state_{BattleStates::kNone};
 
-  CharacterGender gender_ = CharacterGender::kNone;
-  CharacterRace race_ = CharacterRace::kNone;
-  CharacterClass class_ = CharacterClass::kNone;
+  CharacterGender gender_{CharacterGender::kNone};
+  CharacterRace race_{CharacterRace::kNone};
+  CharacterClass class_{CharacterClass::kNone};
 
   PlayerAttributes player_attributes_;
   PlayerStatistics player_statistics_;

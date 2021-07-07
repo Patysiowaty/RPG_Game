@@ -11,7 +11,7 @@ class PlayerLevel : public IPublisher<ILevelHandler> {
  public:
   explicit PlayerLevel(std::uint16_t level = 1, std::size_t total_exp = 0);
 
-  void AddExperience(int32_t value);
+  void AddExperience(size_t value);
   void RegisterHandler(ILevelHandler *level_handler) override;
 
   void SetExperience(std::size_t value);
@@ -24,8 +24,8 @@ class PlayerLevel : public IPublisher<ILevelHandler> {
   bool HasMaximumLevel() const;
 
  private:
-  size_t CalculateNextLevelExperience();
-  size_t CalculateNextLevelExperience(std::uint16_t);
+  std::size_t CalculateNextLevelExperience();
+  std::size_t CalculateNextLevelExperience(std::uint16_t);
   bool LevelUp();
 
  private:
