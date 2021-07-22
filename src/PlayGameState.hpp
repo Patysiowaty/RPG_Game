@@ -1,18 +1,18 @@
 #ifndef PLAYGAMESTATE_HPP
 #define PLAYGAMESTATE_HPP
 #include "interfaces/IGameState.hpp"
-#include "Player.hpp"
-#include "PlayerController.hpp"
-#include "BattleSystem.hpp"
+#include "game_core/Player.hpp"
+#include "game_core/PlayerController.hpp"
+#include "game_core/BattleSystem.hpp"
 #include "GameStatesManager.hpp"
 
 class PlayGameState : public IGameState {
  public:
   explicit PlayGameState(GameStatesManager &game_state_manager);
   void Initialize() override;
-  void Draw(IViewContext *view_context, double delta_time) override;
-  void Update(double delta_time) override;
-  void HandleEvent() override;
+  void Render(sf::RenderWindow &window) override;
+  void Update(sf::Time delta_time) override;
+  void HandleEvent(const sf::Event &event) override;
   void Cleanup() override;
   void Pause() override;
   void Resume() override;

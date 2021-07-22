@@ -5,18 +5,20 @@ PlayGameState::PlayGameState(GameStatesManager &game_states_manager) : game_stat
 }
 
 void PlayGameState::Initialize() {
-
+  JSONSerializer json_serializer;
+  json_serializer.Deserialize(player_, "../game_data/test.json");
 }
 
-void PlayGameState::Draw(IViewContext *view_context, double delta_time) {
-
+void PlayGameState::Render(sf::RenderWindow &window) {
+  window.clear();
+  window.display();
 }
 
-void PlayGameState::Update(double delta_time) {
+void PlayGameState::Update(sf::Time delta_time) {
   battle_system_.Update();
 }
 
-void PlayGameState::HandleEvent() {
+void PlayGameState::HandleEvent(const sf::Event &event) {
 
 }
 
