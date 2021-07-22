@@ -1,0 +1,15 @@
+{
+  "video": {
+    "windowTitle": "RPG Game",
+    "windowIconPath": "",
+    "windowSize": {
+      "width": 1280,
+      "height": 720
+    },
+    "vSync": false,
+    "windowStyle": 7,
+    "antiAliasingLevel": 0
+  },
+  "sound": {
+  }
+}

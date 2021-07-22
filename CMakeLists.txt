@@ -1,20 +1,18 @@
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.1)
 project(RPG_Game)
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pedantic -Wno-c++98-compat -std=c++17")
 
-if (WIN32)
-    message("Detected Windows system")
-    set(Boost_INCLUDE_DIR c:/Program\ Files/boost/boost_1_76_0/)
-    set(Boost_LIBRARY_DIR c:/Program\ Files/boost/boost_1_76_0/stage/lib/)
-elseif (UNIX)
-    message("Detected UNIX like system")
-    set(Boost_INCLUDE_DIRS /usr/local/boost_1_76_0/include/)
-    set(Boost_LIBRARIES /usr/local/lib/)
-endif ()
+set(Boost_INCLUDE_DIR c:/Program\ Files/boost/boost_1_76_0/)
+set(Boost_LIBRARY_DIR c:/Program\ Files/boost/boost_1_76_0/stage/lib/)
 
+set(SFML_DIR "c:/Users/pkolo/source/SFML-2.5.1/lib/cmake/SFML")
+set(SFML_STATIC_LIBRARIES TRUE)
+
+find_package(SFML 2.5 COMPONENTS audio graphics window system REQUIRED)
 find_package(Boost 1.76.0)
 include_directories(${Boost_INCLUDE_DIRS})
 
-add_executable(RPG_Game src/main.cpp src/Game.cpp src/Game.hpp src/interfaces/ICharacter.hpp src/enums/CharacterGender.hpp src/enums/CharacterRace.hpp src/enums/CharacterClass.hpp src/PlayerAttributes.cpp src/PlayerAttributes.hpp src/Player.cpp src/Player.hpp src/item_types/Item.cpp src/item_types/Item.hpp src/PlayerEquipment.cpp src/PlayerEquipment.hpp src/enums/ItemType.hpp src/PlayerInventory.cpp src/PlayerInventory.hpp src/PlayerLevel.cpp src/PlayerLevel.hpp src/item_types/SwordItem.cpp src/item_types/SwordItem.hpp src/enums/ItemLocation.hpp src/enums/ErrorCodes/ItemInteractorErrorCode.hpp src/PlayerStatistics.cpp src/PlayerStatistics.hpp src/item_types/ConsumptiveItem.cpp src/item_types/ConsumptiveItem.hpp src/enums/ItemRarity.hpp src/ItemsInteractor.hpp src/ItemsInteractor.cpp src/interfaces/IItemHandler.hpp src/interfaces/IItemList.hpp src/interfaces/ILevelHandler.hpp src/enums/ErrorCodes/LevelManagerEC.hpp src/interfaces/IBaseValueContainer.hpp src/Attribute.cpp src/Attribute.hpp src/enums/AttributeType.hpp src/enums/StatisticType.hpp src/interfaces/IPublisher.hpp src/interfaces/IItemBuilder.hpp src/ItemBuilder.cpp src/ItemBuilder.hpp src/interfaces/IAttributesHandler.hpp src/interfaces/ICharacterBuilder.hpp src/interfaces/IjsonSerializable.hpp src/JsonSerializer.cpp src/JsonSerializer.hpp src/interfaces/ICharacterClass.hpp src/interfaces/IConsumable.hpp src/interfaces/IStatistic.hpp src/Statistic.cpp src/Statistic.hpp src/interfaces/ISingleArithmeticValue.hpp src/interfaces/IMaxValueContainer.hpp src/SinglePlayerStatistic.cpp src/SinglePlayerStatistic.hpp src/interfaces/IArithmeticMaxValue.hpp src/PlayerController.cpp src/PlayerController.hpp src/GameStatesManager.cpp src/GameStatesManager.hpp src/interfaces/IGameState.hpp src/MenuGameState.cpp src/MenuGameState.hpp src/PlayGameState.cpp src/PlayGameState.hpp src/Npc.cpp src/Npc.hpp src/interfaces/IFightable.hpp src/enums/BattleStates.hpp src/Battle.cpp src/Battle.hpp src/BattleSystem.cpp src/BattleSystem.hpp src/interfaces/IViewContext.hpp src/ConsoleView.cpp src/ConsoleView.hpp)
+add_executable(${PROJECT_NAME} src/main.cpp "src/game_core/Game.cpp" "src/game_core/Game.hpp" src/interfaces/ICharacter.hpp src/enums/CharacterGender.hpp src/enums/CharacterRace.hpp src/enums/CharacterClass.hpp "src/game_core/PlayerAttributes.cpp" "src/game_core/PlayerAttributes.hpp" "src/game_core/Player.cpp" "src/game_core/Player.hpp" src/item_types/Item.cpp src/item_types/Item.hpp "src/game_core/PlayerEquipment.cpp" "src/game_core/PlayerEquipment.hpp" src/enums/ItemType.hpp "src/game_core/PlayerInventory.cpp" "src/game_core/PlayerInventory.hpp" "src/game_core/PlayerLevel.cpp" "src/game_core/PlayerLevel.hpp" src/item_types/SwordItem.cpp src/item_types/SwordItem.hpp src/enums/ItemLocation.hpp src/enums/ErrorCodes/ItemInteractorErrorCode.hpp "src/game_core/CharacterStatisticsList.cpp" "src/game_core/CharacterStatisticsList.hpp" src/item_types/ConsumptiveItem.cpp src/item_types/ConsumptiveItem.hpp src/enums/ItemRarity.hpp "src/game_core/ItemsInteractor.hpp" "src/game_core/ItemsInteractor.cpp" src/interfaces/IItemHandler.hpp src/interfaces/IItemList.hpp src/interfaces/ILevelHandler.hpp src/enums/ErrorCodes/LevelManagerEC.hpp src/interfaces/IBaseValueContainer.hpp "src/game_core/Attribute.cpp" "src/game_core/Attribute.hpp" src/enums/AttributeType.hpp src/enums/StatisticType.hpp src/interfaces/IPublisher.hpp src/interfaces/IItemBuilder.hpp "src/game_core/ItemBuilder.cpp" "src/game_core/ItemBuilder.hpp" src/interfaces/IAttributesHandler.hpp src/interfaces/ICharacterBuilder.hpp src/interfaces/IjsonSerializable.hpp src/JsonSerializer.cpp src/JsonSerializer.hpp src/interfaces/ICharacterClass.hpp src/interfaces/IConsumable.hpp src/interfaces/IStatistic.hpp "src/game_core/Statistic.cpp" "src/game_core/Statistic.hpp" src/interfaces/ISingleArithmeticValue.hpp src/interfaces/IMaxValueContainer.hpp "src/game_core/CharacterStatistic.cpp" "src/game_core/CharacterStatistic.hpp" src/interfaces/IArithmeticMaxValue.hpp "src/game_core/PlayerController.cpp" "src/game_core/PlayerController.hpp" src/GameStatesManager.cpp src/GameStatesManager.hpp src/interfaces/IGameState.hpp src/MenuGameState.cpp src/MenuGameState.hpp src/PlayGameState.cpp src/PlayGameState.hpp "src/game_core/Npc.cpp" "src/game_core/Npc.hpp" src/interfaces/IFightable.hpp src/enums/BattleStates.hpp "src/game_core/Battle.cpp" "src/game_core/Battle.hpp" "src/game_core/BattleSystem.cpp" "src/game_core/BattleSystem.hpp" src/EventDispatcher.cpp src/EventDispatcher.hpp src/interfaces/IWalkable.hpp src/interfaces/ICommand.hpp src/Button.cpp src/Button.hpp src/interfaces/IuiElement.hpp src/commands/LoadPlayStateCommand.hpp src/enums/CommandInvoker.hpp src/commands/QuitGameCommand.hpp src/OptionGameState.cpp src/OptionGameState.hpp)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE libbcrypt.a)
+target_link_libraries(${PROJECT_NAME} libbcrypt.a sfml-audio sfml-graphics sfml-window sfml-system)
