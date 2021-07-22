@@ -3,6 +3,7 @@
 
 class ILevelHandler {
  public:
+  virtual ~ILevelHandler() = default;
   virtual void OnLevelRaise() = 0;
   virtual void OnLevelDowngrade() = 0;
   virtual void OnLevelUpdate(int value) = 0;

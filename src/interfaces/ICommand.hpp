@@ -3,8 +3,8 @@
 
 class ICommand {
  public:
+  virtual ~ICommand() = default;
   virtual void Execute() = 0;
-  virtual ~ICommand() {}
 };
 
 #endif //ICOMMAND_HPP

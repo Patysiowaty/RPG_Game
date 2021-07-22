@@ -3,6 +3,7 @@
 template<class T>
 class IArithmeticMaxValue {
  public:
+  virtual ~IArithmeticMaxValue() = default;
   virtual void AddMaxValue(T value) = 0;
   virtual void SubtractMaxValue(T value) = 0;
 };

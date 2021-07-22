@@ -5,6 +5,7 @@
 #include <cstdint>
 class IStatistic {
  public:
+  virtual ~IStatistic() = default;
   virtual StatisticType GetType() const = 0;
   virtual void SetValue(std::int32_t value) = 0;
   virtual std::int32_t GetValue() const = 0;

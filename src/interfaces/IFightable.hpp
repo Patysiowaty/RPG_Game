@@ -6,6 +6,7 @@
 
 class IFightable {
  public:
+  virtual ~IFightable() = default;
   virtual std::int32_t Attack() const = 0;
   virtual void TakeDamage(std::int32_t value) = 0;
   virtual std::int32_t GetCurrentHealth() const = 0;

@@ -3,8 +3,8 @@
 
 #include "../enums/StatisticType.hpp"
 #include "../enums/AttributeType.hpp"
-#include "../Statistic.hpp"
-#include "../Attribute.hpp"
+#include "../game_core/Statistic.hpp"
+#include "../game_core/Attribute.hpp"
 
 class ConsumptionEffect {
  public:
@@ -22,6 +22,7 @@ class ConsumptionEffect {
 
 class IConsumable {
  public:
+  virtual ~IConsumable() = default;
   virtual ConsumptionEffect GetAfterConsumptionEffect() = 0;
 };
 
