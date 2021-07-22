@@ -7,8 +7,9 @@ class JSONSerializer {
  public:
   JSONSerializer() = default;
 
-  void SerializeAndSave(IJSONSerializable *json_serializable, const std::string &file_path);
-  void LoadAndDeserialize(IJSONSerializable *json_serializable, const std::string &file_path);
+  void Serialize(IJSONSerializable &json_serializable, const std::string &file_path);
+  std::string Serialize(const IJSONSerializable &json_serializable);
+  void Deserialize(IJSONSerializable &json_serializable, const std::string &file_path);
 
 };
 
