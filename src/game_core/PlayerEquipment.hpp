@@ -3,9 +3,9 @@
 
 #include <memory>
 #include <map>
-#include "item_types/Item.hpp"
-#include "enums/ItemType.hpp"
-#include "interfaces/IItemList.hpp"
+#include "../item_types/Item.hpp"
+#include "../enums/ItemType.hpp"
+#include "../interfaces/IItemList.hpp"
 
 class PlayerEquipment : public IItemList {
  public:
@@ -17,7 +17,8 @@ class PlayerEquipment : public IItemList {
   std::shared_ptr<Item> GetItemAtSlot(ItemType item_type) const;
 
  private:
-  std::map<ItemType, std::shared_ptr<Item>> equipment_;
+  using Equipment = std::map<ItemType, std::shared_ptr<Item>>;
+  Equipment equipment_;
 };
 
 #endif //PLAYEREQUIPMENT_HPP

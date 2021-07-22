@@ -4,8 +4,8 @@
 #include <memory>
 #include <cstdint>
 #include <vector>
-#include "interfaces/ILevelHandler.hpp"
-#include "interfaces/IPublisher.hpp"
+#include "../interfaces/ILevelHandler.hpp"
+#include "../interfaces/IPublisher.hpp"
 
 class PlayerLevel : public IPublisher<ILevelHandler> {
  public:

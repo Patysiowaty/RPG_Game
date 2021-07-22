@@ -1,8 +1,8 @@
 #include "BattleSystem.hpp"
-void BattleSystem::StartBattle(IFightable *attacker, IFightable *defender) {
-  if (!attacker || !defender) throw std::invalid_argument{"BattleSystem::StartBattle -> nullptr fighter!"};
-
-  battles_list_.push_back(std::make_unique<Battle>(attacker, defender));
+void BattleSystem::StartBattle(IFightable &attacker, IFightable &defender) {
+  auto new_battle = std::make_unique<Battle>(attacker, defender);
+  new_battle->InitializeBattle();
+  battles_list_.push_back(std::move(new_battle));
 }
 
 void BattleSystem::Update() {

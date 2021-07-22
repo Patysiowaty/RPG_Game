@@ -8,7 +8,7 @@
 #include "../enums/ItemType.hpp"
 #include "../enums/ItemLocation.hpp"
 #include "../enums/ItemRarity.hpp"
-#include "../Attribute.hpp"
+#include "../game_core/Attribute.hpp"
 #include "../enums/AttributeType.hpp"
 
 class Item {

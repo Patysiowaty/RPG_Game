@@ -7,7 +7,7 @@
 class BattleSystem {
  public:
 
-  void StartBattle(IFightable *attacker, IFightable *defender);
+  void StartBattle(IFightable &attacker, IFightable &defender);
   void Update();
 
  private:

@@ -1,7 +1,7 @@
 #ifndef ITEMBUILDER_HPP
 #define ITEMBUILDER_HPP
 
-#include "interfaces/IItemBuilder.hpp"
+#include "../interfaces/IItemBuilder.hpp"
 #include <boost/property_tree/ptree.hpp>
 
 class ItemBuilder : private IItemBuilder {

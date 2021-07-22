@@ -1,19 +1,19 @@
-#ifndef PLAYERSTATISTICS_HPP
-#define PLAYERSTATISTICS_HPP
+#ifndef CHARACTERSTATISTICSLIST_HPP
+#define CHARACTERSTATISTICSLIST_HPP
 
 #include <memory>
 #include <vector>
-#include "SinglePlayerStatistic.hpp"
-#include "interfaces/IAttributesHandler.hpp"
-#include "interfaces/ILevelHandler.hpp"
-#include "interfaces/IItemHandler.hpp"
+#include "CharacterStatistic.hpp"
+#include "../interfaces/IAttributesHandler.hpp"
+#include "../interfaces/ILevelHandler.hpp"
+#include "../interfaces/IItemHandler.hpp"
 
-using StatisticsList = std::vector<std::unique_ptr<SinglePlayerStatistic>>;
-using StatisticPtr = std::unique_ptr<SinglePlayerStatistic>;
+using StatisticsList = std::vector<std::unique_ptr<CharacterStatistic>>;
+using StatisticPtr = std::unique_ptr<CharacterStatistic>;
 
-class PlayerStatistics : public IAttributesHandler, public ILevelHandler, public IItemHandler {
+class CharacterStatisticsList : public IAttributesHandler, public ILevelHandler, public IItemHandler {
  public:
-  PlayerStatistics();
+  CharacterStatisticsList();
 
   const StatisticPtr &GetStatistic(StatisticType statistic_type) const;
   void AddNewStatistic(StatisticType statistic_type, std::int32_t max_value = 0, std::int32_t value = 0);
@@ -35,4 +35,4 @@ class PlayerStatistics : public IAttributesHandler, public ILevelHandler, public
   uint16_t player_level_{1};
 };
 
-#endif //PLAYERSTATISTICS_HPP
+#endif //CHARACTERSTATISTICSLIST_HPP

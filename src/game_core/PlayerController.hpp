@@ -6,6 +6,9 @@
 class PlayerController {
  public:
   PlayerController(Player &player);
+  void HandleEvent();
+  void MovePlayer();
+  void Attack();
 
  private:
   Player &player_;

@@ -1,15 +1,15 @@
-#ifndef SINGLEPLAYERSTATISTIC_HPP
-#define SINGLEPLAYERSTATISTIC_HPP
+#ifndef CHARACTERSTATISTIC_HPP
+#define CHARACTERSTATISTIC_HPP
 
-#include "interfaces/IMaxValueContainer.hpp"
-#include "interfaces/IArithmeticMaxValue.hpp"
-#include "interfaces/ISingleArithmeticValue.hpp"
-#include "interfaces/IStatistic.hpp"
+#include "../interfaces/IMaxValueContainer.hpp"
+#include "../interfaces/IArithmeticMaxValue.hpp"
+#include "../interfaces/ISingleArithmeticValue.hpp"
+#include "../interfaces/IStatistic.hpp"
 
-class SinglePlayerStatistic : public IStatistic, public IMaxValueContainer<std::int32_t>,
+class CharacterStatistic : public IStatistic, public IMaxValueContainer<std::int32_t>,
 	public IArithmeticMaxValue<std::int32_t>, public ISingleArithmeticValue<std::int32_t> {
  public:
-  explicit SinglePlayerStatistic(StatisticType statistic_type, std::int32_t max_value = 0, std::int32_t value = 0);
+  explicit CharacterStatistic(StatisticType statistic_type, std::int32_t max_value = 0, std::int32_t value = 0);
 
   void SetValue(std::int32_t value) override;
   void SetMaxValue(std::int32_t value) override;
@@ -31,4 +31,4 @@ class SinglePlayerStatistic : public IStatistic, public IMaxValueContainer<std::
   std::int32_t max_value_{0};
 };
 
-#endif //SINGLEPLAYERSTATISTIC_HPP
+#endif //CHARACTERSTATISTIC_HPP

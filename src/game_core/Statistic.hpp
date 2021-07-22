@@ -1,7 +1,7 @@
 #ifndef STATISTIC_HPP
 #define STATISTIC_HPP
-#include "interfaces/IStatistic.hpp"
-#include "interfaces/IBaseValueContainer.hpp"
+#include "../interfaces/IStatistic.hpp"
+#include "../interfaces/IBaseValueContainer.hpp"
 
 class Statistic : public IStatistic, public IBaseValueContainer<std::int32_t> {
  public:

@@ -4,8 +4,8 @@
 #include <boost/uuid/random_generator.hpp>
 
 Player::Player()
-	: items_interactor_{&player_inventory_, &player_equipment_, &player_level_, &id_},
-	  uuid_{boost::uuids::random_generator()()} {
+	: uuid_{boost::uuids::random_generator()()},
+	  items_interactor_{player_inventory_, player_equipment_, player_level_, id_} {
   items_interactor_.RegisterHandler(&player_attributes_);
   items_interactor_.RegisterHandler(&player_statistics_);
   player_level_.RegisterHandler(&player_attributes_);
@@ -57,7 +57,7 @@ CharacterRace Player::GetRace() const {
   return race_;
 }
 
-boost::property_tree::ptree Player::Serialize() {
+boost::property_tree::ptree Player::Serialize() const {
   boost::property_tree::basic_ptree<std::string, std::string> ptree;
   ptree.put("id", id_);
   ptree.put("uuid", boost::uuids::to_string(uuid_));
@@ -129,15 +129,19 @@ void Player::Deserialize(const boost::property_tree::ptree &ptree) {
 }
 
 std::int32_t Player::Attack() const {
-  const auto min_value = player_statistics_.GetStatistic(StatisticType::kAttack)->GetValue();
-  const auto max_value = player_statistics_.GetStatistic(StatisticType::kAttack)->GetMaxValue();
+  const auto &attack = player_statistics_.GetStatistic(StatisticType::kAttack);
+  const auto min_value = attack->GetValue();
+  const auto max_value = attack->GetMaxValue();
 
   //TODO: implement random
   return std::rand() % (max_value - min_value) + min_value;
 }
 
 void Player::TakeDamage(std::int32_t value) {
-  player_statistics_.GetStatistic(StatisticType::kHealth)->SubtractValue(value);
+  const auto &health = player_statistics_.GetStatistic(StatisticType::kHealth);
+  health->SubtractValue(value);
+  if (health->GetValue() == 0)
+	is_alive_ = false;
 }
 
 std::int32_t Player::GetCurrentHealth() const {
@@ -158,5 +162,18 @@ std::uint16_t Player::GetLevel() const {
 
 void Player::AddExperience(std::size_t value) {
   player_level_.AddExperience(value);
+}
+
+void Player::SetPosition(std::uint32_t x, std::uint32_t y) {
+  position_.first = x;
+  position_.second = y;
+}
+
+void Player::SetPosition(const IWalkable::CharacterPosition &position) {
+  position_ = position;
+}
+
+const IWalkable::CharacterPosition &Player::GetPosition() const {
+  return position_;
 }
 

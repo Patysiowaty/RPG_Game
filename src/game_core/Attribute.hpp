@@ -1,9 +1,9 @@
 #ifndef ATTRIBUTE_HPP
 #define ATTRIBUTE_HPP
-#include "interfaces/IBaseValueContainer.hpp"
-#include "interfaces/ISingleArithmeticValue.hpp"
+#include "../interfaces/IBaseValueContainer.hpp"
+#include "../interfaces/ISingleArithmeticValue.hpp"
 #include <cstdint>
-#include "enums/AttributeType.hpp"
+#include "../enums/AttributeType.hpp"
 
 class Attribute : public IBaseValueContainer<std::int32_t>, public ISingleArithmeticValue<std::int32_t> {
  public:

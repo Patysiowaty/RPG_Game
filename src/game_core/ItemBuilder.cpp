@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <boost/property_tree/json_parser.hpp>
 #include <iostream>
+#include <cmath>
 
 std::uint32_t ItemBuilder::next_item_id_ = 1;
 

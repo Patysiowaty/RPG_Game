@@ -3,9 +3,9 @@
 
 #include <memory>
 #include <vector>
-#include "item_types/Item.hpp"
-#include "enums/ErrorCodes/ItemInteractorErrorCode.hpp"
-#include "interfaces/IItemList.hpp"
+#include "../item_types/Item.hpp"
+#include "../enums/ErrorCodes/ItemInteractorErrorCode.hpp"
+#include "../interfaces/IItemList.hpp"
 
 class PlayerInventory : IItemList {
  public:

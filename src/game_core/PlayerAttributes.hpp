@@ -3,11 +3,11 @@
 
 #include <cstdint>
 #include <memory>
-#include "interfaces/IItemHandler.hpp"
-#include "interfaces/ILevelHandler.hpp"
+#include "../interfaces/IItemHandler.hpp"
+#include "../interfaces/ILevelHandler.hpp"
 #include "Attribute.hpp"
-#include "interfaces/IPublisher.hpp"
-#include "interfaces/IAttributesHandler.hpp"
+#include "../interfaces/IPublisher.hpp"
+#include "../interfaces/IAttributesHandler.hpp"
 
 class PlayerAttributes : public IPublisher<IAttributesHandler>, public IItemHandler, public ILevelHandler {
  public:
