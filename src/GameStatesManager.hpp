@@ -5,7 +5,7 @@
 #include <memory>
 #include "interfaces/IGameState.hpp"
 
-class GameStatesManager  {
+class GameStatesManager {
  public:
   void PushState(std::unique_ptr<IGameState> game_state);
   void PopState();

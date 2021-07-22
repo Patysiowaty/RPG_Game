@@ -2,7 +2,6 @@
 #define PLAYERATTRIBUTES_HPP
 
 #include <cstdint>
-#include <memory>
 #include "../interfaces/IItemHandler.hpp"
 #include "../interfaces/ILevelHandler.hpp"
 #include "Attribute.hpp"
