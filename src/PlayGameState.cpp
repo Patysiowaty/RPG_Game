@@ -1,7 +1,7 @@
 #include "PlayGameState.hpp"
+#include "JsonSerializer.hpp"
 PlayGameState::PlayGameState(GameStatesManager &game_states_manager) : game_states_manager_{game_states_manager},
 																	   player_controller_{player_} {
-
 }
 
 void PlayGameState::Initialize() {
