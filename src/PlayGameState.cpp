@@ -2,7 +2,6 @@
 #include "JsonSerializer.hpp"
 PlayGameState::PlayGameState(GameStatesManager &game_states_manager) : game_states_manager_{game_states_manager},
 																	   player_controller_{player_} {
-  game_states_manager_.PopState();
 }
 
 void PlayGameState::Initialize() {
@@ -11,8 +10,7 @@ void PlayGameState::Initialize() {
 }
 
 void PlayGameState::Render(sf::RenderWindow &window) {
-  window.clear();
-  window.display();
+  window.clear({20, 20, 100});
 }
 
 void PlayGameState::Update(sf::Time delta_time) {
