@@ -28,15 +28,28 @@ void Game::Run() {
   while (main_window_.isOpen() && !game_states_manager_.GetGameStatesPtr().empty()) {
 	const auto current_state = game_states_manager_.GetGameStatesPtr().top();
 	last_update_ += timer_.restart();
-	sf::Event next_event;
+	auto event = GetUserInput();
 	while (last_update_ > kTimePerFrame) {
 	  last_update_ -= kTimePerFrame;
-	  if (main_window_.pollEvent(next_event))
-		current_state->HandleEvent(next_event);
+	  current_state->HandleEvent(event);
 	  current_state->Update(last_update_);
 	  current_state->Render(main_window_);
+	  main_window_.display();
 	}
   }
+}
+
+sf::Event Game::GetUserInput() {
+  sf::Event event;
+
+  if (main_window_.pollEvent(event))
+	if (event.type == sf::Event::Closed) {
+	  game_states_manager_.GetGameStatesPtr().top()->Pause();
+	  game_states_manager_.GetGameStatesPtr().top()->Cleanup();
+	  main_window_.close();
+	}
+
+  return event;
 }
 
 

@@ -13,6 +13,9 @@ class Game {
   void Run();
 
  private:
+  sf::Event GetUserInput();
+
+ private:
   static const sf::Time kTimePerFrame;
 
   GameStatesManager game_states_manager_;
