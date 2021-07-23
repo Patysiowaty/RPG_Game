@@ -5,11 +5,14 @@
 #include "../GameStatesManager.hpp"
 class QuitGameCommand : public ICommand {
  public:
-  explicit QuitGameCommand() {}
+  explicit QuitGameCommand(GameStatesManager &game_states_manager) : game_states_manager_{game_states_manager} {}
 
   void Execute() override {
-	exit(EXIT_SUCCESS);
+	game_states_manager_.ClearStack();
   }
+
+ private:
+  GameStatesManager &game_states_manager_;
 };
 
 #endif //QUITGAMECOMMAND_HPP
