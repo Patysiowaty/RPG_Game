@@ -1,7 +1,10 @@
 #include "MenuGameState.hpp"
 #include "game_core/GameConfig.hpp"
-#include "commands/LoadPlayStateCommand.hpp"
 #include "commands/QuitGameCommand.hpp"
+#include "commands/LoadGameStateCommand.hpp"
+#include "commands/ChangeGameStateCommand.hpp"
+#include "GameOptionsState.hpp"
+#include "PlayGameState.hpp"
 
 MenuGameState::MenuGameState(GameStatesManager &game_states_manager) : game_states_manager_{game_states_manager} {
 
@@ -9,12 +12,21 @@ MenuGameState::MenuGameState(GameStatesManager &game_states_manager) : game_stat
 
 void MenuGameState::Initialize() {
   start_game_button_.AddCommand(CommandInvoker::kLeftMouseButtonClick,
-								std::make_unique<LoadPlayStateCommand>(game_states_manager_));
+								std::make_unique<ChangeGameStateCommand>(game_states_manager_,
+																		 std::make_shared<PlayGameState>(
+																			 game_states_manager_)));
+
+  game_option_button_.AddCommand(CommandInvoker::kLeftMouseButtonClick,
+								 std::make_unique<LoadGameStateCommand>(game_states_manager_,
+																		std::make_shared<GameOptionsState>(
+																			game_states_manager_)));
+
   quit_game_button_.AddCommand(CommandInvoker::kLeftMouseButtonClick,
 							   std::make_unique<QuitGameCommand>(game_states_manager_));
 
   event_dispatcher_.RegisterHandler(&start_game_button_);
   event_dispatcher_.RegisterHandler(&load_game_button_);
+  event_dispatcher_.RegisterHandler(&game_option_button_);
   event_dispatcher_.RegisterHandler(&quit_game_button_);
 
   GameConfig game_config;
@@ -45,13 +57,11 @@ void MenuGameState::Initialize() {
 
 void MenuGameState::Render(sf::RenderWindow &window) {
   if (!active_) return;
-  window.clear();
+  window.clear({100,20,0});
   start_game_button_.Render(window);
   load_game_button_.Render(window);
   game_option_button_.Render(window);
   quit_game_button_.Render(window);
-
-  window.display();
 }
 
 void MenuGameState::Update(sf::Time delta_time) {
