@@ -1,12 +1,12 @@
-#ifndef OPTIONGAMESTATE_HPP
-#define OPTIONGAMESTATE_HPP
+#ifndef GAMEOPTIONS_HPP
+#define GAMEOPTIONS_HPP
 
 #include "interfaces/IGameState.hpp"
 #include "GameStatesManager.hpp"
 
-class OptionGameState : public IGameState {
+class GameOptions : public IGameState {
  public:
-  explicit OptionGameState(GameStatesManager &game_states_manager);
+  explicit GameOptions(GameStatesManager &game_states_manager);
   void Initialize() override;
   void Render(sf::RenderWindow &window) override;
   void Update(sf::Time delta_time) override;
@@ -20,4 +20,4 @@ class OptionGameState : public IGameState {
   bool active_{true};
 };
 
-#endif //OPTIONGAMESTATE_HPP
+#endif //GAMEOPTIONS_HPP
