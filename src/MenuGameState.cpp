@@ -10,7 +10,8 @@ MenuGameState::MenuGameState(GameStatesManager &game_states_manager) : game_stat
 void MenuGameState::Initialize() {
   start_game_button_.AddCommand(CommandInvoker::kLeftMouseButtonClick,
 								std::make_unique<LoadPlayStateCommand>(game_states_manager_));
-  quit_game_button_.AddCommand(CommandInvoker::kLeftMouseButtonClick, std::make_unique<QuitGameCommand>());
+  quit_game_button_.AddCommand(CommandInvoker::kLeftMouseButtonClick,
+							   std::make_unique<QuitGameCommand>(game_states_manager_));
 
   event_dispatcher_.RegisterHandler(&start_game_button_);
   event_dispatcher_.RegisterHandler(&load_game_button_);

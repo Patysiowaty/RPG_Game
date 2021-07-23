@@ -1,5 +1,5 @@
 #include "GameStatesManager.hpp"
-void GameStatesManager::PushState(std::unique_ptr<IGameState> game_state) {
+void GameStatesManager::PushState(std::shared_ptr<IGameState> game_state) {
   if (!states_.empty())
 	states_.top()->Pause();
   states_.emplace(std::move(game_state));
@@ -8,7 +8,7 @@ void GameStatesManager::PushState(std::unique_ptr<IGameState> game_state) {
 
 void GameStatesManager::PopState() {
   if (states_.empty()) return;
-
+  states_.top()->Pause();
   states_.top()->Cleanup();
   states_.pop();
 
@@ -16,7 +16,15 @@ void GameStatesManager::PopState() {
 	states_.top()->Resume();
 }
 
-const std::unique_ptr<IGameState> &GameStatesManager::GetCurrentState() {
-  return states_.top();
+const GameStatesManager::GameStatesPtr &GameStatesManager::GetGameStatesPtr() const {
+  return states_;
+}
+
+void GameStatesManager::ClearStack() {
+  while (!states_.empty()) {
+	states_.top()->Pause();
+	states_.top()->Cleanup();
+	states_.pop();
+  }
 }
 

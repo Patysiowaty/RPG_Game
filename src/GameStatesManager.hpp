@@ -7,12 +7,15 @@
 
 class GameStatesManager {
  public:
-  void PushState(std::unique_ptr<IGameState> game_state);
+  using GameStatesPtr = std::stack<std::shared_ptr<IGameState>>;
+
+  void PushState(std::shared_ptr<IGameState> game_state);
   void PopState();
-  const std::unique_ptr<IGameState> &GetCurrentState();
+  void ClearStack();
+  const GameStatesPtr &GetGameStatesPtr() const;
 
  private:
-  std::stack<std::unique_ptr<IGameState>> states_;
+  GameStatesPtr states_;
 };
 
 #endif //GAMESTATESMANAGER_HPP

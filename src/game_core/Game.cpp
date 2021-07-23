@@ -9,7 +9,7 @@ Game::Game() {
 }
 
 void Game::InitializeResources() {
-  game_states_manager_.PushState(std::make_unique<MenuGameState>(game_states_manager_));
+  game_states_manager_.PushState(std::make_shared<MenuGameState>(game_states_manager_));
 
   JSONSerializer serializer;
   GameConfig config;
@@ -25,15 +25,16 @@ void Game::InitializeResources() {
 }
 
 void Game::Run() {
-  while (main_window_.isOpen()) {
-	sf::Event next_event;
+  while (main_window_.isOpen() && !game_states_manager_.GetGameStatesPtr().empty()) {
+	const auto current_state = game_states_manager_.GetGameStatesPtr().top();
 	last_update_ += timer_.restart();
+	sf::Event next_event;
 	while (last_update_ > kTimePerFrame) {
 	  last_update_ -= kTimePerFrame;
 	  if (main_window_.pollEvent(next_event))
-		game_states_manager_.GetCurrentState()->HandleEvent(next_event);
-	  game_states_manager_.GetCurrentState()->Update(last_update_);
-	  game_states_manager_.GetCurrentState()->Render(main_window_);
+		current_state->HandleEvent(next_event);
+	  current_state->Update(last_update_);
+	  current_state->Render(main_window_);
 	}
   }
 }
