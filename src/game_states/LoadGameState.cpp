@@ -8,16 +8,12 @@ void LoadGameState::Initialize() {
 
 }
 
-void LoadGameState::Render(sf::RenderWindow &window) {
+void LoadGameState::Render() {
 
 }
 
-void LoadGameState::Update(sf::Time delta_time) {
+void LoadGameState::Update(const float delta_time) {
 
-}
-
-void LoadGameState::HandleEvent(const sf::Event &event) {
-  event_dispatcher_.DispatchEvent(event);
 }
 
 void LoadGameState::Cleanup() {
@@ -29,6 +25,9 @@ void LoadGameState::Pause() {
 }
 
 void LoadGameState::Resume() {
+
+}
+void LoadGameState::Reload(const GameConfig &config) {
 
 }
 

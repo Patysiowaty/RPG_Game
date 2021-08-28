@@ -1,18 +1,17 @@
 #ifndef GAMEOPTIONSSTATE_HPP
 #define GAMEOPTIONSSTATE_HPP
 
-#include "interfaces/IGameState.hpp"
-#include "GameStatesManager.hpp"
-#include "Button.hpp"
-#include "EventDispatcher.hpp"
+#include "../interfaces/IGameState.hpp"
+#include "../managers/GameStatesManager.hpp"
+#include "../ui_elements/Button.hpp"
 
 class GameOptionsState : public IGameState {
  public:
   explicit GameOptionsState(GameStatesManager &game_states_manager);
   void Initialize() override;
-  void Render(sf::RenderWindow &window) override;
-  void Update(sf::Time delta_time) override;
-  void HandleEvent(const sf::Event &event) override;
+  void Render() override;
+  void Update(float delta_time) override;
+  void Reload(const GameConfig& game_config) override;
   void Cleanup() override;
   void Pause() override;
   void Resume() override;
@@ -20,8 +19,6 @@ class GameOptionsState : public IGameState {
  private:
   bool active_{true};
   GameStatesManager &game_states_manager_;
-
-  EventDispatcher event_dispatcher_;
 
   sf::Font game_option_font_;
   Button return_button_;
