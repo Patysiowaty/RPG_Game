@@ -3,10 +3,14 @@
 #include <boost/property_tree/ptree.hpp>
 #include <string>
 
-class IJSONSerializable {
- public:
+struct IJSONSerializable {
   virtual ~IJSONSerializable() = default;
   virtual boost::property_tree::ptree Serialize() const = 0;
+
+};
+
+struct IJSONDeserializable {
+  virtual ~IJSONDeserializable() = default;
   virtual void Deserialize(const boost::property_tree::ptree &ptree) = 0;
 };
 
