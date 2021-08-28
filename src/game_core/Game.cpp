@@ -1,15 +1,12 @@
 #include "Game.hpp"
-#include "../MenuGameState.hpp"
-#include "GameConfig.hpp"
+#include "../game_states/MenuGameState.hpp"
+#include "../game_states/PlayGameState.hpp"
 
 const sf::Time Game::kTimePerFrame = sf::seconds(1.f / 60.f);
 
-Game::Game() {
-
-}
-
 void Game::InitializeResources() {
-  game_states_manager_.PushState(std::make_shared<MenuGameState>(game_states_manager_));
+  game_states_manager_.PushState(std::make_shared<MenuGameState>(game_states_manager_, main_window_));
+  //game_states_manager_.PushState(std::make_shared<PlayGameState>(game_states_manager_, main_window_));
 
   JSONSerializer serializer;
   GameConfig config;
@@ -25,31 +22,34 @@ void Game::InitializeResources() {
 }
 
 void Game::Run() {
+  sf::Clock timer;
   while (main_window_.isOpen() && !game_states_manager_.GetGameStatesPtr().empty()) {
+	auto delta_time = timer.restart();
 	const auto current_state = game_states_manager_.GetGameStatesPtr().top();
-	last_update_ += timer_.restart();
-	auto event = GetUserInput();
-	while (last_update_ > kTimePerFrame) {
-	  last_update_ -= kTimePerFrame;
-	  current_state->HandleEvent(event);
-	  current_state->Update(last_update_);
-	  current_state->Render(main_window_);
-	  main_window_.display();
+	HandleIncomingInput();
+	while (delta_time <= kTimePerFrame) {
+	  current_state->Update(delta_time.asSeconds());
+	  delta_time += kTimePerFrame;
 	}
+	current_state->Render();
+	main_window_.display();
   }
 }
 
-sf::Event Game::GetUserInput() {
+void Game::HandleIncomingInput() {
   sf::Event event;
-
-  if (main_window_.pollEvent(event))
+  if (main_window_.pollEvent(event)) {
 	if (event.type == sf::Event::Closed) {
 	  game_states_manager_.GetGameStatesPtr().top()->Pause();
 	  game_states_manager_.GetGameStatesPtr().top()->Cleanup();
 	  main_window_.close();
+	} else if (event.type == sf::Event::LostFocus) {
+	  game_states_manager_.GetGameStatesPtr().top()->Pause();
+	} else if (event.type == sf::Event::GainedFocus) {
+	  game_states_manager_.GetGameStatesPtr().top()->Resume();
 	}
-
-  return event;
+  }
+  input_manager_.RegisterNextInput(event);
 }
 
 
