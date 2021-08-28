@@ -45,7 +45,6 @@ void PlayGameState::Reload(const GameConfig &config) {
 
 void PlayGameState::RegisterHandlers() {
   player_controller_.RegisterHandler(&game_camera_);
-  player_controller_.RegisterHandler(&windows_manager_);
 
   updatable_list_.emplace_back(&windows_manager_);
   updatable_list_.emplace_back(&player_controller_);

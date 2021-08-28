@@ -8,7 +8,6 @@
 #include "../enums/Direction.hpp"
 #include "../controllers/AnimationsController.hpp"
 #include "../interfaces/IUpdatable.hpp"
-#include "../interfaces/IRenderable.hpp"
 
 class PlayerView : sf::Transformable, public sf::Drawable, public IUpdatable {
  public:
