@@ -1,19 +1,22 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
+#include <SFML/Graphics/Transformable.hpp>
 #include "../interfaces/ICharacter.hpp"
 #include "../item_types/SwordItem.hpp"
 #include "../item_types/ConsumptiveItem.hpp"
 #include "../interfaces/IjsonSerializable.hpp"
-#include "ItemsInteractor.hpp"
-#include "PlayerLevel.hpp"
-#include "PlayerAttributes.hpp"
-#include "CharacterStatisticsList.hpp"
-#include "PlayerEquipment.hpp"
-#include "PlayerInventory.hpp"
+#include "../game_core/ItemsInteractor.hpp"
+#include "../game_core/PlayerLevel.hpp"
+#include "../game_core/PlayerAttributes.hpp"
+#include "../game_core/CharacterStatisticsList.hpp"
+#include "../game_core/PlayerEquipment.hpp"
+#include "../game_core/PlayerInventory.hpp"
 #include "../interfaces/IFightable.hpp"
 #include "../interfaces/IWalkable.hpp"
 
-class Player : public ICharacter, public IJSONSerializable, public IFightable, public IWalkable {
+class Player
+	: public ICharacter, public IJSONSerializable, public IJSONDeserializable, public IFightable,
+		public sf::Transformable {
  public:
   Player();
 
@@ -29,6 +32,8 @@ class Player : public ICharacter, public IJSONSerializable, public IFightable, p
   CharacterGender GetGender() const override;
   CharacterRace GetRace() const override;
 
+  void Update(float delta_time);
+
   boost::property_tree::ptree Serialize() const override;
   void Deserialize(const boost::property_tree::ptree &ptree) override;
 
@@ -39,9 +44,6 @@ class Player : public ICharacter, public IJSONSerializable, public IFightable, p
   bool IsAlive() const override;
   std::uint16_t GetLevel() const override;
   void AddExperience(std::size_t value) override;
-  void SetPosition(std::uint32_t x, std::uint32_t y) override;
-  void SetPosition(const CharacterPosition &position) override;
-  const CharacterPosition &GetPosition() const override;
 
  private:
   std::uint32_t id_;
@@ -49,8 +51,6 @@ class Player : public ICharacter, public IJSONSerializable, public IFightable, p
   std::string name_;
   bool is_alive_{true};
   BattleStates battle_state_{BattleStates::kNone};
-
-  CharacterPosition position_;
 
   CharacterGender gender_{CharacterGender::kNone};
   CharacterRace race_{CharacterRace::kNone};

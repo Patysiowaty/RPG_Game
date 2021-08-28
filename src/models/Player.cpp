@@ -1,7 +1,8 @@
 #include "Player.hpp"
-#include "ItemBuilder.hpp"
+#include "../game_core/ItemBuilder.hpp"
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/random_generator.hpp>
+#include <SFML/System/Clock.hpp>
 
 Player::Player()
 	: uuid_{boost::uuids::random_generator()()},
@@ -84,6 +85,8 @@ boost::property_tree::ptree Player::Serialize() const {
   ptree.add("statistics.manaMax", player_statistics_.GetStatistic(StatisticType::kMana)->GetMaxValue());
 
   ptree.put("inventorySize", player_inventory_.GetInventoryAvailableTabs());
+  ptree.put("position.x", sf::Transformable::getPosition().x);
+  ptree.put("position.y", sf::Transformable::getPosition().y);
   return ptree;
 }
 
@@ -96,10 +99,11 @@ void Player::Deserialize(const boost::property_tree::ptree &ptree) {
   player_level_.SetLevel(ptree.get<uint16_t>("level"));
   player_level_.SetExperience(ptree.get<std::size_t>("experience"));
 
-  player_attributes_.GetAttribute(AttributeType::kStrength)->SetValue(ptree.get<int32_t>("attributes.strength"));
-  player_attributes_.GetAttribute(AttributeType::kDexterity)->SetValue(ptree.get<int32_t>("attributes.dexterity"));
-  player_attributes_.GetAttribute(AttributeType::kVitality)->SetValue(ptree.get<int32_t>("attributes.vitality"));
-  player_attributes_.GetAttribute(AttributeType::kIntelligence)->SetValue(ptree.get<int32_t>("attributes.intelligence"));
+  player_attributes_.GetAttribute(AttributeType::kStrength)->SetValue(ptree.get<std::int32_t>("attributes.strength"));
+  player_attributes_.GetAttribute(AttributeType::kDexterity)->SetValue(ptree.get<std::int32_t>("attributes.dexterity"));
+  player_attributes_.GetAttribute(AttributeType::kVitality)->SetValue(ptree.get<std::int32_t>("attributes.vitality"));
+  player_attributes_.GetAttribute(AttributeType::kIntelligence)->SetValue(ptree.get<std::int32_t>(
+	  "attributes.intelligence"));
 
   player_statistics_.GetStatistic(StatisticType::kAttack)->SetValue(ptree.get<std::int32_t>("statistics.attack"));
   player_statistics_.GetStatistic(StatisticType::kHealth)->SetMaxValue(ptree.get<std::int32_t>(
@@ -126,6 +130,7 @@ void Player::Deserialize(const boost::property_tree::ptree &ptree) {
 	player_inventory_.PutItem(item_builder.MakeItem(kTemplateId, kItemId), second.get<int>("position"));
   }
 
+  sf::Transformable::setPosition(ptree.get<float>("position.x"), ptree.get<float>("position.y"));
 }
 
 std::int32_t Player::Attack() const {
@@ -164,16 +169,7 @@ void Player::AddExperience(std::size_t value) {
   player_level_.AddExperience(value);
 }
 
-void Player::SetPosition(std::uint32_t x, std::uint32_t y) {
-  position_.first = x;
-  position_.second = y;
-}
+void Player::Update(float delta_time) {
 
-void Player::SetPosition(const IWalkable::CharacterPosition &position) {
-  position_ = position;
-}
-
-const IWalkable::CharacterPosition &Player::GetPosition() const {
-  return position_;
 }
 
