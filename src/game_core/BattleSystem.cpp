@@ -5,7 +5,7 @@ void BattleSystem::StartBattle(IFightable &attacker, IFightable &defender) {
   battles_list_.push_back(std::move(new_battle));
 }
 
-void BattleSystem::Update() {
+void BattleSystem::Update(float delta_time) {
   for (const auto &battle: battles_list_)
 	battle->NextTurn();
 

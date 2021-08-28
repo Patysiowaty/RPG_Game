@@ -2,9 +2,11 @@
 #define GAMECONFIG_HPP
 #include "../interfaces/IjsonSerializable.hpp"
 
-struct GameConfig : public IJSONSerializable {
+struct GameConfig : public IJSONSerializable, public IJSONDeserializable {
   boost::property_tree::ptree Serialize() const override {
-	throw std::logic_error{"GameSettings::Serialize()"};
+	boost::property_tree::ptree ptree;
+
+	return ptree;
   }
 
   void Deserialize(const boost::property_tree::ptree &ptree) override {
@@ -27,9 +29,4 @@ struct GameConfig : public IJSONSerializable {
   uint32_t style_;
   bool window_v_sync_;
 };
-#include <SFML/Graphics.hpp>
-#include "../JsonSerializer.hpp"
-#include "Player.hpp"
-#include "PlayerController.hpp"
-#include "../GameStatesManager.hpp"
 #endif //GAMECONFIG_HPP

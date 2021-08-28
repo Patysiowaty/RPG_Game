@@ -1,0 +1,128 @@
+{
+  "startGame": {
+    "name": "StartGameButton",
+    "size": {
+      "width": 256,
+      "height": 64
+    },
+    "position": {
+      "x": 512,
+      "y": 144
+    },
+    "relativePosition": {
+      "relativeX": 2,
+      "relativeY": 3
+    },
+    "backgroundColor": "255;255;255;255",
+    "outlineColor": "255;255;255;255",
+    "fontPath": "../resources/fonts/ZenLoop-Regular.ttf",
+    "fontSize": 30,
+    "fontColor": "255;255;255;255",
+    "text": "Start New Game",
+    "texturePath": "../resources/graphics/button_menu.png",
+    "spriteSize": {
+      "left": 0,
+      "top": 0,
+      "width": 256,
+      "height": 64
+    },
+    "hoverOffset": {
+      "x": 0,
+      "y": 64
+    }
+  },
+  "loadGame": {
+    "name": "LoadGameButton",
+    "size": {
+      "width": 256,
+      "height": 64
+    },
+    "position": {
+      "x": 512,
+      "y": 288
+    },
+    "relativePosition": {
+      "x": 2,
+      "y": 3
+    },
+    "backgroundColor": "255;255;255;255",
+    "outlineColor": "255;255;255;255",
+    "fontPath": "../resources/fonts/ZenLoop-Regular.ttf",
+    "fontSize": 30,
+    "fontColor": "255;255;255;255",
+    "text": "Load Game",
+    "texturePath": "../resources/graphics/button_menu.png",
+    "spriteSize": {
+      "left": 0,
+      "top": 0
+    },
+    "hoverOffset": {
+      "x": 0,
+      "y": 64
+    }
+  },
+  "gameOptions": {
+    "name": "GameOptionButton",
+    "size": {
+      "width": 256,
+      "height": 64
+    },
+    "position": {
+      "x": 512,
+      "y": 432
+    },
+    "relativePosition": {
+      "relativeX": 2,
+      "relativeY": 3
+    },
+    "backgroundColor": "255;255;255;255",
+    "outlineColor": "255;255;255;255",
+    "fontPath": "../resources/fonts/ZenLoop-Regular.ttf",
+    "fontSize": 30,
+    "fontColor": "255;255;255;255",
+    "text": "Options",
+    "texturePath": "../resources/graphics/button_menu.png",
+    "spriteSize": {
+      "left": 0,
+      "top": 0,
+      "width": 256,
+      "height": 64
+    },
+    "hoverOffset": {
+      "x": 0,
+      "y": 64
+    }
+  },
+  "quitGame": {
+    "name": "QuitGameButton",
+    "size": {
+      "width": 256,
+      "height": 64
+    },
+    "position": {
+      "x": 512,
+      "y": 576
+    },
+    "relativePosition": {
+      "relativeX": 2,
+      "relativeY": 3
+    },
+    "backgroundColor": "255;255;255;255",
+    "outlineColor": "255;255;255;255",
+    "fontPath": "../resources/fonts/ZenLoop-Regular.ttf",
+    "fontSize": 30,
+    "fontColor": "255;255;255;255",
+    "text": "Quit",
+    "texturePath": "../resources/graphics/button_menu.png",
+    "spriteSize": {
+      "left": 0,
+      "top": 0,
+      "width": 256,
+      "height": 64
+    },
+    "hoverOffset": {
+      "x": 0,
+      "y": 64
+    }
+  }
+}

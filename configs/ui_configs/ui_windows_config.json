@@ -1,0 +1,18 @@
+{
+  "simpleWindow": {
+    "name": "simpleWindow",
+    "hotkey": "i",
+    "size": {
+      "width": 300,
+      "height": 400
+    },
+    "position": {
+      "x": 150,
+      "y": 150
+    },
+    "backgroundColor": "65;65;65;200",
+    "outlineColor": "255;255;255;230",
+    "fontPath": "../resources/fonts/ZenLoop-Regular.ttf",
+    "fontSize": 30
+  }
+}

@@ -9,7 +9,7 @@
   "experience": 0,
   "attributes": {
     "strength": 0,
-    "agility": 0,
+    "dexterity": 0,
     "vitality": 0,
     "intelligence": 0
   },
@@ -60,5 +60,10 @@
       "itemId": 0,
       "templateId": 0
     }
-  ]
+  ],
+  "location": 0,
+  "position": {
+    "x": 500,
+    "y": 500
+  }
 }
