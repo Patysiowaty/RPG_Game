@@ -1,7 +1,7 @@
 #ifndef CHANGEGAMESTATECOMMAND_HPP
 #define CHANGEGAMESTATECOMMAND_HPP
 #include "../interfaces/ICommand.hpp"
-#include "../GameStatesManager.hpp"
+#include "../managers/GameStatesManager.hpp"
 #include "../interfaces/IGameState.hpp"
 
 class ChangeGameStateCommand : public ICommand {

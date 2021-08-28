@@ -1,7 +1,7 @@
 #ifndef QUITCURRENTSTATECOMMAND_HPP
 #define QUITCURRENTSTATECOMMAND_HPP
 #include "../interfaces/ICommand.hpp"
-#include "../GameStatesManager.hpp"
+#include "../managers/GameStatesManager.hpp"
 
 class QuitCurrentStateCommand : public ICommand {
  public:

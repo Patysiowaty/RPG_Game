@@ -2,7 +2,7 @@
 #define QUITGAMECOMMAND_HPP
 
 #include "../interfaces/ICommand.hpp"
-#include "../GameStatesManager.hpp"
+#include "../managers/GameStatesManager.hpp"
 class QuitGameCommand : public ICommand {
  public:
   explicit QuitGameCommand(GameStatesManager &game_states_manager) : game_states_manager_{game_states_manager} {}

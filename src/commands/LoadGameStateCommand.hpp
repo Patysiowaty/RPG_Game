@@ -1,7 +1,7 @@
 #ifndef LOADGAMESTATECOMMAND_HPP
 #define LOADGAMESTATECOMMAND_HPP
 #include "../interfaces/ICommand.hpp"
-#include "../GameStatesManager.hpp"
+#include "../managers/GameStatesManager.hpp"
 #include "../interfaces/IGameState.hpp"
 
 class LoadGameStateCommand : public ICommand {

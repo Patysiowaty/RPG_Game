@@ -3,7 +3,8 @@
 #include <stack>
 #include <vector>
 #include <memory>
-#include "interfaces/IGameState.hpp"
+#include "../interfaces/IGameState.hpp"
+#include "../interfaces/IPublisher.hpp"
 
 class GameStatesManager {
  public:
