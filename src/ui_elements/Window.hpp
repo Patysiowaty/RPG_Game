@@ -15,6 +15,11 @@ class Window : public sf::Drawable, public IJSONDeserializable, public IUpdatabl
 
   virtual void Update(float delta_time);
   virtual void Move(const sf::Vector2f &offset);
+  virtual void SetPosition(const sf::Vector2f &new_position);
+  virtual void Activate();
+  virtual void Deactivate();
+  virtual void RestoreDefault();
+  virtual void SetSize(const sf::Vector2f &new_size);
 
   const std::string &GetWindowName() const { return name_; }
 
