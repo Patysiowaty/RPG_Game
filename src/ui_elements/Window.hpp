@@ -1,10 +1,11 @@
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
 #include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "../interfaces/IjsonSerializable.hpp"
 #include "../interfaces/IUpdatable.hpp"
+#include "../enums/WindowEvent.hpp"
+#include <SFML/Graphics/Text.hpp>
 
 class Window : public sf::Drawable, public IJSONDeserializable, public IUpdatable {
  public:
@@ -23,7 +24,9 @@ class Window : public sf::Drawable, public IJSONDeserializable, public IUpdatabl
 
   const std::string &GetWindowName() const { return name_; }
 
-  void SetVisible(bool value) { visible_ = value; }
+  bool IsVisible() const { return is_visible_; }
+  bool IsActive() const { return is_active_; }
+  const sf::RectangleShape &GetRectangleShape() { return shape_; }
 
   bool IsVisible() const { return visible_; }
   sf::Font &GetFont()  { return font_; }
@@ -33,6 +36,7 @@ class Window : public sf::Drawable, public IJSONDeserializable, public IUpdatabl
  protected:
   sf::Color CreateColor(const std::string &color_data);
   virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+  void CenterTextToFit(sf::Text &text, const sf::Shape &shape);
 
  private:
   sf::RectangleShape shape_;
