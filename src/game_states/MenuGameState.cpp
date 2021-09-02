@@ -18,9 +18,9 @@ void MenuGameState::Initialize() {
 
 void MenuGameState::Render() {
   if (!active_) return;
-  render_window_.clear({100, 20, 0});
+  render_window_.clear({39, 35, 75});
   for (auto element : drawable_list_)
-    render_window_.draw(*element);
+	render_window_.draw(*element);
 }
 
 void MenuGameState::Update(const float delta_time) {
@@ -54,7 +54,7 @@ void MenuGameState::RegisterCommands() {
   game_options_.AddCommand(CommandInvoker::kLeftMouseButtonClick,
 						   std::make_unique<LoadGameStateCommand>(game_states_manager_,
 																  std::make_shared<GameOptionsState>(
-																	  game_states_manager_)));
+																	  game_states_manager_, render_window_)));
 
   quit_game_.AddCommand(CommandInvoker::kLeftMouseButtonClick,
 						std::make_unique<QuitGameCommand>(game_states_manager_));
