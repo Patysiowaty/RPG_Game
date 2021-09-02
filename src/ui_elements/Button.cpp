@@ -1,19 +1,17 @@
 #include "Button.hpp"
 #include "../managers/InputManager.hpp"
-Button::Button() {
-  auto &shape = Window::GetRectangleShape();
-  shape.setTexture(&base_texture_);
+
+Button::Button(Window *parent) : parent_{parent}, text_{text_string_, font_} {
 }
 
-void Button::CenterTextToFit() {
-  const auto &global_rect_bounds = Window::GetRectangleShape().getGlobalBounds();
-  const auto &local_text_bounds = Window::GetText().getLocalBounds();
-  const auto centered_text = sf::Vector2f((global_rect_bounds.width - local_text_bounds.width) / 2,
-										  (global_rect_bounds.height - local_text_bounds.height) / 2);
-  const auto
-	  text_position = sf::Vector2f(static_cast<int>(centered_text.x + global_rect_bounds.left - local_text_bounds.left),
-								   static_cast<int>(centered_text.y + global_rect_bounds.top - local_text_bounds.top));
-  Window::GetText().setPosition(text_position);
+Button::Button(std::string text, Window *parent) : parent_{parent}, text_string_{std::move(text)},
+												   text_{text_string_, font_} {
+  Window::CenterTextToFit(text_, Window::GetRectangleShape());
+}
+
+Button::Button(Button &&button) noexcept
+	: parent_(button.parent_), commands_list_(std::move(button.commands_list_)), text_{text_string_, font_} {
+
 }
 
 void Button::AddCommand(CommandInvoker command_invoker, std::unique_ptr<ICommand> command) {
@@ -23,31 +21,40 @@ void Button::AddCommand(CommandInvoker command_invoker, std::unique_ptr<ICommand
 void Button::OnLeftMouseButtonClick() {
   if (commands_list_.find(CommandInvoker::kLeftMouseButtonClick) != commands_list_.end())
 	commands_list_.at(CommandInvoker::kLeftMouseButtonClick)->Execute();
+  if (parent_)
+	parent_->OnChildrenWindowEvent(this, WindowEvent::kLeftMouseClick);
 }
 
 void Button::OnRightMouseButtonClick() {
   if (commands_list_.find(CommandInvoker::kRightMouseButtonClick) != commands_list_.end())
 	commands_list_.at(CommandInvoker::kRightMouseButtonClick)->Execute();
+  if (parent_)
+	parent_->OnChildrenWindowEvent(this, WindowEvent::kRightMouseClick);
 }
 
 void Button::OnMouseEnter() {
   if (is_focused_) return;
 
+  Activate();
   is_focused_ = true;
-  const auto hover_rect = sf::IntRect{sprite_rect.left + hover_offset_.x, sprite_rect.top + hover_offset_.y,
-									  sprite_rect.width, sprite_rect.height};
-  Window::GetRectangleShape().setTextureRect(hover_rect);
+
+  if (parent_)
+	parent_->OnChildrenWindowEvent(this, WindowEvent::kActivateWindow);
 }
 
 void Button::OnMouseLeave() {
   if (!is_focused_) return;
 
+  RestoreDefault();
   is_focused_ = false;
-  Window::GetRectangleShape().setTextureRect(sprite_rect);
+
+  if (parent_)
+	parent_->OnChildrenWindowEvent(this, WindowEvent::kRestoreDefault);
 }
 
 void Button::Update(float delta_time) {
   Window::Update(delta_time);
+  if (!Window::IsActive()) return;
 
   const auto &position = Window::GetRectangleShape();
 
@@ -64,46 +71,92 @@ void Button::Update(float delta_time) {
 
 void Button::Deserialize(const boost::property_tree::ptree &ptree) {
   Window::Deserialize(ptree);
+  const auto &button_ptree = ptree.get_child("button");
 
-  base_texture_.loadFromFile(ptree.get<std::string>("texturePath"));
+  font_.loadFromFile(button_ptree.get<std::string>("fontPath"));
+  text_.setCharacterSize(button_ptree.get<std::uint32_t>("fontSize"));
+  text_.setFillColor(CreateColor(button_ptree.get<std::string>("fontColor")));
+  text_.setString(button_ptree.get<std::string>("text"));
 
-  sprite_rect.left = ptree.get<int>("spriteSize.left");
-  sprite_rect.top = ptree.get<int>("spriteSize.top");
-  sprite_rect.width = ptree.get<int>("size.width");
-  sprite_rect.height = ptree.get<int>("size.height");
+  hover_texture_.loadFromFile(button_ptree.get<std::string>("hoverPath"));
 
-  hover_offset_.x = ptree.get<int>("hoverOffset.x");
-  hover_offset_.y = ptree.get<int>("hoverOffset.y");
+  hover_rect_.left = button_ptree.get<int>("hoverRect.left");
+  hover_rect_.top = button_ptree.get<int>("hoverRect.top");
+  hover_rect_.width = button_ptree.get<int>("hoverRect.width");
+  hover_rect_.height = button_ptree.get<int>("hoverRect.height");
 
-  auto &shape = Window::GetRectangleShape();
-  shape.setTextureRect(sprite_rect);
-  base_texture_.setSmooth(true);
-
-  auto &text = Window::GetText();
-  text.setString(ptree.get<std::string>("text"));
-  CenterTextToFit();
+  Window::CenterTextToFit(text_, Window::GetRectangleShape());
 }
 
 void Button::draw(sf::RenderTarget &target, sf::RenderStates states) const {
   Window::draw(target, states);
+  target.draw(text_);
+}
+
+void Button::SetPosition(const sf::Vector2f &position) {
+  Window::SetPosition(position);
+  Window::CenterTextToFit(text_, Window::GetRectangleShape());
 }
 
 void Button::SetPosition(const sf::Vector2f &position, bool use_relative) {
-  auto &shape = Window::GetRectangleShape();
   if (use_relative) {
-	const auto pos_x = (position.x - shape.getSize().x) / relative_position_.x;
-	const auto pos_y = (position.y - shape.getSize().y) / relative_position_.y;
-	shape.setPosition(pos_x, pos_y);
-  } else {
-	shape.setPosition(position);
-  }
-  CenterTextToFit();
+	const auto pos_x = (position.x - Window::GetRectangleShape().getSize().x) / relative_position_.x;
+	const auto pos_y = (position.y - Window::GetRectangleShape().getSize().y) / relative_position_.y;
+	Button::SetPosition(sf::Vector2f{pos_x, pos_y});
+  } else
+	Button::SetPosition(position);
 }
 
 void Button::Move(const sf::Vector2f &offset) {
   Window::Move(offset);
-  CenterTextToFit();
+  text_.move(offset);
+
+  Window::CenterTextToFit(text_, Window::GetRectangleShape());
 }
+
+void Button::Activate() {
+  Window::Activate();
+  if (hover_rect_ == sf::IntRect{}) return;
+
+  Window::SetWindowTexture(&hover_texture_, hover_rect_);
+}
+
+void Button::Deactivate() {
+  Window::Deactivate();
+  text_.setFillColor({255, 255, 255, 64});
+}
+
+void Button::RestoreDefault() {
+  Window::RestoreDefault();
+  text_.setFillColor(sf::Color::White);
+}
+
+void Button::SetTextString(const std::string &text_string, const sf::Color &color, std::uint32_t text_size) {
+  text_string_ = text_string;
+  text_.setString(text_string_);
+  text_.setFillColor(color);
+  text_.setCharacterSize(text_size);
+  Window::CenterTextToFit(text_, Window::GetRectangleShape());
+}
+
+void Button::LoadButtonHover(const std::string &path, const sf::IntRect &hover_rect) {
+  hover_rect_ = hover_rect;
+  hover_texture_.loadFromFile(path, hover_rect);
+}
+
+void Button::LoadFont(const std::string &path) {
+  font_.loadFromFile(path);
+}
+
+void Button::SetTextOutline(const sf::Color &color, float thickness) {
+  text_.setOutlineColor(color);
+  text_.setOutlineThickness(thickness);
+  Window::CenterTextToFit(text_, Window::GetRectangleShape());
+}
+
+
+
+
 
 
 
