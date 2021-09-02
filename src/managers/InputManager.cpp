@@ -60,10 +60,6 @@ void InputManager::RegisterNextInput(const sf::Event &event) {
 	  if (auto &key_state = keys_states_list_.at(event.key.code); key_state == InputState::kPressed)
 		key_state = InputState::kReleased;
 	  break;
-/*	case sf::Event::MouseWheelMoved:
-	  break;
-	case sf::Event::MouseWheelScrolled:
-	  break;*/
 	case sf::Event::MouseButtonPressed:
 	  mouse_states_list_.at(event.mouseButton.button) = InputState::kPressed;
 	  last_mouse_position_ = mouse_position_;
