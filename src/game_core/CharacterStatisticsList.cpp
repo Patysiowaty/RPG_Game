@@ -1,19 +1,11 @@
 #include "CharacterStatisticsList.hpp"
 #include <iostream>
-CharacterStatisticsList::CharacterStatisticsList() {
-  statistic_list_.emplace_back(std::make_unique<CharacterStatistic>(StatisticType::kAttack, 3, 1));
-  statistic_list_.emplace_back(std::make_unique<CharacterStatistic>(StatisticType::kMagicAttack));
-  statistic_list_.emplace_back(std::make_unique<CharacterStatistic>(StatisticType::kArmor));
-  statistic_list_.emplace_back(std::make_unique<CharacterStatistic>(StatisticType::kMagicResistance));
-  statistic_list_.emplace_back(std::make_unique<CharacterStatistic>(StatisticType::kCriticalStrikeRatio));
-  statistic_list_.emplace_back(std::make_unique<CharacterStatistic>(StatisticType::kCriticalStrikeForce, 1));
-  statistic_list_.emplace_back(std::make_unique<CharacterStatistic>(StatisticType::kEvadeRatio));
-  statistic_list_.emplace_back(std::make_unique<CharacterStatistic>(StatisticType::kHealth, 100, 100));
-  statistic_list_.emplace_back(std::make_unique<CharacterStatistic>(StatisticType::kStamina, 100, 100));
-  statistic_list_.emplace_back(std::make_unique<CharacterStatistic>(StatisticType::kMana, 100, 100));
-}
+CharacterStatisticsList::CharacterStatisticsList() = default;
 
 const StatisticPtr &CharacterStatisticsList::GetStatistic(StatisticType statistic_type) const {
+  if (statistic_list_.empty())
+	throw std::invalid_argument{"CharacterStatisticsList::GetStatistic -> empty statistic list."};
+
   auto it = std::find_if(statistic_list_.begin(), statistic_list_.end(),
 						 [=](const std::unique_ptr<CharacterStatistic> &statistic) {
 						   return statistic->GetType() == statistic_type;
@@ -25,8 +17,14 @@ const StatisticPtr &CharacterStatisticsList::GetStatistic(StatisticType statisti
   return *it;
 }
 
-void CharacterStatisticsList::AddNewStatistic(StatisticType statistic_type, std::int32_t max_value, std::int32_t value) {
-  if (GetStatistic(statistic_type))
+void CharacterStatisticsList::AddStatistic(StatisticType statistic_type, std::int32_t max_value, std::int32_t value) {
+
+  auto it = std::find_if(statistic_list_.begin(), statistic_list_.end(),
+						 [=](const std::unique_ptr<CharacterStatistic> &statistic) {
+						   return statistic->GetType() == statistic_type;
+						 });
+
+  if (it != statistic_list_.end())
 	throw std::invalid_argument{"CharacterStatisticsList::AddRangeStatistic -> statistic already exist"};
 
   statistic_list_.emplace_back(std::make_unique<CharacterStatistic>(statistic_type, max_value, value));
