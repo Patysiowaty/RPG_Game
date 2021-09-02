@@ -88,7 +88,8 @@ void InputManager::Clear() {
   }
 
   for (auto&[first, second]: mouse_states_list_) {
-	second = InputState::kNone;
+	if (second == InputState::kReleased)
+	  second = InputState::kNone;
   }
 
   provided_char_.reset(nullptr);
