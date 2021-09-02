@@ -27,6 +27,7 @@ class InputManager {
   static bool IsMouseOver(const sf::IntRect &area);
   static bool IsMouseOver(const sf::FloatRect &area);
   static const std::unique_ptr<char> &GetNextCharacter();
+  static sf::Vector2f GetMousePosition();
 
  private:
   void Clear();

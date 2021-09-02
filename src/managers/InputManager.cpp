@@ -119,4 +119,11 @@ bool InputManager::IsMousePoint(const sf::Vector2f &position) {
   return mouse_position_.x == static_cast<int>(position.x) && mouse_position_.y == static_cast<int>(position.y);
 }
 
+sf::Vector2f InputManager::GetMousePosition() {
+  sf::Vector2f position;
+  position.x = mouse_position_.x;
+  position.y = mouse_position_.y;
+  return position;
+}
+
 
