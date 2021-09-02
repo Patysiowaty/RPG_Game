@@ -22,16 +22,15 @@ class Window : public sf::Drawable, public IJSONDeserializable, public IUpdatabl
   virtual void RestoreDefault();
   virtual void SetSize(const sf::Vector2f &new_size);
 
-  const std::string &GetWindowName() const { return name_; }
+  void SetVisible(bool value) { is_visible_ = value; }
+  void SetWindowTexture(sf::Texture *texture, const sf::IntRect &texture_pos = sf::IntRect{});
+  void LoadWindowTexture(const std::string &file_path, const sf::IntRect &texture_pos = sf::IntRect{});
 
   bool IsVisible() const { return is_visible_; }
   bool IsActive() const { return is_active_; }
   const sf::RectangleShape &GetRectangleShape() { return shape_; }
 
-  bool IsVisible() const { return visible_; }
-  sf::Font &GetFont()  { return font_; }
-  sf::Text &GetText() { return text_; }
-  sf::RectangleShape & GetRectangleShape()  { return shape_; }
+  virtual void OnChildrenWindowEvent(Window *sender, WindowEvent event_type) {}
 
  protected:
   sf::Color CreateColor(const std::string &color_data);
