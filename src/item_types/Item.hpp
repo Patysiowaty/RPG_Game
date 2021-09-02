@@ -27,6 +27,7 @@ class Item {
   ItemLocation GetItemLocation() const { return location_; }
   ItemRarity GetItemRarity() const { return rarity_; }
   const std::string &GetItemName() const { return name_; }
+  const std::string &GetIconPath() const { return icon_; }
   std::uint16_t GetLevelRequirement() const { return level_requirement_; }
   const std::vector<CharacterClass> &GetClassRequirement() const { return character_class_requirement_; }
   const std::vector<Attribute> &GetAttributes() const { return attributes_; }
