@@ -34,6 +34,8 @@ class Player
 
   void Update(float delta_time);
 
+  const PlayerInventory &GetPlayerInventory() const { return player_inventory_; }
+
   boost::property_tree::ptree Serialize() const override;
   void Deserialize(const boost::property_tree::ptree &ptree) override;
 

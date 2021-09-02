@@ -2,7 +2,6 @@
 #include "../game_core/ItemBuilder.hpp"
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/random_generator.hpp>
-#include <SFML/System/Clock.hpp>
 
 Player::Player()
 	: uuid_{boost::uuids::random_generator()()},
@@ -12,6 +11,17 @@ Player::Player()
   player_level_.RegisterHandler(&player_attributes_);
   player_level_.RegisterHandler(&player_statistics_);
   player_attributes_.RegisterHandler(&player_statistics_);
+
+  player_statistics_.AddStatistic(StatisticType::kHealth, 100, 100);
+  player_statistics_.AddStatistic(StatisticType::kStamina, 100, 100);
+  player_statistics_.AddStatistic(StatisticType::kMana, 100, 100);
+  player_statistics_.AddStatistic(StatisticType::kAttack, 3, 1);
+  player_statistics_.AddStatistic(StatisticType::kMagicAttack, 3, 1);
+  player_statistics_.AddStatistic(StatisticType::kArmor);
+  player_statistics_.AddStatistic(StatisticType::kMagicResistance);
+  player_statistics_.AddStatistic(StatisticType::kCriticalStrikeRatio);
+  player_statistics_.AddStatistic(StatisticType::kCriticalStrikeForce, 1);
+  player_statistics_.AddStatistic(StatisticType::kEvadeRatio);
 }
 
 void Player::SetName(const std::string &value) {
