@@ -14,6 +14,7 @@ void MenuGameState::Initialize() {
   ReadConfigs();
   RegisterCommands();
   BindElements();
+  load_game_.Deactivate();
 }
 
 void MenuGameState::Render() {
