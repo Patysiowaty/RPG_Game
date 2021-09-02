@@ -31,10 +31,10 @@ class Window : public sf::Drawable, public IJSONDeserializable, public IUpdatabl
 
  private:
   sf::RectangleShape shape_;
-  sf::Font font_;
-  sf::Text text_;
-  std::string name_;
-  bool visible_{true};
+  sf::Texture texture_;
+  sf::IntRect texture_rect_;
+  bool is_visible_{true};
+  bool is_active_{true};
 };
 
 #endif //WINDOW_HPP
