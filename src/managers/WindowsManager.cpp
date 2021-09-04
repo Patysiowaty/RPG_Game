@@ -1,21 +1,25 @@
 #include "WindowsManager.hpp"
 #include "InputManager.hpp"
-WindowsManager::WindowsManager(PlayerController &player_controller)  {
-
+#include "../commands/CloseWindowCommand.hpp"
+#include "../commands/OpenWindowCommand.hpp"
+WindowsManager::WindowsManager() {
+  windows_key_bind_.emplace(sf::Keyboard::I, WindowTypes::kInventory);
 }
 
 void WindowsManager::Update(float delta_time) {
-  for (const auto[first, second] : windows_key_bind_) {
-	if (InputManager::IsKeyReleased(first)) break;
-
+  for (const auto&[first, second] : windows_key_bind_) {
+	if (InputManager::IsKeyReleased(first)) {
+	  auto &wnd = windows_list_.at(second);
+	  if (wnd->IsOpen())
+		std::make_unique<CloseWindowCommand>(*wnd)->Execute();
+	  else {
+		std::make_unique<OpenWindowCommand>(*wnd)->Execute();
+	  }
+	}
   }
 }
 
-void WindowsManager::OpenWindow(WindowTypes window_type) {
-
-}
-
-void WindowsManager::CloseWindow(WindowTypes window_type) {
-
+void WindowsManager::RegisterWindow(WindowTypes window_type, IGameWindow *game_window) {
+  windows_list_.emplace(window_type, game_window);
 }
 

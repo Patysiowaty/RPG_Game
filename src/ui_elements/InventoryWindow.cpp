@@ -9,8 +9,7 @@ InventoryWindow::InventoryWindow(Player &player, const std::string &wnd_name) : 
 																				previous_tab_btn_{this} {
   inventory_sprite_.loadFromFile("../resources/graphics/inventory.png", kInventoryWndSpritePosition);
   font_.loadFromFile("../resources/fonts/romulus.ttf");
-
-  Window::SetWindowTexture(&inventory_sprite_, kInventoryWndSpritePosition);
+  Window::LoadWindowTexture("../resources/graphics/inventory.png", kInventoryWndSpritePosition);
   CreateSlots();
   PlaceSlots();
   PlaceItems();
@@ -24,15 +23,9 @@ void InventoryWindow::Deserialize(const boost::property_tree::ptree &ptree) {
 }
 
 void InventoryWindow::Update(float delta_time) {
+  if (!IsActive()) return;
   Window::Update(delta_time);
   close_btn_.Update(delta_time);
-
-  if (InputManager::IsKeyReleased(sf::Keyboard::I)) {
-	if (IsVisible())
-	  std::make_unique<CloseWindowCommand>(*this)->Execute();
-	else
-	  OpenWindow();
-  }
 }
 
 void InventoryWindow::Move(const sf::Vector2f &offset) {
@@ -54,7 +47,6 @@ void InventoryWindow::draw(sf::RenderTarget &target, sf::RenderStates states) co
 	target.draw(second);
   target.draw(window_name_text_);
   target.draw(close_btn_);
-//  target.draw(draggable_trigger_);
   target.draw(next_tab_btn_);
   target.draw(previous_tab_btn_);
   for (auto &tab: inventory_tabs_) {
@@ -64,10 +56,12 @@ void InventoryWindow::draw(sf::RenderTarget &target, sf::RenderStates states) co
 
 void InventoryWindow::OpenWindow() {
   Window::SetVisible(true);
+  Window::Activate();
 }
 
 void InventoryWindow::CloseWindow() {
   Window::SetVisible(false);
+  Window::Deactivate();
 }
 
 void InventoryWindow::CreateSlots() {
@@ -115,8 +109,6 @@ void InventoryWindow::InitializeWndComponents() {
 
   window_name_text_.setCharacterSize(20);
   window_name_text_.setFillColor(sf::Color::White);
-  //window_name_text_.setOutlineColor({0, 0, 0, 100});
-  //window_name_text_.setOutlineThickness(1.f);
   Window::CenterTextToFit(window_name_text_, draggable_trigger_);
 
   inventory_tabs_.reserve(PlayerInventory::GetMaxTabs());
