@@ -23,6 +23,7 @@ class InventoryWindow : public Window, public IGameWindow {
   void PlaceItem(const std::shared_ptr<Item> &item, const SlotIndex &slot_index);
   void RemoveItem(const SlotIndex &slot_index);
   void OnChildrenWindowEvent(Window *sender, WindowEvent event_type) override;
+  bool IsOpen() const override { return Window::IsVisible(); }
 
  private:
   void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
