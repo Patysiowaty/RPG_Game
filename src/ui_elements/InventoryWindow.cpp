@@ -7,7 +7,6 @@ InventoryWindow::InventoryWindow(Player &player, const std::string &wnd_name) : 
 																				close_btn_{this},
 																				next_tab_btn_{this},
 																				previous_tab_btn_{this} {
-  inventory_sprite_.loadFromFile("../resources/graphics/inventory.png", kInventoryWndSpritePosition);
   font_.loadFromFile("../resources/fonts/romulus.ttf");
   Window::LoadWindowTexture("../resources/graphics/inventory.png", kInventoryWndSpritePosition);
   CreateSlots();
