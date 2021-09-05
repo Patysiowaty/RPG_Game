@@ -10,7 +10,7 @@ enum class WindowTypes {
   kNone, kPlayerStatistics, kInventory, kEquipment, kJournal
 };
 
-class WindowsManager : public IUpdatable, public ICameraHandler {
+class WindowsManager : public IUpdatable {
  public:
   WindowsManager(const PlayerCamera &player_camera);
   void Update(float delta_time) override;

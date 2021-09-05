@@ -58,8 +58,6 @@ void PlayGameState::RegisterHandlers() {
   drawable_container_.AddDrawable(1, &player_view_);
   drawable_container_.AddDrawable(10, &inventory_window_);
 
-  game_camera_.RegisterHandler(&windows_manager_);
-
   windows_manager_.RegisterWindow(WindowTypes::kInventory, &inventory_window_);
 }
 
