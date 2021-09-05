@@ -11,12 +11,14 @@ void ItemSlot::TakeOutItem() { item_view_.release(); }
 
 void ItemSlot::Move(const sf::Vector2f &offset) {
   Window::Move(offset);
-  item_view_->Move(offset);
+  if (item_view_)
+	item_view_->Move(offset);
 }
 
 void ItemSlot::SetPosition(const sf::Vector2f &new_position) {
   Window::SetPosition(new_position);
-//  item_view_->SetPosition(new_position);
+  if (item_view_)
+	item_view_->SetPosition(new_position);
 }
 
 bool ItemSlot::IsEmpty() const { return item_view_ == nullptr; }

@@ -28,7 +28,7 @@ class Window : public sf::Drawable, public IJSONDeserializable, public IUpdatabl
 
   bool IsVisible() const { return is_visible_; }
   bool IsActive() const { return is_active_; }
-  const sf::RectangleShape &GetRectangleShape() { return shape_; }
+  const sf::RectangleShape &GetRectangleShape() const { return shape_; }
 
   virtual void OnChildrenWindowEvent(Window *sender, WindowEvent event_type) {}
 
