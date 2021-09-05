@@ -1,19 +1,17 @@
 #include "PlayerInventory.hpp"
 
-PlayerInventory::PlayerInventory(std::uint16_t available_tabs) : inventory_available_tabs_{available_tabs} {
-  inventory_space_ = inventory_available_tabs_ * kInventoryTabCapacity;
-  remaining_slots_ = inventory_space_;
-  inventory_.resize(inventory_space_);
+PlayerInventory::PlayerInventory(std::uint16_t available_tabs) : available_tabs_{available_tabs} {
+  available_space_ = available_tabs_ * kTabCapacity;
+  remaining_slots_ = available_space_;
+  inventory_.resize(available_space_);
 }
 
-PlayerInventory::~PlayerInventory() = default;
-
 bool PlayerInventory::ExpandInventory() {
-  if (inventory_available_tabs_ >= 4) return false;
-  inventory_available_tabs_ += 1;
-  inventory_space_ += kInventoryTabCapacity;
-  remaining_slots_ += kInventoryTabCapacity;
-  inventory_.resize(inventory_space_);
+  if (available_tabs_ >= kMaxTabs) return false;
+  available_tabs_ += 1;
+  available_space_ += kTabCapacity;
+  remaining_slots_ += kTabCapacity;
+  inventory_.resize(available_space_);
   return true;
 }
 
@@ -93,7 +91,7 @@ bool PlayerInventory::IsFreeSlot(std::uint16_t position) const {
 }
 
 bool PlayerInventory::IsAvailableTab(std::uint16_t position) const {
-  return position < inventory_space_;
+  return position < available_space_;
 }
 
 bool PlayerInventory::IsInInventory(const std::shared_ptr<Item> &item) const {
@@ -105,7 +103,7 @@ void PlayerInventory::SetInventoryAvailableTabs(std::uint16_t value) {
 }
 
 std::uint16_t PlayerInventory::GetInventoryAvailableTabs() const {
-  return inventory_available_tabs_;
+  return available_tabs_;
 }
 
 std::shared_ptr<Item> PlayerInventory::GetItem(std::uint32_t item_id) const {
@@ -117,6 +115,14 @@ std::shared_ptr<Item> PlayerInventory::GetItem(std::uint32_t item_id) const {
 	throw std::invalid_argument{"PlayerInventory::GetItem -> no matching item with id: " + std::to_string(item_id)};
 
   return *it;
+}
+
+std::uint16_t PlayerInventory::GetTabCapacity() {
+  return kTabCapacity;
+}
+
+std::uint16_t PlayerInventory::GetMaxTabs() {
+  return kMaxTabs;
 }
 
 

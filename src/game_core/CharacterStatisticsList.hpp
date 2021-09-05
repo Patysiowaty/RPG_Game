@@ -16,7 +16,7 @@ class CharacterStatisticsList : public IAttributesHandler, public ILevelHandler,
   CharacterStatisticsList();
 
   const StatisticPtr &GetStatistic(StatisticType statistic_type) const;
-  void AddNewStatistic(StatisticType statistic_type, std::int32_t max_value = 0, std::int32_t value = 0);
+  void AddStatistic(StatisticType statistic_type, std::int32_t max_value = 0, std::int32_t value = 0);
 
   void OnAttributesUpdate(const std::vector<std::unique_ptr<Attribute>> &attributes) override;
   void OnAttributeUpdate(const std::unique_ptr<Attribute> &attribute) override;

@@ -1,3 +1,5 @@
 /cmake-build-debug/
 /.idea/
 /cmake-build-debug-clang/
+/resources/graphics/map.png
+/resources/graphics/player.gif

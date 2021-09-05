@@ -1,10 +1,11 @@
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
 #include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "../interfaces/IjsonSerializable.hpp"
 #include "../interfaces/IUpdatable.hpp"
+#include "../enums/WindowEvent.hpp"
+#include <SFML/Graphics/Text.hpp>
 
 class Window : public sf::Drawable, public IJSONDeserializable, public IUpdatable {
  public:
@@ -15,26 +16,33 @@ class Window : public sf::Drawable, public IJSONDeserializable, public IUpdatabl
 
   virtual void Update(float delta_time);
   virtual void Move(const sf::Vector2f &offset);
+  virtual void SetPosition(const sf::Vector2f &new_position);
+  virtual void Activate();
+  virtual void Deactivate();
+  virtual void RestoreDefault();
+  virtual void SetSize(const sf::Vector2f &new_size);
 
-  const std::string &GetWindowName() const { return name_; }
+  void SetVisible(bool value) { is_visible_ = value; }
+  void SetWindowTexture(sf::Texture *texture, const sf::IntRect &texture_pos = sf::IntRect{});
+  void LoadWindowTexture(const std::string &file_path, const sf::IntRect &texture_pos = sf::IntRect{});
 
-  void SetVisible(bool value) { visible_ = value; }
+  bool IsVisible() const { return is_visible_; }
+  bool IsActive() const { return is_active_; }
+  const sf::RectangleShape &GetRectangleShape() const { return shape_; }
 
-  bool IsVisible() const { return visible_; }
-  sf::Font &GetFont()  { return font_; }
-  sf::Text &GetText() { return text_; }
-  sf::RectangleShape & GetRectangleShape()  { return shape_; }
+  virtual void OnChildrenWindowEvent(Window *sender, WindowEvent event_type) {}
 
  protected:
   sf::Color CreateColor(const std::string &color_data);
   virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+  void CenterTextToFit(sf::Text &text, const sf::Shape &shape);
 
  private:
   sf::RectangleShape shape_;
-  sf::Font font_;
-  sf::Text text_;
-  std::string name_;
-  bool visible_{true};
+  sf::Texture texture_;
+  sf::IntRect texture_rect_;
+  bool is_visible_{true};
+  bool is_active_{true};
 };
 
 #endif //WINDOW_HPP

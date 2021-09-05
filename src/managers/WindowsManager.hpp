@@ -1,23 +1,24 @@
 #ifndef WINDOWSMANAGER_HPP
 #define WINDOWSMANAGER_HPP
 #include <SFML/Window/Keyboard.hpp>
-#include "../ui_elements/Window.hpp"
-#include "../controllers/PlayerController.hpp"
+#include <map>
 #include "../interfaces/IUpdatable.hpp"
+#include "../interfaces/IGameWindow.hpp"
+#include "../game_core/PlayerCamera.hpp"
 
 enum class WindowTypes {
-  kNone, kStatistics, kInventory, kEquipment, kJournal
+  kNone, kPlayerStatistics, kInventory, kEquipment, kJournal
 };
 
 class WindowsManager : public IUpdatable {
  public:
-  explicit WindowsManager(PlayerController &player_controller);
+  WindowsManager(const PlayerCamera &player_camera);
   void Update(float delta_time) override;
-  void OpenWindow(WindowTypes window_type);
-  void CloseWindow(WindowTypes window_type);
+  void RegisterWindow(WindowTypes window_type, IGameWindow *game_window);
 
  private:
-  std::map<WindowTypes, Window> windows_list_;
+  const PlayerCamera &player_camera_;
+  std::map<WindowTypes, IGameWindow *> windows_list_;
   std::map<sf::Keyboard::Key, WindowTypes> windows_key_bind_;
 };
 

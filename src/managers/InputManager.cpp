@@ -60,10 +60,6 @@ void InputManager::RegisterNextInput(const sf::Event &event) {
 	  if (auto &key_state = keys_states_list_.at(event.key.code); key_state == InputState::kPressed)
 		key_state = InputState::kReleased;
 	  break;
-/*	case sf::Event::MouseWheelMoved:
-	  break;
-	case sf::Event::MouseWheelScrolled:
-	  break;*/
 	case sf::Event::MouseButtonPressed:
 	  mouse_states_list_.at(event.mouseButton.button) = InputState::kPressed;
 	  last_mouse_position_ = mouse_position_;
@@ -92,7 +88,8 @@ void InputManager::Clear() {
   }
 
   for (auto&[first, second]: mouse_states_list_) {
-	second = InputState::kNone;
+	if (second == InputState::kReleased)
+	  second = InputState::kNone;
   }
 
   provided_char_.reset(nullptr);
@@ -120,6 +117,13 @@ bool InputManager::IsMouseButtonClickedOn(sf::Mouse::Button button_code, const s
 
 bool InputManager::IsMousePoint(const sf::Vector2f &position) {
   return mouse_position_.x == static_cast<int>(position.x) && mouse_position_.y == static_cast<int>(position.y);
+}
+
+sf::Vector2f InputManager::GetMousePosition() {
+  sf::Vector2f position;
+  position.x = mouse_position_.x;
+  position.y = mouse_position_.y;
+  return position;
 }
 
 

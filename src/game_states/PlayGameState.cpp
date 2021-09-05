@@ -1,8 +1,11 @@
 #include "PlayGameState.hpp"
 #include "../JsonSerializer.hpp"
 PlayGameState::PlayGameState(GameStatesManager &game_states_manager, sf::RenderWindow &render_window)
-	: game_states_manager_{game_states_manager}, render_window_{render_window},
-	  player_controller_{player_, player_view_}, windows_manager_{player_controller_} {
+	: game_states_manager_{game_states_manager},
+	  render_window_{render_window},
+	  player_controller_{player_, player_view_},
+	  windows_manager_{game_camera_},
+	  inventory_window_{player_, "Inventory"} {
 }
 
 void PlayGameState::Initialize() {
@@ -15,10 +18,9 @@ void PlayGameState::Initialize() {
 
 void PlayGameState::Render() {
   if (!active_) return;
-  render_window_.setView(game_camera_);
   render_window_.clear();
-
   drawable_container_.Draw(render_window_);
+  render_window_.setView(game_camera_);
 }
 
 void PlayGameState::Update(const float delta_time) {
@@ -50,9 +52,13 @@ void PlayGameState::RegisterHandlers() {
   updatable_list_.emplace_back(&player_controller_);
   updatable_list_.emplace_back(&battle_system_);
   updatable_list_.emplace_back(&player_view_);
+  updatable_list_.emplace_back(&inventory_window_);
 
   drawable_container_.AddDrawable(0, &current_player_location_);
   drawable_container_.AddDrawable(1, &player_view_);
+  drawable_container_.AddDrawable(10, &inventory_window_);
+
+  windows_manager_.RegisterWindow(WindowTypes::kInventory, &inventory_window_);
 }
 
 void PlayGameState::SetObjectsPosition() {
@@ -61,8 +67,8 @@ void PlayGameState::SetObjectsPosition() {
 }
 
 void PlayGameState::LoadTextures() {
-  player_view_.CreateSprite("C:/Users/pkolo/Desktop/asceta_m.gif");
-  current_player_location_.LoadMapTexture("C:/Users/pkolo/Desktop/map.png");
+  player_view_.CreateSprite("../resources/graphics/player.gif");
+  current_player_location_.LoadMapTexture("../resources/graphics/map.png");
 }
 
 void PlayGameState::ReadConfigs() {
