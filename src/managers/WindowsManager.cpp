@@ -2,7 +2,7 @@
 #include "InputManager.hpp"
 #include "../commands/CloseWindowCommand.hpp"
 #include "../commands/OpenWindowCommand.hpp"
-WindowsManager::WindowsManager() {
+WindowsManager::WindowsManager(const PlayerCamera &player_camera) : player_camera_{player_camera} {
   windows_key_bind_.emplace(sf::Keyboard::I, WindowTypes::kInventory);
 }
 
