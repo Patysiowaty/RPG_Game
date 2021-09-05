@@ -15,6 +15,8 @@ InventoryWindow::InventoryWindow(Player &player, const std::string &wnd_name) : 
   InitializeWndComponents();
   InitializeButtons();
   close_btn_.AddCommand(CommandInvoker::kLeftMouseButtonClick, std::make_unique<CloseWindowCommand>(*this));
+
+  InventoryWindow::CloseWindow();
 }
 
 void InventoryWindow::Deserialize(const boost::property_tree::ptree &ptree) {
@@ -37,6 +39,8 @@ void InventoryWindow::Move(const sf::Vector2f &offset) {
   }
   for (auto &tab: inventory_tabs_)
 	tab.Move(offset);
+  next_tab_btn_.Move(offset);
+  previous_tab_btn_.Move(offset);
 }
 
 void InventoryWindow::draw(sf::RenderTarget &target, sf::RenderStates states) const {

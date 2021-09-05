@@ -24,6 +24,7 @@ class InventoryWindow : public Window, public IGameWindow {
   void RemoveItem(const SlotIndex &slot_index);
   void OnChildrenWindowEvent(Window *sender, WindowEvent event_type) override;
   bool IsOpen() const override { return Window::IsVisible(); }
+  const sf::Vector2f &GetWindowSize() const override { return Window::GetRectangleShape().getSize(); }
 
  private:
   void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
