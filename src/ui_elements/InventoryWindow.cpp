@@ -11,7 +11,6 @@ InventoryWindow::InventoryWindow(Player &player, const std::string &wnd_name) : 
   Window::LoadWindowTexture("../resources/graphics/inventory.png", kInventoryWndSpritePosition);
   CreateSlots();
   PlaceSlots();
-  PlaceItems();
   InitializeWndComponents();
   InitializeButtons();
   close_btn_.AddCommand(CommandInvoker::kLeftMouseButtonClick, std::make_unique<CloseWindowCommand>(*this));
@@ -46,8 +45,6 @@ void InventoryWindow::Move(const sf::Vector2f &offset) {
 void InventoryWindow::draw(sf::RenderTarget &target, sf::RenderStates states) const {
   if (!IsVisible()) return;
   Window::draw(target, states);
-  for (auto&[first, second]: items_slots_)
-	target.draw(second);
   target.draw(window_name_text_);
   target.draw(close_btn_);
   target.draw(next_tab_btn_);
@@ -55,16 +52,20 @@ void InventoryWindow::draw(sf::RenderTarget &target, sf::RenderStates states) co
   for (auto &tab: inventory_tabs_) {
 	target.draw(tab);
   }
+  for (auto&[first, second]: items_slots_)
+    target.draw(second);
 }
 
 void InventoryWindow::OpenWindow() {
   Window::SetVisible(true);
   Window::Activate();
+  InventoryWindow::PlaceItems();
 }
 
 void InventoryWindow::CloseWindow() {
   Window::SetVisible(false);
   Window::Deactivate();
+  InventoryWindow::RemoveItems();
 }
 
 void InventoryWindow::CreateSlots() {
@@ -94,7 +95,7 @@ void InventoryWindow::PlaceItems() {
   for (int j = 0; j < items.size(); ++j) {
 	const auto index = j % kRowItemCount;
 	if (j != 0 && index == 0) ++i;
-	if (items.at(i)) {
+	if (items.at(j)) {
 	  SlotIndex slot_index{i, index};
 	  PlaceItem(items.at(i), slot_index);
 	}
@@ -102,7 +103,9 @@ void InventoryWindow::PlaceItems() {
 }
 
 void InventoryWindow::RemoveItems() {
-
+  for (auto&[first, second]: items_slots_) {
+	second.TakeOutItem();
+  }
 }
 
 void InventoryWindow::InitializeWndComponents() {
@@ -150,7 +153,7 @@ void InventoryWindow::RemoveItem(const SlotIndex &slot_index) {
 }
 
 void InventoryWindow::PlaceItem(const std::shared_ptr<Item> &item, const SlotIndex &slot_index) {
-  if (items_slots_.at(slot_index).IsEmpty())
+  if (!items_slots_.at(slot_index).IsEmpty())
 	throw std::invalid_argument{
 		"InventoryWindow::PlaceItem -> trying to put item at existing item! [" + std::to_string(slot_index.first) + ", "
 			+ std::to_string(slot_index.second) + "]"};

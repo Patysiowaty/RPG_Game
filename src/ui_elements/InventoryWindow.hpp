@@ -48,7 +48,6 @@ class InventoryWindow : public Window, public IGameWindow {
   sf::Text window_name_text_;
   sf::Font font_;
   std::map<SlotIndex, ItemSlot> items_slots_;
-  //sf::Texture inventory_sprite_;
   sf::RectangleShape draggable_trigger_;
   std::vector<Button> inventory_tabs_;
   Button close_btn_;
