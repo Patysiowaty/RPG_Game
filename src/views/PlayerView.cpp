@@ -65,7 +65,7 @@ void PlayerView::CreateAnimations() {
 								  AnimationDetails{sf::IntRect{0, 384, 768, 128}, 6});
 }
 
-void PlayerView::MoveUp(const sf::Vector2f &offset) {
+void PlayerView::OnMoveUp(const sf::Vector2f &offset) {
   sprite_.move(offset);
   for (auto &[first, second]: items_sprites_)
 	second.move(offset);
@@ -73,7 +73,7 @@ void PlayerView::MoveUp(const sf::Vector2f &offset) {
   animation_manager_.PlayAnimation(AnimationType::kWalkUp);
 }
 
-void PlayerView::MoveDown(const sf::Vector2f &offset) {
+void PlayerView::OnMoveDown(const sf::Vector2f &offset) {
   sprite_.move(offset);
   for (auto &[first, second]: items_sprites_)
 	second.move(offset);
@@ -81,7 +81,7 @@ void PlayerView::MoveDown(const sf::Vector2f &offset) {
   animation_manager_.PlayAnimation(AnimationType::kWalkDown);
 }
 
-void PlayerView::MoveLeft(const sf::Vector2f &offset) {
+void PlayerView::OnMoveLeft(const sf::Vector2f &offset) {
   sprite_.move(offset);
   for (auto &[first, second]: items_sprites_)
 	second.move(offset);
@@ -89,7 +89,7 @@ void PlayerView::MoveLeft(const sf::Vector2f &offset) {
   animation_manager_.PlayAnimation(AnimationType::kWalkLeft);
 }
 
-void PlayerView::MoveRight(const sf::Vector2f &offset) {
+void PlayerView::OnMoveRight(const sf::Vector2f &offset) {
   sprite_.move(offset);
   for (auto &[first, second]: items_sprites_)
 	second.move(offset);

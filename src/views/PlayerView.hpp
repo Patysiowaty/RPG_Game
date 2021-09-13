@@ -18,13 +18,18 @@ class PlayerView : sf::Transformable, public sf::Drawable, public IUpdatable {
 
   void Update(float delta_time) override;
 
-  void MoveUp(const sf::Vector2f &offset);
-  void MoveDown(const sf::Vector2f &offset);
-  void MoveLeft(const sf::Vector2f &offset);
-  void MoveRight(const sf::Vector2f &offset);
+  void OnMoveUp(const sf::Vector2f &offset);
+  void OnMoveDown(const sf::Vector2f &offset);
+  void OnMoveLeft(const sf::Vector2f &offset);
+  void OnMoveRight(const sf::Vector2f &offset);
+  void OnItemEquip(ItemType item_type, std::string icon_path);
+  void OnItemTakeOff(ItemType item_type);
+  void OnAttack();
+  bool HasActiveAnimation() const { return animation_manager_.GetCurrentAnimation() != AnimationType::kNone; }
 
  private:
   void CreateAnimations();
+  void FitEquipment();
   void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
  private:
