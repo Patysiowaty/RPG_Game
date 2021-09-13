@@ -17,7 +17,6 @@ class Animation {
   void Play();
   void Pause();
 
-  bool IsLocked() const { return locked_; }
   bool IsRunning() const { return run_; }
 
  private:
