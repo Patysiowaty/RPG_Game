@@ -24,14 +24,19 @@ class Animation {
   void Apply();
 
  private:
-  constexpr static float kHoldTime{0.2};
 
   sf::Texture &texture_;
   sf::Sprite &sprite_;
 
-  FrameDetails details_;
-  std::vector<sf::IntRect> frame_row_;
+  AnimationDetails details_;
+  std::vector<sf::IntRect> animation_frames_;
 
+  float hold_time_{.0f};
+  float current_time_{.0f};
+  bool run_{false};
+  bool stop_{false};
+
+  std::int16_t steps_left_{0};
   std::int16_t current_frame_{0};
   float current_time_{0.f};
   bool run_{true};
