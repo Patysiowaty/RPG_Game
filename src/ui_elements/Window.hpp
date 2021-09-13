@@ -21,6 +21,9 @@ class Window : public sf::Drawable, public IJSONDeserializable, public IUpdatabl
   virtual void Deactivate();
   virtual void RestoreDefault();
   virtual void SetSize(const sf::Vector2f &new_size);
+  virtual void SetFillColor(sf::Color color) { shape_.setFillColor(color); }
+  virtual void SetOutlineColor(sf::Color color) { shape_.setOutlineColor(color); }
+  virtual void SetOutlineThickness(float value) { shape_.setOutlineThickness(value); }
 
   void SetVisible(bool value) { is_visible_ = value; }
   void SetWindowTexture(sf::Texture *texture, const sf::IntRect &texture_pos = sf::IntRect{});
