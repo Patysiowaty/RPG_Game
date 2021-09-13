@@ -32,22 +32,23 @@ class Item {
   const std::vector<CharacterClass> &GetClassRequirement() const { return character_class_requirement_; }
   const std::vector<Attribute> &GetAttributes() const { return attributes_; }
 
-  void SetId(uint32_t id);
-  void SetOwnerId(uint32_t owner_id);
+  void SetId(std::uint32_t id);
+  void SetOwnerId(std::uint32_t owner_id);
   void SetIsEquipped(bool is_equipped);
   void SetItemType(ItemType item_type);
   void SetItemLocation(ItemLocation item_location);
   void SetRarity(ItemRarity item_rarity);
   void SetName(const std::string &name);
+  void SetIcon(const std::string &icon);
   void SetDescription(const std::string &description);
   void SetLevelRequirement(uint16_t level_requirement);
   void SetCharacterClassRequirement(const std::vector<CharacterClass> &character_class_requirement);
   void SetAttributes(const std::vector<Attribute> &attributes);
 
  private:
-  std::uint32_t id_ = 0;
-  std::uint32_t owner_id_ = 0;
-  bool is_equipped_ = false;
+  std::uint32_t id_{0};
+  std::uint32_t owner_id_{0};
+  bool is_equipped_{false};
 
   ItemType type_ = ItemType::kNone;
   ItemLocation location_ = ItemLocation::kNone;
@@ -58,7 +59,7 @@ class Item {
   std::string icon_;
   std::uint32_t price_;
 
-  std::uint16_t level_requirement_ = 0;
+  std::uint16_t level_requirement_{0};
   std::vector<CharacterClass> character_class_requirement_;
 
   std::vector<Attribute> attributes_;

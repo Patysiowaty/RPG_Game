@@ -9,9 +9,9 @@ class Attribute : public IBaseValueContainer<std::int32_t>, public ISingleArithm
  public:
   explicit Attribute(AttributeType attribute_type, std::int32_t value = 0);
 
-  void SetValue(int value) override;
-  void AddValue(int value) override;
-  void SubtractValue(int value) override;
+  void SetValue(std::int32_t value) override;
+  void AddValue(std::int32_t value) override;
+  void SubtractValue(std::int32_t value) override;
 
   std::int32_t GetValue() const override;
   AttributeType GetType() const;

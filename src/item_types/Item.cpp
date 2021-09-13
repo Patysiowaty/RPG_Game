@@ -59,5 +59,9 @@ void Item::SetAttributes(const std::vector<Attribute> &attributes) {
   attributes_ = attributes;
 }
 
+void Item::SetIcon(const std::string &icon) {
+  icon_ = icon;
+}
+
 
 
