@@ -14,6 +14,8 @@ enum class ItemType : uint16_t {
   kPants,
   kBoots,
   kConsumptive,
+
+  kSize = 11,
 };
 
 #endif //ITEMTYPE_HPP
