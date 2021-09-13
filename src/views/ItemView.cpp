@@ -1,19 +1,18 @@
 #include "ItemView.hpp"
-#include <SFML/Graphics/RenderTarget.hpp>
 
-ItemView::ItemView(const std::shared_ptr<Item> &item) {
+ItemView::ItemView(const std::shared_ptr<Item> &item) : item_tip_view_{item} {
   FillData(item);
 }
 
 void ItemView::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-  states.transform *= sprite_.getTransform();
-  target.draw(sprite_, states);
-  if (!tip_visible_) return;
+  Window::draw(target, states);
+  if (tip_visible_)
+	target.draw(item_tip_view_, states);
 }
 
 void ItemView::FillData(const std::shared_ptr<Item> &item) {
-  const auto &icon_path = item->GetIconPath();
-  item_texture_.loadFromFile(icon_path);
+  const auto &icon = item->GetIconPath();
+  Window::LoadWindowTexture("../resources/graphics/items/" + icon);
 }
 
 void ItemView::SetTipVisibility(bool visibility) {
@@ -21,13 +20,11 @@ void ItemView::SetTipVisibility(bool visibility) {
 }
 
 void ItemView::Move(const sf::Vector2f &offset) {
-  transform_.move(offset);
-  sprite_.move(offset);
+  Window::Move(offset);
 }
 
 void ItemView::SetPosition(const sf::Vector2f &new_position) {
-  transform_.setPosition(new_position);
-  sprite_.setPosition(new_position);
+  Window::SetPosition(new_position);
 }
 
 
