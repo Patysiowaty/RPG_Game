@@ -18,6 +18,7 @@ class Animation {
   void Pause();
 
   bool IsRunning() const { return run_; }
+  bool IsStopped() const { return stop_; }
 
  private:
   void NextFrame();
@@ -38,9 +39,6 @@ class Animation {
 
   std::int16_t steps_left_{0};
   std::int16_t current_frame_{0};
-  float current_time_{0.f};
-  bool run_{true};
-  bool locked_{true};
 };
 
 #endif //ANIMATION_HPP
