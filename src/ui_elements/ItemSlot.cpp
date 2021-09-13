@@ -5,9 +5,10 @@ ItemSlot::ItemSlot() {
 
 void ItemSlot::PutItem(std::unique_ptr<ItemView> item_view) {
   item_view_ = std::move(item_view);
+  item_view_->SetPosition(Window::GetRectangleShape().getPosition() + item_position_offset_);
 }
 
-void ItemSlot::TakeOutItem() { item_view_.release(); }
+void ItemSlot::TakeOutItem() { item_view_.reset(); }
 
 void ItemSlot::Move(const sf::Vector2f &offset) {
   Window::Move(offset);
@@ -18,7 +19,7 @@ void ItemSlot::Move(const sf::Vector2f &offset) {
 void ItemSlot::SetPosition(const sf::Vector2f &new_position) {
   Window::SetPosition(new_position);
   if (item_view_)
-	item_view_->SetPosition(new_position);
+	item_view_->SetPosition(new_position + item_position_offset_);
 }
 
 bool ItemSlot::IsEmpty() const { return item_view_ == nullptr; }
@@ -47,7 +48,7 @@ void ItemSlot::draw(sf::RenderTarget &target, sf::RenderStates states) const {
   Window::draw(target, states);
 
   if (item_view_)
-	target.draw(*item_view_);
+	target.draw(*item_view_, states);
 }
 
 

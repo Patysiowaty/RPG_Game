@@ -30,6 +30,7 @@ class ItemSlot : public Window {
 
  private:
   std::unique_ptr<ItemView> item_view_;
+  const sf::Vector2f item_position_offset_{2.f, 2.f};
 };
 
 #endif //ITEMSLOT_HPP
