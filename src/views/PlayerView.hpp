@@ -6,14 +6,13 @@
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "../enums/Direction.hpp"
-#include "../controllers/AnimationsController.hpp"
+#include "../controllers/AnimationManager.hpp"
 #include "../interfaces/IUpdatable.hpp"
+#include "../enums/ItemType.hpp"
 
 class PlayerView : sf::Transformable, public sf::Drawable, public IUpdatable {
  public:
-  PlayerView() = default;
-  explicit PlayerView(const std::string &texture_path);
-
+  PlayerView();
   void CreateSprite(const std::string &texture_path);
   void SetPosition(float x, float y);
 
@@ -30,8 +29,14 @@ class PlayerView : sf::Transformable, public sf::Drawable, public IUpdatable {
 
  private:
   sf::Sprite sprite_;
-  sf::Texture texture_;
-  AnimationsController animation_controller_;
+  sf::Texture player_icon_;
+  sf::Texture sabre_sheet_;
+  sf::Sprite sabre_sprite_;
+  std::map<ItemType, sf::Texture> items_icon_;
+  std::map<ItemType, sf::Sprite> items_sprites_;
+  std::map<ItemType, bool> equipped_items_;
+  AnimationManager animation_manager_;
+  Direction direction_{Direction::kDown};
 };
 
 #endif //PLAYERVIEW_HPP
