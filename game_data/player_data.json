@@ -26,40 +26,8 @@
   },
   "inventorySize": 1,
   "inventory": [
-    {
-      "itemId": 1,
-      "templateId": 1,
-      "position": 1
-    },
-    {
-      "itemId": 2,
-      "templateId": 1,
-      "position": 2
-    },
-    {
-      "itemId": 3,
-      "templateId": 2,
-      "position": 3
-    },
-    {
-      "itemId": 4,
-      "templateId": 3,
-      "position": 4
-    }
   ],
   "equipment": [
-    {
-      "itemId": 0,
-      "templateId": 0
-    },
-    {
-      "itemId": 0,
-      "templateId": 0
-    },
-    {
-      "itemId": 0,
-      "templateId": 0
-    }
   ],
   "location": 0,
   "position": {

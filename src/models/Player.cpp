@@ -1,5 +1,5 @@
 #include "Player.hpp"
-#include "../game_core/ItemBuilder.hpp"
+#include "../game_core/ItemCreator.hpp"
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/random_generator.hpp>
 
@@ -132,7 +132,7 @@ void Player::Deserialize(const boost::property_tree::ptree &ptree) {
 
   player_inventory_.SetInventoryAvailableTabs(ptree.get<std::uint16_t>("inventorySize"));
 
-  ItemBuilder item_builder;
+  ItemCreator item_builder;
   const auto &inventory = ptree.get_child("inventory");
   for (const auto&[first, second]: inventory) {
 	const auto kTemplateId = second.get<std::uint32_t>("templateId");

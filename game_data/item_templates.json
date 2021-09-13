@@ -1,8 +1,9 @@
 {
   "1": {
-    "name": "Leather helmet",
-    "description": "Junk",
-    "type": 1,
+    "name": "Sabre",
+    "icon": "sabre.png",
+    "description": "Ordinary sabre",
+    "type": 5,
     "rarity": 1,
     "levelRequire": 1,
     "classRequire": [
@@ -12,8 +13,9 @@
       "vitality": 1,
       "dexterity": 1
     },
-    "maxHealth": 1,
-    "armor": 1
+    "stats": {
+      "attack": 5
+    }
   },
   "2": {
     "name": "Rusty sword",
