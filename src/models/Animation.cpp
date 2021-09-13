@@ -1,10 +1,10 @@
 #include "Animation.hpp"
-Animation::Animation(sf::Texture &texture, sf::Sprite &sprite, const FrameDetails &details) : texture_{texture},
-																							  sprite_{sprite},
-																							  details_{details} {
+Animation::Animation(sf::Texture &texture, sf::Sprite &sprite, const AnimationDetails &details) : texture_{texture},
+																								  sprite_{sprite},
+																								  details_{details} {
   for (int i = 0; i < details_.number_of_frames; ++i) {
-	frame_row_.emplace_back(i * (details_.size_.width / details_.number_of_frames), details_.size_.top,
-							details_.size_.width / details.number_of_frames, details_.size_.height);
+	animation_frames_.emplace_back(i * (details_.size.width / details_.number_of_frames), details_.size.top,
+								   details_.size.width / details.number_of_frames, details_.size.height);
   }
 }
 
@@ -16,30 +16,35 @@ void Animation::Update(float delta_time) {
   }
 }
 
-void Animation::Activate() {
-  StartAnimation();
+void Animation::Start() {
+  run_ = true;
+  stop_ = false;
+  steps_left_ = details_.animation_step;
+  current_frame_ = 0;
   NextFrame();
 }
 
-void Animation::StopAnimation() {
+void Animation::Stop() {
   run_ = false;
-  current_frame_ = 0;
+  stop_ = true;
+  current_frame_ = details_.looped_first_frame;
+  Apply();
 }
 
-void Animation::StartAnimation() {
+void Animation::Play() {
   run_ = true;
-  current_frame_ = 0;
+  steps_left_ = details_.animation_step;
 }
 
 void Animation::NextFrame() {
-  if (run_)
+  if (run_) {
 	current_frame_++;
 
   if (current_frame_ >= details_.number_of_frames) {
-	StopAnimation();
-	if (locked_)
-	  UnlockAnimation();
+	Stop();
+	return;
   }
+
   Apply();
 }
 
@@ -52,6 +57,6 @@ void Animation::LockAnimation() {
   locked_ = true;
 }
 
-void Animation::UnlockAnimation() {
-  locked_ = false;
+void Animation::Pause() {
+  run_ = false;
 }

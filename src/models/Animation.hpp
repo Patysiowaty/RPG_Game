@@ -4,19 +4,18 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <map>
-#include "../FrameDetails.hpp"
+#include "../AnimationDetails.hpp"
 
 class Animation {
  public:
-  Animation(sf::Texture &texture, sf::Sprite &sprite, const FrameDetails &details);
+  Animation(sf::Texture &texture, sf::Sprite &sprite, const AnimationDetails &details);
 
   void Update(float delta_time);
 
-  void Activate();
-  void StopAnimation();
-  void StartAnimation();
-  void LockAnimation();
-  void UnlockAnimation();
+  void Start();
+  void Stop();
+  void Play();
+  void Pause();
 
   bool IsLocked() const { return locked_; }
   bool IsRunning() const { return run_; }
