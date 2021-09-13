@@ -23,7 +23,7 @@ void PlayerController::MovePlayer(const sf::Vector2f &velocity, Direction direct
 
   player_.move(offset);
 
-  for (const auto handler:handlers_) {
+  for (const auto handler : handlers_) {
 	handler->OnPlayerMove(offset);
   }
 }
@@ -39,6 +39,10 @@ void PlayerController::Update(float delta_time) {
 	MovePlayer({kMoveVelocityList[3].x * delta_time, kMoveVelocityList[3].y * delta_time}, Direction::kRight);
   }
 
+  if (InputManager::IsMouseButtonReleased(sf::Mouse::Left))
+	player_view_.OnAttack();
+
+
 }
 
 void PlayerController::RegisterHandler(IPlayerHandler *value) {
@@ -46,19 +50,19 @@ void PlayerController::RegisterHandler(IPlayerHandler *value) {
 }
 
 void PlayerController::MovePlayerDown(const sf::Vector2f &offset) {
-  player_view_.MoveDown(offset);
+  player_view_.OnMoveDown(offset);
 }
 
 void PlayerController::MovePlayerUp(const sf::Vector2f &offset) {
-  player_view_.MoveUp(offset);
+  player_view_.OnMoveUp(offset);
 }
 
 void PlayerController::MovePlayerLeft(const sf::Vector2f &offset) {
-  player_view_.MoveLeft(offset);
+  player_view_.OnMoveLeft(offset);
 }
 
 void PlayerController::MovePlayerRight(const sf::Vector2f &offset) {
-  player_view_.MoveRight(offset);
+  player_view_.OnMoveRight(offset);
 }
 
 
