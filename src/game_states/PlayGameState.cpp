@@ -1,5 +1,6 @@
 #include "PlayGameState.hpp"
 #include "../JsonSerializer.hpp"
+#include "../game_core/ItemCreator.hpp"
 PlayGameState::PlayGameState(GameStatesManager &game_states_manager, sf::RenderWindow &render_window)
 	: game_states_manager_{game_states_manager},
 	  render_window_{render_window},
@@ -14,6 +15,11 @@ void PlayGameState::Initialize() {
   LoadGameData();
   LoadTextures();
   SetObjectsPosition();
+
+  ItemCreator item_creator;
+  auto item = item_creator.MakeItem(1);
+
+  player_.GetPlayerInventory().PutItem(item);
 }
 
 void PlayGameState::Render() {
@@ -67,7 +73,7 @@ void PlayGameState::SetObjectsPosition() {
 }
 
 void PlayGameState::LoadTextures() {
-  player_view_.CreateSprite("../resources/graphics/player.gif");
+  player_view_.CreateSprite("../resources/graphics/player.png");
   current_player_location_.LoadMapTexture("../resources/graphics/map.png");
 }
 
