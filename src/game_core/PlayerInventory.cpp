@@ -95,7 +95,7 @@ bool PlayerInventory::IsAvailableTab(std::uint16_t position) const {
 }
 
 bool PlayerInventory::IsInInventory(const std::shared_ptr<Item> &item) const {
-  return item->GetItemLocation() == ItemLocation::kCharacterInventory;
+  return std::find(inventory_.begin(), inventory_.end(), item) != inventory_.end();
 }
 
 void PlayerInventory::SetInventoryAvailableTabs(std::uint16_t value) {
