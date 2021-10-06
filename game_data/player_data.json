@@ -1,31 +1,41 @@
 {
   "id": 1,
   "uuid": "",
-  "name": "",
+  "name": "Clarion",
   "gender": 0,
   "race": 0,
   "class": 0,
-  "level": 0,
+  "level": 2,
   "experience": 0,
   "attributes": {
-    "strength": 0,
-    "dexterity": 0,
-    "vitality": 0,
+    "strength": 5,
+    "dexterity": 2,
+    "vitality": 1,
     "intelligence": 0
   },
   "statistics": {
-    "attack": 0,
-    "attackMax": 0,
-    "health": 0,
-    "healthMax": 0,
-    "stamina": 0,
-    "staminaMax": 0,
-    "mana": 0,
-    "manaMax": 0,
-    "armor": 0
+    "attack": 1,
+    "attackMax": 3,
+    "health": 20,
+    "healthMax": 20,
+    "stamina": 10,
+    "staminaMax": 10,
+    "mana": 10,
+    "manaMax": 10,
+    "armor": 1
   },
   "inventorySize": 1,
   "inventory": [
+    {
+      "templateId": 1,
+      "itemId": 1,
+      "position": 0
+    },
+    {
+      "templateId": 2,
+      "itemId": 2,
+      "position": 1
+    }
   ],
   "equipment": [
   ],
