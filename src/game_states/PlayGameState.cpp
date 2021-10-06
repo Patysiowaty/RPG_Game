@@ -2,9 +2,9 @@
 #include "../JsonSerializer.hpp"
 #include "../game_core/ItemCreator.hpp"
 PlayGameState::PlayGameState(GameStatesManager &game_states_manager, sf::RenderWindow &render_window)
-	: game_states_manager_{game_states_manager},
-	  render_window_{render_window},
-	  player_controller_{player_, player_view_}, inventory_window_{player_, "Inventory"} {
+	: game_states_manager_{game_states_manager}, render_window_{render_window},
+	  player_controller_{player_, player_view_}, inventory_window_{player_controller_, "Inventory"},
+	  character_stats_window_{player_controller_, "Statistics"} {
 }
 
 void PlayGameState::Initialize() {
@@ -13,18 +13,18 @@ void PlayGameState::Initialize() {
   LoadGameData();
   LoadTextures();
   SetObjectsPosition();
+  character_stats_window_.OnInit();
+  inventory_window_.OnInit();
 
-  ItemCreator item_creator;
-  auto item = item_creator.MakeItem(1);
-
-  player_.GetPlayerInventory().PutItem(item);
+  character_stats_window_.SetPosition({500, 100});
+  inventory_window_.Move({100, 100});
 }
 
 void PlayGameState::Render() {
   if (!active_) return;
+  render_window_.setView(game_camera_);
   render_window_.clear();
   drawable_container_.Draw(render_window_);
-  render_window_.setView(game_camera_);
 }
 
 void PlayGameState::Update(const float delta_time) {
@@ -57,12 +57,15 @@ void PlayGameState::RegisterHandlers() {
   updatable_list_.emplace_back(&battle_system_);
   updatable_list_.emplace_back(&player_view_);
   updatable_list_.emplace_back(&inventory_window_);
+  updatable_list_.emplace_back(&character_stats_window_);
 
   drawable_container_.AddDrawable(0, &current_player_location_);
   drawable_container_.AddDrawable(1, &player_view_);
   drawable_container_.AddDrawable(10, &inventory_window_);
+  drawable_container_.AddDrawable(10, &character_stats_window_);
 
   windows_manager_.RegisterWindow(WindowTypes::kInventory, &inventory_window_);
+  windows_manager_.RegisterWindow(WindowTypes::kPlayerStatistics, &character_stats_window_);
 }
 
 void PlayGameState::SetObjectsPosition() {
@@ -86,6 +89,5 @@ void PlayGameState::ReadConfigs() {
 void PlayGameState::LoadGameData() {
   JSONSerializer json_serializer;
   json_serializer.Deserialize(player_, "../game_data/player_data.json");
-
 }
 

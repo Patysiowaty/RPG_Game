@@ -17,8 +17,8 @@ class PlayerEquipment : public IItemList, public IPublisher<IItemHandler> {
   bool PutItem(std::shared_ptr<Item> item) override;
   bool RemoveItem(std::shared_ptr<Item> item) override;
   bool IsEmptySlot(ItemType item_type) const;
-  void RegisterHandler(IItemHandler *value) override;
   const std::shared_ptr<Item> &GetItemAtSlot(ItemType item_type) const;
+  void RegisterHandler(IItemHandler *value) override;
 
  private:
   std::vector<IItemHandler *> handler_list_;

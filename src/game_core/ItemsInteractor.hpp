@@ -1,16 +1,14 @@
 #ifndef ITEMSINTERACTOR_HPP
 #define ITEMSINTERACTOR_HPP
-#include "PlayerInventory.hpp"
-#include "PlayerEquipment.hpp"
 #include "../enums/ErrorCodes/ItemInteractorErrorCode.hpp"
-#include "PlayerLevel.hpp"
 #include "../interfaces/IItemHandler.hpp"
+#include "../models/Player.hpp"
 
 class ItemsInteractor : public IPublisher<IItemHandler> {
  public:
-  ItemsInteractor(PlayerInventory &inventory, PlayerEquipment &equipment, PlayerLevel &level, std::uint32_t &id);
-  ItemInteractorErrorCode EquipItem(const std::shared_ptr<Item> &item);
-  ItemInteractorErrorCode TakeOffItem(const std::shared_ptr<Item> &item);
+  ItemsInteractor(Player &player);
+  ItemInteractorErrorCode EquipItem(std::shared_ptr<Item> item);
+  ItemInteractorErrorCode TakeOffItem(std::shared_ptr<Item> item);
   ItemInteractorErrorCode UseItem(const std::shared_ptr<Item> &item);
   ItemInteractorErrorCode AddItem(std::shared_ptr<Item> item);
   ItemInteractorErrorCode DeleteItem(std::shared_ptr<Item> item);
@@ -22,10 +20,7 @@ class ItemsInteractor : public IPublisher<IItemHandler> {
 							   const std::shared_ptr<Item> &equipment_item);
 
  private:
-  PlayerInventory &inventory_;
-  PlayerEquipment &equipment_;
-  PlayerLevel &level_;
-  std::uint32_t &id_;
+  Player &player_;
   std::vector<IItemHandler *> handlers_;
 };
 #endif //ITEMSINTERACTOR_HPP
