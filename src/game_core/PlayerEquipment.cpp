@@ -7,7 +7,6 @@ PlayerEquipment::PlayerEquipment() {
   equipment_.emplace(ItemType::kGloves, nullptr);
   equipment_.emplace(ItemType::kOneHandedSword, nullptr);
   equipment_.emplace(ItemType::kArmor, nullptr);
-  equipment_.emplace(ItemType::kOffHand, nullptr);
   equipment_.emplace(ItemType::kPants, nullptr);
   equipment_.emplace(ItemType::kBoots, nullptr);
 }
@@ -46,7 +45,7 @@ bool PlayerEquipment::IsEmptySlot(ItemType item_type) const {
   return equipment_.at(item_type) == nullptr;
 }
 
-std::shared_ptr<Item> PlayerEquipment::GetItemAtSlot(ItemType item_type) const {
+const std::shared_ptr<Item> &PlayerEquipment::GetItemAtSlot(ItemType item_type) const {
   return equipment_.at(item_type);
 }
 
