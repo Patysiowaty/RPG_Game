@@ -2,11 +2,13 @@
 #define ATTRIBUTETYPE_HPP
 
 enum class AttributeType {
-  kNone = 0,
+  kNone = -1,
   kStrength,
   kDexterity,
   kVitality,
-  kIntelligence
+  kIntelligence,
+
+  kSize = 4
 };
 
 #endif //ATTRIBUTETYPE_HPP
