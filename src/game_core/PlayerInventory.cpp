@@ -19,14 +19,12 @@ bool PlayerInventory::RemoveItem(std::shared_ptr<Item> item) {
   if (!item) return false;
   if (!IsInInventory(item)) return false;
 
-  const auto it = std::find(inventory_.begin(), inventory_.end(), item);
-  if (it == inventory_.end())
-	throw std::logic_error{"PlayerInventory::RemoveItem -> Does not find an item."};
+  std::replace_if(inventory_.begin(), inventory_.end(),
+				  [&](const std::shared_ptr<Item> &finding_item) { return item == finding_item; },
+				  nullptr);
 
-  inventory_.erase(it);
   remaining_slots_++;
   item->SetItemLocation(ItemLocation::kNone);
-  item.reset();
   return true;
 }
 
@@ -46,11 +44,12 @@ bool PlayerInventory::PutItem(std::shared_ptr<Item> item) {
   if (!item) return false;
   if (IsFullInventory()) return false;
 
-  const auto it = std::find(inventory_.begin(), inventory_.end(), nullptr);
-  inventory_.insert(it, item);
-  remaining_slots_--;
-  item->SetItemLocation(ItemLocation::kCharacterInventory);
-  return true;
+  for (int i = 0; i < inventory_.size(); ++i) {
+	if (!inventory_.at(i))
+	  return PutItem(item, i);
+  }
+
+  return false;
 }
 
 bool PlayerInventory::SwapItems(const std::shared_ptr<Item> &lhs, const std::shared_ptr<Item> &rhs) {
@@ -107,7 +106,8 @@ std::uint16_t PlayerInventory::GetInventoryAvailableTabs() const {
 }
 
 std::shared_ptr<Item> PlayerInventory::GetItem(std::uint32_t item_id) const {
-  const auto it = std::find_if(inventory_.cbegin(), inventory_.cend(), [=](const auto &item) {
+  const auto it = std::find_if(inventory_.cbegin(), inventory_.cend(), [&](const auto &item) -> bool {
+	if (!item) return false;
 	return item->GetItemId() == item_id;
   });
 
