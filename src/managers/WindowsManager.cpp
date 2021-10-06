@@ -2,12 +2,13 @@
 #include "InputManager.hpp"
 #include "../commands/CloseWindowCommand.hpp"
 #include "../commands/OpenWindowCommand.hpp"
-WindowsManager::WindowsManager(const PlayerCamera &player_camera) : player_camera_{player_camera} {
+WindowsManager::WindowsManager() {
   windows_key_bind_.emplace(sf::Keyboard::I, WindowTypes::kInventory);
+  windows_key_bind_.emplace(sf::Keyboard::P, WindowTypes::kPlayerStatistics);
 }
 
 void WindowsManager::Update(float delta_time) {
-  for (const auto&[first, second] : windows_key_bind_) {
+  for (const auto&[first, second]: windows_key_bind_) {
 	if (InputManager::IsKeyReleased(first)) {
 	  auto &wnd = windows_list_.at(second);
 	  if (wnd->IsOpen())
@@ -20,6 +21,7 @@ void WindowsManager::Update(float delta_time) {
 }
 
 void WindowsManager::RegisterWindow(WindowTypes window_type, IGameWindow *game_window) {
+  game_window->RegisterManager(this);
   windows_list_.emplace(window_type, game_window);
 }
 
