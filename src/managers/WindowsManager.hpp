@@ -16,6 +16,7 @@ class WindowsManager : public IUpdatable {
   WindowsManager();
   void Update(float delta_time) override;
   void RegisterWindow(WindowTypes window_type, IGameWindow *game_window);
+  void ReloadWindowsData(const std::vector<WindowTypes> &wnd_types);
 
  private:
   std::map<WindowTypes, IGameWindow *> windows_list_;

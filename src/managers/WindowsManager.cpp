@@ -23,3 +23,9 @@ void WindowsManager::RegisterWindow(WindowTypes window_type, IGameWindow *game_w
   windows_list_.emplace(window_type, game_window);
 }
 
+void WindowsManager::ReloadWindowsData(const std::vector<WindowTypes> &wnd_types) {
+  for (const auto &type: wnd_types) {
+	windows_list_.at(type)->ReloadData();
+  }
+}
+
