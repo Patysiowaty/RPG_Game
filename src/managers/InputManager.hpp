@@ -9,6 +9,8 @@ enum class InputState {
   kNone, kPressed, kReleased
 };
 
+//Temporary ugly solution, just to test game
+
 class InputManager {
  public:
   InputManager();
