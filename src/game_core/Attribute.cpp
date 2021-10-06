@@ -17,7 +17,7 @@ void Attribute::AddValue(int value) {
 void Attribute::SubtractValue(int value) {
   if (value < 0) return AddValue(-value);
 
-  attribute_ = (attribute_ - value) < 0 ? 0 : attribute_ + value;
+  attribute_ = (attribute_ - value) < 0 ? 0 : attribute_ - value;
 }
 
 std::int32_t Attribute::GetValue() const {
