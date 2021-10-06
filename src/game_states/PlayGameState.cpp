@@ -4,9 +4,7 @@
 PlayGameState::PlayGameState(GameStatesManager &game_states_manager, sf::RenderWindow &render_window)
 	: game_states_manager_{game_states_manager},
 	  render_window_{render_window},
-	  player_controller_{player_, player_view_},
-	  windows_manager_{game_camera_},
-	  inventory_window_{player_, "Inventory"} {
+	  player_controller_{player_, player_view_}, inventory_window_{player_, "Inventory"} {
 }
 
 void PlayGameState::Initialize() {
