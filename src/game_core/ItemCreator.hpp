@@ -13,6 +13,7 @@ class ItemCreator {
  private:
   void ReadTemplateFromFile();
   void BuildAttributes();
+  void BuildStatistics();
 
  private:
   static std::uint32_t next_item_id_;
