@@ -12,7 +12,7 @@ class Statistic : public IStatistic, public IBaseValueContainer<std::int32_t> {
   StatisticType GetType() const override;
   std::int32_t GetValue() const override;
   virtual double GetPercentageValue() const override;
-  std::int32_t GetMaxStatisticValue() const;
+  static std::int32_t GetMaxStatisticValue() { return kMaxStatisticValue; }
 
   bool operator==(const Statistic &rhs);
   bool operator!=(const Statistic &rhs);

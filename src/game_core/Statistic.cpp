@@ -20,10 +20,6 @@ double Statistic::GetPercentageValue() const {
   return 1.0;
 }
 
-std::int32_t Statistic::GetMaxStatisticValue() const {
-  return kMaxStatisticValue;
-}
-
 bool Statistic::operator==(const Statistic &rhs) {
   return statistic_type_ == rhs.GetType();
 }
