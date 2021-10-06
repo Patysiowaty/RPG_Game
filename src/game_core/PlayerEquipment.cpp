@@ -46,7 +46,8 @@ bool PlayerEquipment::IsEmptySlot(ItemType item_type) const {
   return equipment_.at(item_type) == nullptr;
 }
 
-std::shared_ptr<Item> PlayerEquipment::GetItemAtSlot(ItemType item_type) const {
+const std::shared_ptr<Item> &PlayerEquipment::GetItemAtSlot(ItemType item_type) const {
+  if (equipment_.find(item_type) == equipment_.end()) return nullptr;
   return equipment_.at(item_type);
 }
 

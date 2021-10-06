@@ -1,7 +1,9 @@
 #include "PlayerController.hpp"
 #include "../managers/InputManager.hpp"
 PlayerController::PlayerController(Player &player, PlayerView &player_view) : player_{player},
-																			  player_view_{player_view} {
+																			  player_view_{player_view},
+																			  interactor_{player_} {
+  interactor_.RegisterHandler(&player_view_);
 }
 
 void PlayerController::MovePlayer(const sf::Vector2f &velocity, Direction direction) {
@@ -23,7 +25,7 @@ void PlayerController::MovePlayer(const sf::Vector2f &velocity, Direction direct
 
   player_.move(offset);
 
-  for (const auto handler : handlers_) {
+  for (const auto handler: handlers_) {
 	handler->OnPlayerMove(offset);
   }
 }
@@ -41,8 +43,6 @@ void PlayerController::Update(float delta_time) {
 
   if (InputManager::IsMouseButtonReleased(sf::Mouse::Left))
 	player_view_.OnAttack();
-
-
 }
 
 void PlayerController::RegisterHandler(IPlayerHandler *value) {
@@ -63,6 +63,25 @@ void PlayerController::MovePlayerLeft(const sf::Vector2f &offset) {
 
 void PlayerController::MovePlayerRight(const sf::Vector2f &offset) {
   player_view_.OnMoveRight(offset);
+}
+
+bool PlayerController::EquipItem(std::uint32_t item_id) {
+  auto item = player_.GetPlayerInventory().GetItem(item_id);
+  auto ec = interactor_.EquipItem(item);
+
+  return ec == ItemInteractorErrorCode::kNone;
+}
+
+bool PlayerController::TakeOffItem(ItemType item_type) {
+  auto item = player_.GetPlayerEquipment().GetItemAtSlot(item_type);
+  auto ec = interactor_.TakeOffItem(item);
+
+  return ec == ItemInteractorErrorCode::kNone;
+}
+
+bool PlayerController::AddItem(std::shared_ptr<Item> item) {
+  auto ec = interactor_.AddItem(item);
+  return ec == ItemInteractorErrorCode::kNone;
 }
 
 

@@ -14,6 +14,7 @@ class PlayerAttributes : public IPublisher<IAttributesHandler>, public IItemHand
 							std::int32_t intelligence = 0);
 
   const std::unique_ptr<Attribute> &GetAttribute(AttributeType attribute_type) const;
+  const std::vector<std::unique_ptr<Attribute>> &GetAttributesList() const { return attributes_; }
   void SetAttributes(const std::vector<std::int32_t> &attributes);
 
   void RaiseAttributes();

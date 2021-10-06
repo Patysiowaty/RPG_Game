@@ -26,12 +26,13 @@ class CharacterStatisticsList : public IAttributesHandler, public ILevelHandler,
   void OnLevelRaise() override;
   void OnLevelDowngrade() override;
   void OnLevelUpdate(int value) override;
+  const StatisticsList &GetStatisticsList() const { return statistics_list_; }
 
  private:
   void ReloadStatistics(const std::unique_ptr<Attribute> &attribute);
 
  private:
-  StatisticsList statistic_list_;
+  StatisticsList statistics_list_;
   uint16_t player_level_{1};
 };
 

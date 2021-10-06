@@ -10,6 +10,7 @@
 #include "../DrawableContainer.hpp"
 #include "../GameLocation.hpp"
 #include "../ui_elements/InventoryWindow.hpp"
+#include "../ui_elements/PlayerStatsWindow.hpp"
 
 class PlayGameState : public IGameState {
  public:
@@ -48,6 +49,7 @@ class PlayGameState : public IGameState {
   std::list<IUpdatable *> updatable_list_;
 
   InventoryWindow inventory_window_;
+  PlayerStatsWindow character_stats_window_;
 };
 
 #endif //PLAYGAMESTATE_HPP
