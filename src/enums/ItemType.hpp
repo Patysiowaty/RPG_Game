@@ -2,20 +2,19 @@
 #define ITEMTYPE_HPP
 #include <cstdint>
 
-enum class ItemType : uint16_t {
-  kNone = 0,
+enum class ItemType : std::int16_t {
+  kNone = -1,
   kHelmet,
   kRing,
   kNecklace,
   kGloves,
   kOneHandedSword,
   kArmor,
-  kOffHand,
   kPants,
   kBoots,
   kConsumptive,
 
-  kSize = 11,
+  kSize = 9,
 };
 
 #endif //ITEMTYPE_HPP
