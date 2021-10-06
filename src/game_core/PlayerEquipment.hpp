@@ -3,11 +3,14 @@
 
 #include <memory>
 #include <map>
+#include <vector>
 #include "../item_types/Item.hpp"
 #include "../enums/ItemType.hpp"
 #include "../interfaces/IItemList.hpp"
+#include "../interfaces/IItemHandler.hpp"
+#include "../interfaces/IPublisher.hpp"
 
-class PlayerEquipment : public IItemList {
+class PlayerEquipment : public IItemList, public IPublisher<IItemHandler> {
  public:
   PlayerEquipment();
 
@@ -17,6 +20,7 @@ class PlayerEquipment : public IItemList {
   std::shared_ptr<Item> GetItemAtSlot(ItemType item_type) const;
 
  private:
+  std::vector<IItemHandler *> handler_list_;
   using Equipment = std::map<ItemType, std::shared_ptr<Item>>;
   Equipment equipment_;
 };

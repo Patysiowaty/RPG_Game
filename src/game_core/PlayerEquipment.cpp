@@ -19,6 +19,10 @@ bool PlayerEquipment::PutItem(std::shared_ptr<Item> item) {
   equipment_.at(item_type) = item;
   item->SetIsEquipped(true);
   item->SetItemLocation(ItemLocation::kCharacterEquipment);
+
+  for (auto &handler: handler_list_)
+	handler->OnEquipItem(item);
+
   return true;
 }
 
@@ -31,6 +35,10 @@ bool PlayerEquipment::RemoveItem(std::shared_ptr<Item> item) {
   equipment_.at(item_type) = nullptr;
   item->SetIsEquipped(false);
   item->SetItemLocation(ItemLocation::kNone);
+
+  for (auto &handler: handler_list_)
+	handler->OnTakeOffItem(item);
+
   return true;
 }
 
@@ -40,6 +48,10 @@ bool PlayerEquipment::IsEmptySlot(ItemType item_type) const {
 
 std::shared_ptr<Item> PlayerEquipment::GetItemAtSlot(ItemType item_type) const {
   return equipment_.at(item_type);
+}
+
+void PlayerEquipment::RegisterHandler(IItemHandler *value) {
+  handler_list_.emplace_back(value);
 }
 
 
