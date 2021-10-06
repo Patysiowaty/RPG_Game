@@ -3,7 +3,7 @@
     "name": "Sabre",
     "icon": "sabre.png",
     "description": "Ordinary sabre",
-    "type": 5,
+    "type": 4,
     "rarity": 1,
     "levelRequire": 1,
     "classRequire": [
@@ -11,15 +11,17 @@
     ],
     "attributes": {
       "vitality": 1,
-      "dexterity": 1
+      "dexterity": 1,
+      "strength": 2
     },
     "stats": {
       "attack": 5
     }
   },
   "2": {
-    "name": "Rusty sword",
-    "description": "Junk",
+    "name": "Leather Armor",
+    "icon": "leather_armor.png",
+    "description": "Ordinary armor",
     "type": 5,
     "rarity": 1,
     "levelRequire": 1,
@@ -27,11 +29,15 @@
       1
     ],
     "attributes": {
-      "strength": 2,
-      "dexterity": 1
+      "strength": 1,
+      "dexterity": 1,
+      "vitality": 1,
+      "intelligence": 1
     },
-    "attack": 5,
-    "criticalStrikeRatio": 1
+    "stats": {
+      "armor": 1,
+      "health": 5
+    }
   },
   "3": {
     "name": "Old ring",
