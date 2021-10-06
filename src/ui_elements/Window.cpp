@@ -30,7 +30,7 @@ void Window::Deserialize(const boost::property_tree::ptree &ptree) {
 }
 
 void Window::Move(const sf::Vector2f &offset) {
-  shape_.move(offset);
+  shape_.move(std::floor(offset.x), std::floor(offset.y));
 }
 
 sf::Color Window::CreateColor(const std::string &color_data) {
@@ -38,7 +38,7 @@ sf::Color Window::CreateColor(const std::string &color_data) {
   std::vector<std::uint8_t> int_colors_;
   int_colors_.reserve(colors.size());
   boost::split(colors, color_data, boost::is_any_of(";"));
-  for (auto &color : colors) {
+  for (auto &color: colors) {
 	int_colors_.push_back(std::stoi(color));
   }
   return sf::Color{int_colors_.at(0), int_colors_.at(1), int_colors_.at(2), int_colors_.at(3)};
@@ -67,7 +67,7 @@ void Window::SetWindowTexture(sf::Texture *texture, const sf::IntRect &texture_p
 }
 
 void Window::SetPosition(const sf::Vector2f &new_position) {
-  shape_.setPosition(new_position);
+  shape_.setPosition(new_position + relative_position_);
 }
 
 void Window::SetSize(const sf::Vector2f &new_size) {
@@ -91,8 +91,12 @@ void Window::RestoreDefault() {
 
 void Window::LoadWindowTexture(const std::string &file_path, const sf::IntRect &texture_pos) {
   texture_.loadFromFile(file_path, texture_pos);
-  texture_rect_ = {0, 0, static_cast<int>(texture_.getSize().x), static_cast<int>(texture_.getSize().y)};
+  texture_rect_ = sf::IntRect(0, 0, texture_.getSize().x, texture_.getSize().y);
   Window::SetWindowTexture(&texture_, texture_rect_);
+}
+
+void Window::SetRelativePosition(const sf::Vector2f &new_position) {
+  relative_position_ = new_position;
 }
 
 

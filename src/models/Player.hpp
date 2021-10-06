@@ -5,7 +5,6 @@
 #include "../item_types/SwordItem.hpp"
 #include "../item_types/ConsumptiveItem.hpp"
 #include "../interfaces/IjsonSerializable.hpp"
-#include "../game_core/ItemsInteractor.hpp"
 #include "../game_core/PlayerLevel.hpp"
 #include "../game_core/PlayerAttributes.hpp"
 #include "../game_core/CharacterStatisticsList.hpp"
@@ -35,7 +34,10 @@ class Player
   void Update(float delta_time);
 
   PlayerInventory &GetPlayerInventory() { return player_inventory_; }
-  ItemsInteractor &GetItemInteractor() { return items_interactor_; }
+  PlayerEquipment &GetPlayerEquipment() { return player_equipment_; }
+  const PlayerAttributes &GetPlayerAttributes() const { return player_attributes_; }
+  const PlayerLevel &GetPlayerLevel() const { return player_level_; }
+  const CharacterStatisticsList &GetCharacterStatistics() const { return player_statistics_; }
 
   boost::property_tree::ptree Serialize() const override;
   void Deserialize(const boost::property_tree::ptree &ptree) override;
@@ -64,7 +66,6 @@ class Player
   PlayerEquipment player_equipment_;
   PlayerInventory player_inventory_;
   PlayerLevel player_level_;
-  ItemsInteractor items_interactor_;
 };
 
 #endif //PLAYER_HPP

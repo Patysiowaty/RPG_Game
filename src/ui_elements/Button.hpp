@@ -39,7 +39,7 @@ class Button : public Window {
  private:
   Window *parent_;
   sf::Texture hover_texture_;
-  sf::IntRect hover_rect_;
+  sf::IntRect hover_rect_ = sf::IntRect{};
 
   std::map<CommandInvoker, std::unique_ptr<ICommand>> commands_list_;
   std::string text_string_;

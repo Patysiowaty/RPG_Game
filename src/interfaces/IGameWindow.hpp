@@ -3,6 +3,8 @@
 
 #include <SFML/System/Vector2.hpp>
 
+class WindowsManager;
+
 class IGameWindow {
  public:
   ~IGameWindow() = default;
@@ -11,6 +13,8 @@ class IGameWindow {
   virtual bool IsOpen() const = 0;
   virtual void Move(const sf::Vector2f &offset) = 0;
   virtual const sf::Vector2f &GetWindowSize() const = 0;
+  virtual void RegisterManager(WindowsManager *windows_manager) = 0;
+  virtual void ReloadData() = 0;
 };
 
 #endif //IGAMEWINDOW_HPP

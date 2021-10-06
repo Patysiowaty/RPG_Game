@@ -1,21 +1,13 @@
 #include "InventoryWindow.hpp"
 #include "../managers/InputManager.hpp"
 #include "../commands/CloseWindowCommand.hpp"
+#include "../managers/WindowsManager.hpp"
+#include <boost/range/adaptor/reversed.hpp>
 
-InventoryWindow::InventoryWindow(Player &player, const std::string &wnd_name) : player_{player},
-																				window_name_text_{wnd_name, font_},
-																				close_btn_{this},
-																				next_tab_btn_{this},
-																				previous_tab_btn_{this} {
-  font_.loadFromFile("../resources/fonts/romulus.ttf");
-  Window::LoadWindowTexture("../resources/graphics/inventory.png", kInventoryWndSpritePosition);
-  CreateSlots();
-  PlaceSlots();
-  InitializeWndComponents();
-  InitializeButtons();
-  close_btn_.AddCommand(CommandInvoker::kLeftMouseButtonClick, std::make_unique<CloseWindowCommand>(*this));
-
-  InventoryWindow::CloseWindow();
+InventoryWindow::InventoryWindow(PlayerController &player_controller, const std::string &wnd_name) : player_controller_{
+	player_controller}, window_name_text_{wnd_name, font_}, close_btn_{this}, next_tab_btn_{this},
+																									 previous_tab_btn_{
+																										 this} {
 }
 
 void InventoryWindow::Deserialize(const boost::property_tree::ptree &ptree) {
@@ -26,6 +18,9 @@ void InventoryWindow::Update(float delta_time) {
   if (!IsActive()) return;
   Window::Update(delta_time);
   close_btn_.Update(delta_time);
+  for (auto&[index, slot]: items_slots_) {
+	slot.Update(delta_time);
+  }
 }
 
 void InventoryWindow::Move(const sf::Vector2f &offset) {
@@ -52,8 +47,10 @@ void InventoryWindow::draw(sf::RenderTarget &target, sf::RenderStates states) co
   for (auto &tab: inventory_tabs_) {
 	target.draw(tab);
   }
-  for (auto&[first, second]: items_slots_)
-    target.draw(second);
+
+  for (const auto &items_slot: boost::adaptors::reverse(items_slots_)) {
+	target.draw(items_slot.second);
+  }
 }
 
 void InventoryWindow::OpenWindow() {
@@ -72,7 +69,7 @@ void InventoryWindow::CreateSlots() {
   for (int i = 0; i < kColumnItemCount; ++i) {
 	for (int j = 0; j < kRowItemCount; ++j) {
 	  const auto kSlotIndex = SlotIndex{i, j};
-	  items_slots_.emplace(kSlotIndex, ItemSlot{});
+	  items_slots_.emplace(kSlotIndex, this);
 	  items_slots_.at(kSlotIndex).LoadWindowTexture("../resources/graphics/inventory.png", kSlotSizeSpritePosition);
 	}
   }
@@ -90,14 +87,14 @@ void InventoryWindow::PlaceSlots() {
 }
 
 void InventoryWindow::PlaceItems() {
-  const auto &items = player_.GetPlayerInventory().GetInventory();
-  int i = 0;
+  const auto &items = player_controller_.GetPlayer().GetPlayerInventory().GetInventory();
+  int i{0};
   for (int j = 0; j < items.size(); ++j) {
-	const auto index = j % kRowItemCount;
+	const auto index{j % kRowItemCount};
 	if (j != 0 && index == 0) ++i;
 	if (items.at(j)) {
 	  SlotIndex slot_index{i, index};
-	  PlaceItem(items.at(i), slot_index);
+	  PlaceItem(items.at(j), slot_index);
 	}
   }
 }
@@ -142,10 +139,10 @@ void InventoryWindow::InitializeButtons() {
   }
 
   previous_tab_btn_.LoadWindowTexture("../resources/graphics/inventory.png", {214, 64, 24, 24});
-  previous_tab_btn_.SetPosition({13, 300});
+  previous_tab_btn_.SetPosition({13, 301});
 
   next_tab_btn_.LoadWindowTexture("../resources/graphics/inventory.png", {214, 38, 24, 24});
-  next_tab_btn_.SetPosition({177, 300});
+  next_tab_btn_.SetPosition({177, 301});
 }
 
 void InventoryWindow::RemoveItem(const SlotIndex &slot_index) {
@@ -153,15 +150,53 @@ void InventoryWindow::RemoveItem(const SlotIndex &slot_index) {
 }
 
 void InventoryWindow::PlaceItem(const std::shared_ptr<Item> &item, const SlotIndex &slot_index) {
-  if (!items_slots_.at(slot_index).IsEmpty())
-	throw std::invalid_argument{
-		"InventoryWindow::PlaceItem -> trying to put item at existing item! [" + std::to_string(slot_index.first) + ", "
-			+ std::to_string(slot_index.second) + "]"};
+  if (!items_slots_.at(slot_index).IsEmpty()) {
+	if (const auto &kItemView = items_slots_.at(slot_index).GetItemView(); kItemView
+		&& kItemView->GetItemId() != item->GetItemId()) {
+	  throw std::invalid_argument{
+		  "InventoryWindow::PlaceItem -> trying to put item at existing item! [" + std::to_string(slot_index.first)
+			  + ", " + std::to_string(slot_index.second) + "]"};
+	} else
+	  return;
+  }
   items_slots_.at(slot_index).PutItem(std::make_unique<ItemView>(item));
 }
 
 void InventoryWindow::OnChildrenWindowEvent(Window *sender, WindowEvent event_type) {
+  for (auto&[first, second]: items_slots_) {
+	if (sender == &second) {
+	  const auto kItemId = second.GetItemView()->GetItemId();
+	  if (player_controller_.EquipItem(kItemId)) {
+		windows_manager_->ReloadWindowsData({WindowTypes::kPlayerStatistics, WindowTypes::kInventory});
+	  }
+	}
+  }
+}
 
+void InventoryWindow::OnInit() {
+  font_.loadFromFile("../resources/fonts/romulus.ttf");
+  Window::LoadWindowTexture("../resources/graphics/inventory.png", kInventoryWndSpritePosition);
+  CreateSlots();
+  PlaceSlots();
+  InitializeWndComponents();
+  InitializeButtons();
+  close_btn_.AddCommand(CommandInvoker::kLeftMouseButtonClick, std::make_unique<CloseWindowCommand>(*this));
+
+  InventoryWindow::CloseWindow();
+}
+
+void InventoryWindow::SetPosition(const sf::Vector2f &new_position) {
+  Window::SetPosition(new_position);
+}
+
+void InventoryWindow::RegisterManager(WindowsManager *windows_manager) {
+  windows_manager_ = windows_manager;
+}
+
+void InventoryWindow::ReloadData() {
+  if (!Window::IsVisible()) return;
+  InventoryWindow::RemoveItems();
+  InventoryWindow::PlaceItems();
 }
 
 

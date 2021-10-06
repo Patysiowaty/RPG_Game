@@ -1,5 +1,6 @@
 #include "ItemSlot.hpp"
-ItemSlot::ItemSlot() {
+#include "../managers/InputManager.hpp"
+ItemSlot::ItemSlot(Window *parent) : parent_{parent} {
 
 }
 
@@ -30,6 +31,17 @@ void ItemSlot::Deserialize(const boost::property_tree::ptree &ptree) {
 
 void ItemSlot::Update(float delta_time) {
   Window::Update(delta_time);
+  if (!item_view_) return;
+  item_view_->Update(delta_time);
+
+  if (!parent_) return;
+  const sf::FloatRect
+	  kClickArea{Window::GetRectangleShape().getPosition().x, Window::GetRectangleShape().getPosition().y,
+				 Window::GetRectangleShape().getSize().x, Window::GetRectangleShape().getSize().y};
+  if (InputManager::IsMouseButtonClickedOn(sf::Mouse::Left, kClickArea)) {
+	parent_->OnChildrenWindowEvent(this, WindowEvent::kLeftMouseClick);
+  }
+
 }
 
 void ItemSlot::Activate() {

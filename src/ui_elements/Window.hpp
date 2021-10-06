@@ -25,9 +25,11 @@ class Window : public sf::Drawable, public IJSONDeserializable, public IUpdatabl
   virtual void SetOutlineColor(sf::Color color) { shape_.setOutlineColor(color); }
   virtual void SetOutlineThickness(float value) { shape_.setOutlineThickness(value); }
 
+  void SetColor(const sf::Color &color) { shape_.setFillColor(color); }
   void SetVisible(bool value) { is_visible_ = value; }
   void SetWindowTexture(sf::Texture *texture, const sf::IntRect &texture_pos = sf::IntRect{});
   void LoadWindowTexture(const std::string &file_path, const sf::IntRect &texture_pos = sf::IntRect{});
+  void SetRelativePosition(const sf::Vector2f &new_position);
 
   bool IsVisible() const { return is_visible_; }
   bool IsActive() const { return is_active_; }
@@ -46,6 +48,7 @@ class Window : public sf::Drawable, public IJSONDeserializable, public IUpdatabl
   sf::IntRect texture_rect_;
   bool is_visible_{true};
   bool is_active_{true};
+  sf::Vector2f relative_position_{.0f, .0f};
 };
 
 #endif //WINDOW_HPP

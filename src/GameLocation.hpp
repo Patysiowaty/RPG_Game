@@ -22,16 +22,16 @@ class LocationEntrance : sf::Transformable {
 
 };
 
-class GameLocation : public sf::Drawable, public IUpdatable {
+class GameLocation : public sf::Drawable, public IUpdatable, public IPlayerHandler {
  public:
   GameLocation() = default;
-  
+
   GameLocation(const std::string &map_path, std::string map_name) : name_{std::move(map_name)} {
 	LoadMapTexture(map_path);
   }
 
-  void SetName(std::string name) {
-	name_ = std::move(name);
+  void SetName(const std::string &name) {
+	name_ = name;
   }
 
   void LoadMapTexture(const std::string &map_path) {
@@ -41,6 +41,10 @@ class GameLocation : public sf::Drawable, public IUpdatable {
 
   void Update(float delta_time) override {
 
+  }
+
+  void OnPlayerMove(const sf::Vector2<float> &offset) override {
+	sprite_.move(offset);
   }
 
  protected:

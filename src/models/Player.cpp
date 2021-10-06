@@ -2,14 +2,16 @@
 #include "../game_core/ItemCreator.hpp"
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/random_generator.hpp>
+#include <random>
+#include <chrono>
 
 Player::Player()
-	: uuid_{boost::uuids::random_generator()()},
-	  items_interactor_{player_inventory_, player_equipment_, player_level_, id_} {
-  items_interactor_.RegisterHandler(&player_attributes_);
-  items_interactor_.RegisterHandler(&player_statistics_);
+	: uuid_{boost::uuids::random_generator()()} {
+
   player_level_.RegisterHandler(&player_attributes_);
   player_level_.RegisterHandler(&player_statistics_);
+  player_equipment_.RegisterHandler(&player_attributes_);
+  player_equipment_.RegisterHandler(&player_statistics_);
   player_attributes_.RegisterHandler(&player_statistics_);
 
   player_statistics_.AddStatistic(StatisticType::kHealth, 100, 100);
@@ -48,7 +50,7 @@ const std::string &Player::GetName() const {
   return name_;
 }
 
-uint32_t Player::GetId() const {
+std::uint32_t Player::GetId() const {
   return id_;
 }
 
@@ -137,25 +139,31 @@ void Player::Deserialize(const boost::property_tree::ptree &ptree) {
   for (const auto&[first, second]: inventory) {
 	const auto kTemplateId = second.get<std::uint32_t>("templateId");
 	const auto kItemId = second.get<std::uint32_t>("itemId");
-	player_inventory_.PutItem(item_builder.MakeItem(kTemplateId, kItemId), second.get<int>("position"));
+	auto item = item_builder.MakeItem(kTemplateId, kItemId);
+	item->SetOwnerId(id_);
+	player_inventory_.PutItem(item, second.get<int>("position"));
   }
 
   sf::Transformable::setPosition(ptree.get<float>("position.x"), ptree.get<float>("position.y"));
 }
 
 std::int32_t Player::Attack() const {
-  const auto &attack = player_statistics_.GetStatistic(StatisticType::kAttack);
-  const auto min_value = attack->GetValue();
-  const auto max_value = attack->GetMaxValue();
+  const auto kTime = std::chrono::steady_clock::now().time_since_epoch().count();
+  std::mt19937 generator(kTime);
 
-  //TODO: implement random
-  return std::rand() % (max_value - min_value) + min_value;
+  const auto &attack = player_statistics_.GetStatistic(StatisticType::kAttack);
+  const auto kMinValue = attack->GetValue();
+  const auto kMaxValue = attack->GetMaxValue();
+
+  std::uniform_int_distribution<std::int32_t> int_distribution(kMinValue, kMaxValue);
+
+  return int_distribution(generator);
 }
 
 void Player::TakeDamage(std::int32_t value) {
-  const auto &health = player_statistics_.GetStatistic(StatisticType::kHealth);
-  health->SubtractValue(value);
-  if (health->GetValue() == 0)
+  const auto &kHealth = player_statistics_.GetStatistic(StatisticType::kHealth);
+  kHealth->SubtractValue(value);
+  if (kHealth->GetValue() == 0)
 	is_alive_ = false;
 }
 

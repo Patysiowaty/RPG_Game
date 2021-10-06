@@ -6,14 +6,14 @@
 #include "Window.hpp"
 #include "../views/ItemView.hpp"
 #include "../interfaces/IGameWindow.hpp"
-#include "../models/Player.hpp"
 #include "../SlotIndex.hpp"
 #include "ItemSlot.hpp"
 #include "Button.hpp"
+#include "../controllers/PlayerController.hpp"
 
 class InventoryWindow : public Window, public IGameWindow {
  public:
-  explicit InventoryWindow(Player &player, const std::string &wnd_name = "");
+  explicit InventoryWindow(PlayerController &player_controller, const std::string &wnd_name = "");
 
   void Deserialize(const boost::property_tree::ptree &ptree) override;
   void OpenWindow() override;
@@ -23,8 +23,12 @@ class InventoryWindow : public Window, public IGameWindow {
   void PlaceItem(const std::shared_ptr<Item> &item, const SlotIndex &slot_index);
   void RemoveItem(const SlotIndex &slot_index);
   void OnChildrenWindowEvent(Window *sender, WindowEvent event_type) override;
+  void SetPosition(const sf::Vector2f &new_position) override;
   bool IsOpen() const override { return Window::IsVisible(); }
   const sf::Vector2f &GetWindowSize() const override { return Window::GetRectangleShape().getSize(); }
+  void OnInit();
+  void RegisterManager(WindowsManager *windows_manager) override;
+  void ReloadData() override;
 
  private:
   void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
@@ -37,7 +41,8 @@ class InventoryWindow : public Window, public IGameWindow {
   void InitializeButtons();
 
  private:
-  Player &player_;
+  PlayerController &player_controller_;
+  WindowsManager *windows_manager_{nullptr};
 
   const int kRowItemCount{5};
   const int kColumnItemCount{7};

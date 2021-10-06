@@ -9,12 +9,19 @@
 #include "../controllers/AnimationManager.hpp"
 #include "../interfaces/IUpdatable.hpp"
 #include "../enums/ItemType.hpp"
+#include "../interfaces/IItemHandler.hpp"
 
-class PlayerView : sf::Transformable, public sf::Drawable, public IUpdatable {
+enum class PlayerState {
+  kNone, kWalk, kAttack
+};
+
+class PlayerView : sf::Transformable, public sf::Drawable, public IUpdatable, public IItemHandler {
  public:
   PlayerView();
   void CreateSprite(const std::string &texture_path);
   void SetPosition(float x, float y);
+  void SetPosition(const sf::Vector2f &new_position);
+  void Move(const sf::Vector2f &offset);
 
   void Update(float delta_time) override;
 
@@ -22,21 +29,26 @@ class PlayerView : sf::Transformable, public sf::Drawable, public IUpdatable {
   void OnMoveDown(const sf::Vector2f &offset);
   void OnMoveLeft(const sf::Vector2f &offset);
   void OnMoveRight(const sf::Vector2f &offset);
-  void OnItemEquip(ItemType item_type, std::string icon_path);
-  void OnItemTakeOff(ItemType item_type);
+  void OnEquipItem(const std::shared_ptr<Item> &item) override;
+  void OnTakeOffItem(const std::shared_ptr<Item> &item) override;
+  void OnTakeOffItem(ItemType item_type);
+  void OnUsedItem(const std::shared_ptr<IConsumable> &item) override;
   void OnAttack();
   bool HasActiveAnimation() const { return animation_manager_.GetCurrentAnimation() != AnimationType::kNone; }
 
  private:
   void CreateAnimations();
-  void FitEquipment();
+  void CreateWeaponAnimation();
+  void CreateWalkAnimation();
+  void CreateAttackAnimation();
+  void FitWeaponSpriteOnAttack();
+  void FitWeaponSpriteOnWalk();
   void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
  private:
+  PlayerState player_state_{PlayerState::kNone};
   sf::Sprite sprite_;
   sf::Texture player_icon_;
-  sf::Texture sabre_sheet_;
-  sf::Sprite sabre_sprite_;
   std::map<ItemType, sf::Texture> items_icon_;
   std::map<ItemType, sf::Sprite> items_sprites_;
   std::map<ItemType, bool> equipped_items_;
