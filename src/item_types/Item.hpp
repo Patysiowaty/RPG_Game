@@ -10,6 +10,7 @@
 #include "../enums/ItemRarity.hpp"
 #include "../game_core/Attribute.hpp"
 #include "../enums/AttributeType.hpp"
+#include "../game_core/Statistic.hpp"
 
 class Item {
  public:
@@ -31,6 +32,7 @@ class Item {
   std::uint16_t GetLevelRequirement() const { return level_requirement_; }
   const std::vector<CharacterClass> &GetClassRequirement() const { return character_class_requirement_; }
   const std::vector<Attribute> &GetAttributes() const { return attributes_; }
+  const std::vector<Statistic> &GetStatistics() const { return statistics_; }
 
   void SetId(std::uint32_t id);
   void SetOwnerId(std::uint32_t owner_id);
@@ -44,6 +46,7 @@ class Item {
   void SetLevelRequirement(uint16_t level_requirement);
   void SetCharacterClassRequirement(const std::vector<CharacterClass> &character_class_requirement);
   void SetAttributes(const std::vector<Attribute> &attributes);
+  void SetStatistics(const std::vector<Statistic> &statistics);
 
  private:
   std::uint32_t id_{0};
@@ -57,12 +60,13 @@ class Item {
   std::string name_;
   std::string description_;
   std::string icon_;
-  std::uint32_t price_;
+  std::uint32_t price_{0};
 
   std::uint16_t level_requirement_{0};
   std::vector<CharacterClass> character_class_requirement_;
 
   std::vector<Attribute> attributes_;
+  std::vector<Statistic> statistics_;
 };
 
 #endif //ITEM_HPP

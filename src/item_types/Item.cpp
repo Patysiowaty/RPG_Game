@@ -1,8 +1,7 @@
 #include "Item.hpp"
 Item::Item() = default;
 
-Item::Item(std::uint32_t item_id) {
-  id_ = item_id;
+Item::Item(std::uint32_t item_id) : id_{item_id} {
 }
 
 Item::~Item() = default;
@@ -61,6 +60,10 @@ void Item::SetAttributes(const std::vector<Attribute> &attributes) {
 
 void Item::SetIcon(const std::string &icon) {
   icon_ = icon;
+}
+
+void Item::SetStatistics(const std::vector<Statistic> &statistics) {
+  statistics_ = statistics;
 }
 
 
