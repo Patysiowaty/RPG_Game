@@ -1,17 +1,18 @@
 #include "Button.hpp"
 #include "../managers/InputManager.hpp"
 
-Button::Button(Window *parent) : parent_{parent}, text_{text_string_, font_} {
+Button::Button(Window *parent) : parent_{parent}, text_{"", font_} {
 }
 
-Button::Button(std::string text, Window *parent) : parent_{parent}, text_string_{std::move(text)},
-												   text_{text_string_, font_} {
+Button::Button(const std::string& text, Window *parent) : parent_{parent}, text_{text, font_} {
   Window::CenterTextToFit(text_, Window::GetRectangleShape());
 }
 
 Button::Button(Button &&button) noexcept
-	: parent_(button.parent_), commands_list_(std::move(button.commands_list_)), text_{text_string_, font_} {
-
+	: parent_(button.parent_), commands_list_(std::move(button.commands_list_)), font_{button.font_} {
+  const auto &string = button.text_.getString();
+  text_.setString(string);
+  text_.setFont(font_);
 }
 
 void Button::AddCommand(CommandInvoker command_invoker, std::unique_ptr<ICommand> command) {
@@ -75,7 +76,8 @@ void Button::Deserialize(const boost::property_tree::ptree &ptree) {
 
   font_.loadFromFile(button_ptree.get<std::string>("fontPath"));
   text_.setCharacterSize(button_ptree.get<std::uint32_t>("fontSize"));
-  text_.setFillColor(CreateColor(button_ptree.get<std::string>("fontColor")));
+  text_color_ = CreateColor(button_ptree.get<std::string>("fontColor"));
+  text_.setFillColor(text_color_);
   text_.setString(button_ptree.get<std::string>("text"));
 
   hover_texture_.loadFromFile(button_ptree.get<std::string>("hoverPath"));
@@ -128,13 +130,13 @@ void Button::Deactivate() {
 
 void Button::RestoreDefault() {
   Window::RestoreDefault();
-  text_.setFillColor(sf::Color::White);
+  text_.setFillColor(text_color_);
 }
 
 void Button::SetTextString(const std::string &text_string, const sf::Color &color, std::uint32_t text_size) {
-  text_string_ = text_string;
-  text_.setString(text_string_);
-  text_.setFillColor(color);
+  text_color_ = color;
+  text_.setString(text_string);
+  text_.setFillColor(text_color_);
   text_.setCharacterSize(text_size);
   Window::CenterTextToFit(text_, Window::GetRectangleShape());
 }
@@ -152,6 +154,11 @@ void Button::SetTextOutline(const sf::Color &color, float thickness) {
   text_.setOutlineColor(color);
   text_.setOutlineThickness(thickness);
   Window::CenterTextToFit(text_, Window::GetRectangleShape());
+}
+
+void Button::SetFont(const sf::Font &font) {
+  font_ = font;
+  text_.setFont(font);
 }
 
 

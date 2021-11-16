@@ -24,11 +24,12 @@ class Window : public sf::Drawable, public IJSONDeserializable, public IUpdatabl
   virtual void SetFillColor(sf::Color color) { shape_.setFillColor(color); }
   virtual void SetOutlineColor(sf::Color color) { shape_.setOutlineColor(color); }
   virtual void SetOutlineThickness(float value) { shape_.setOutlineThickness(value); }
+  virtual void Rotate(float angle);
 
   void SetColor(const sf::Color &color) { shape_.setFillColor(color); }
   void SetVisible(bool value) { is_visible_ = value; }
-  void SetWindowTexture(sf::Texture *texture, const sf::IntRect &texture_pos = sf::IntRect{});
-  void LoadWindowTexture(const std::string &file_path, const sf::IntRect &texture_pos = sf::IntRect{});
+  virtual void SetWindowTexture(sf::Texture *texture, const sf::IntRect &texture_pos = sf::IntRect{});
+  virtual void LoadWindowTexture(const std::string &file_path, const sf::IntRect &texture_pos = sf::IntRect{});
   void SetRelativePosition(const sf::Vector2f &new_position);
 
   bool IsVisible() const { return is_visible_; }

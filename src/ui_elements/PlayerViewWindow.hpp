@@ -13,11 +13,15 @@ class PlayerViewWindow : public Window {
   void Move(const sf::Vector2f &offset) override;
   void EquipItem(const std::shared_ptr<Item> &item);
   void TakeOffItem(ItemType item_type);
+  void NextAnimation();
+  void PreviousAnimation();
 
  protected:
   void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
  private:
+  std::vector<AnimationType> animation_list_;
+  std::int16_t current_animation_index_{0};
   PlayerView player_view_;
   sf::Vector2f relative_view_position_{0.f, 0.f};
 };

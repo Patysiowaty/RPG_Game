@@ -58,6 +58,7 @@ void ItemSlot::RestoreDefault() {
 
 void ItemSlot::draw(sf::RenderTarget &target, sf::RenderStates states) const {
   Window::draw(target, states);
+  if (!Window::IsVisible()) return;
 
   if (item_view_)
 	target.draw(*item_view_, states);

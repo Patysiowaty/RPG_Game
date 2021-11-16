@@ -4,7 +4,7 @@
 #include <memory>
 #include <map>
 #include <vector>
-#include "../item_types/Item.hpp"
+#include "../item_types/KeyItem.hpp"
 #include "../enums/ErrorCodes/ItemInteractorErrorCode.hpp"
 #include "../interfaces/IItemList.hpp"
 #include "../SlotIndex.hpp"
@@ -37,13 +37,14 @@ class PlayerInventory : IItemList {
   static std::uint16_t GetMaxTabs();
 
  private:
-  static constexpr std::uint16_t kTabCapacity{40};
+  static constexpr std::uint16_t kTabCapacity{35};
   static constexpr std::uint16_t kMaxTabs{4};
   std::uint16_t available_tabs_{1};
   std::uint16_t available_space_;
   std::uint16_t remaining_slots_;
 
   std::vector<std::shared_ptr<Item>> inventory_;
+  std::vector<std::shared_ptr<KeyItem>> key_items_inventory_;
 };
 
 #endif //PLAYERINVENTORY_HPP

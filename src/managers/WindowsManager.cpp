@@ -2,6 +2,7 @@
 #include "InputManager.hpp"
 #include "../commands/CloseWindowCommand.hpp"
 #include "../commands/OpenWindowCommand.hpp"
+#include <vector>
 WindowsManager::WindowsManager() {
   windows_key_bind_.emplace(sf::Keyboard::I, WindowTypes::kInventory);
   windows_key_bind_.emplace(sf::Keyboard::P, WindowTypes::kPlayerStatistics);

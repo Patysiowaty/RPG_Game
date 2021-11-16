@@ -14,7 +14,7 @@ class IFightable {
   virtual bool IsAlive() const = 0;
   virtual std::uint16_t GetLevel() const = 0;
 
-  virtual void AddExperience(std::size_t value) = 0;
+  virtual void AddExperience(size_t value) = 0;
 };
 
 #endif //IFIGHTABLE_HPP

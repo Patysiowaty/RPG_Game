@@ -1,6 +1,5 @@
 #include "PlayGameState.hpp"
 #include "../JsonSerializer.hpp"
-#include "../game_core/ItemCreator.hpp"
 PlayGameState::PlayGameState(GameStatesManager &game_states_manager, sf::RenderWindow &render_window)
 	: game_states_manager_{game_states_manager}, render_window_{render_window},
 	  player_controller_{player_, player_view_}, inventory_window_{player_controller_, "Inventory"},
@@ -22,7 +21,7 @@ void PlayGameState::Initialize() {
 
 void PlayGameState::Render() {
   if (!active_) return;
-  render_window_.setView(game_camera_);
+  //render_window_.setView(game_camera_);
   render_window_.clear();
   drawable_container_.Draw(render_window_);
 }
@@ -83,7 +82,6 @@ void PlayGameState::ReadConfigs() {
 
   GameConfig game_config;
   json_serializer.Deserialize(game_config, "../configs/game_config.json");
-  game_camera_.setSize(game_config.window_size_.x, game_config.window_size_.y);
 }
 
 void PlayGameState::LoadGameData() {

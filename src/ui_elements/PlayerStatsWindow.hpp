@@ -12,6 +12,7 @@ class PlayerStatsWindow : public Window, public IGameWindow {
  public:
   explicit PlayerStatsWindow(PlayerController &player_controller, const std::string &window_name);
 
+  void OnInit();
   void Deserialize(const boost::property_tree::ptree &ptree) override;
   void Update(float delta_time) override;
   void Move(const sf::Vector2f &offset) override;
@@ -20,26 +21,33 @@ class PlayerStatsWindow : public Window, public IGameWindow {
   void OpenWindow() override;
   void CloseWindow() override;
   bool IsOpen() const override;
-  const sf::Vector2f &GetWindowSize() const override;
-  void OnInit();
-  void RemoveItem(ItemType item_type);
   void RegisterManager(WindowsManager *windows_manager) override;
   void ReloadData() override;
+  void RemoveItem(ItemType item_type);
+  void ShowMoreStats();
+  void ShowLessStats();
 
  private:
   void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
+
   void CreateLabels();
   void SetLabels();
-  void CreateEquipmentSlots();
+  void SetValueLabels();
   void FillValueLabelsData();
+  void CreateEquipmentSlots();
+  void FillEquipmentSlots();
+  void CreateButtons();
   void SetButtons();
   void SetPlayerView();
-  void SetValueLabelsData();
-  void FillEquipmentSlots();
+  void InvertStatisticsVisibility();
 
  private:
   PlayerController &player_controller_;
   WindowsManager *windows_manager_{nullptr};
+
+  enum class ButtonTypes {
+	kNextViewAnimation, kPreviousViewAnimation, kShowLess, kShowMore, kCloseButton, kSize = 5
+  };
 
   sf::Font font_;
 
@@ -49,10 +57,11 @@ class PlayerStatsWindow : public Window, public IGameWindow {
   std::map<AttributeType, Label> attribute_value_labels_;
   std::map<StatisticType, Label> statistic_text_labels_;
   std::map<StatisticType, Label> statistic_value_labels_;
+  std::map<ButtonTypes, Button> buttons_list_;
 
   Label wnd_name_;
   Label character_name_label_;
-  Button close_button_;
+
   PlayerViewWindow player_view_window_;
 };
 

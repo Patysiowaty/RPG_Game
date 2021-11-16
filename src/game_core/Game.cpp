@@ -1,6 +1,6 @@
 #include "Game.hpp"
 #include "../game_states/MenuGameState.hpp"
-#include "../game_states/PlayGameState.hpp"
+#include <string>
 
 const sf::Time Game::kTimePerFrame = sf::seconds(1.f / 60.f);
 

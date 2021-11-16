@@ -8,21 +8,8 @@ PlayerController::PlayerController(Player &player, PlayerView &player_view) : pl
 
 void PlayerController::MovePlayer(const sf::Vector2f &velocity, Direction direction) {
   const auto offset = velocity * acceleration_;
-  switch (direction) {
-	case Direction::kDown:
-	  MovePlayerDown(offset);
-	  break;
-	case Direction::kUp:
-	  MovePlayerUp(offset);
-	  break;
-	case Direction::kLeft:
-	  MovePlayerLeft(offset);
-	  break;
-	case Direction::kRight:
-	  MovePlayerRight(offset);
-	  break;
-  }
 
+  player_view_.OnMove(direction);
   player_.move(offset);
 
   for (const auto handler: handlers_) {
@@ -47,22 +34,6 @@ void PlayerController::Update(float delta_time) {
 
 void PlayerController::RegisterHandler(IPlayerHandler *value) {
   handlers_.emplace_back(value);
-}
-
-void PlayerController::MovePlayerDown(const sf::Vector2f &offset) {
-  player_view_.OnMoveDown(offset);
-}
-
-void PlayerController::MovePlayerUp(const sf::Vector2f &offset) {
-  player_view_.OnMoveUp(offset);
-}
-
-void PlayerController::MovePlayerLeft(const sf::Vector2f &offset) {
-  player_view_.OnMoveLeft(offset);
-}
-
-void PlayerController::MovePlayerRight(const sf::Vector2f &offset) {
-  player_view_.OnMoveRight(offset);
 }
 
 bool PlayerController::EquipItem(std::uint32_t item_id) {

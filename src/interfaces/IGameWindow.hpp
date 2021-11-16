@@ -12,7 +12,6 @@ class IGameWindow {
   virtual void CloseWindow() = 0;
   virtual bool IsOpen() const = 0;
   virtual void Move(const sf::Vector2f &offset) = 0;
-  virtual const sf::Vector2f &GetWindowSize() const = 0;
   virtual void RegisterManager(WindowsManager *windows_manager) = 0;
   virtual void ReloadData() = 0;
 };

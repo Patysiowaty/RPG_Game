@@ -4,6 +4,7 @@ PlayerInventory::PlayerInventory(std::uint16_t available_tabs) : available_tabs_
   available_space_ = available_tabs_ * kTabCapacity;
   remaining_slots_ = available_space_;
   inventory_.resize(available_space_);
+  key_items_inventory_.resize(kTabCapacity);
 }
 
 bool PlayerInventory::ExpandInventory() {
@@ -98,7 +99,7 @@ bool PlayerInventory::IsInInventory(const std::shared_ptr<Item> &item) const {
 }
 
 void PlayerInventory::SetInventoryAvailableTabs(std::uint16_t value) {
-  while (value-- && ExpandInventory());
+  while (--value && ExpandInventory());
 }
 
 std::uint16_t PlayerInventory::GetInventoryAvailableTabs() const {

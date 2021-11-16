@@ -32,14 +32,25 @@ class Label : public Window {
   void SetTextOutlineColor(const sf::Color &color);
   void SetTextOutlineThickness(float size);
   void SetTextString(const std::string &text_string);
+  void SetSize(const sf::Vector2f &size) override;
+  void SetMarginLeft(float value);
+
+  void SetAlign(TextAlign value);
+  void LoadWindowTexture(const std::string &file_path, const sf::IntRect &texture_pos) override;
 
  protected:
   void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
+  void AlignText(TextAlign value);
+  void AlignToLeft();
+  void AlignToRight();
+  void FitWindowSize();
+
  private:
   sf::Font font_;
   sf::Text rendered_text_;
-  TextAlign align_{TextAlign::kNone};
+  float margin_left_{3.f};
+  TextAlign align_{TextAlign::kLeft};
 };
 
 #endif //LABEL_HPP

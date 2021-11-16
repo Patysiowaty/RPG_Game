@@ -4,7 +4,7 @@
     "icon": "sabre.png",
     "description": "Ordinary sabre",
     "type": 4,
-    "rarity": 1,
+    "rarity": 2,
     "levelRequire": 1,
     "classRequire": [
       1

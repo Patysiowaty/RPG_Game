@@ -10,7 +10,7 @@
 class Button : public Window {
  public:
   explicit Button(Window *parent = nullptr);
-  explicit Button(std::string text, Window *parent = nullptr);
+  explicit Button(const std::string& text, Window *parent = nullptr);
   Button(Button &&button) noexcept;
 
   void AddCommand(CommandInvoker command_invoker, std::unique_ptr<ICommand> command);
@@ -24,6 +24,7 @@ class Button : public Window {
   void SetTextOutline(const sf::Color &color, float thickness = 1.f);
   void LoadButtonHover(const std::string &path, const sf::IntRect &hover_rect = sf::IntRect{});
   void LoadFont(const std::string &path);
+  void SetFont(const sf::Font &font);
   void Move(const sf::Vector2f &offset) override;
   void Activate() override;
   void Deactivate() override;
@@ -42,11 +43,10 @@ class Button : public Window {
   sf::IntRect hover_rect_ = sf::IntRect{};
 
   std::map<CommandInvoker, std::unique_ptr<ICommand>> commands_list_;
-  std::string text_string_;
   sf::Vector2f relative_position_;
   sf::Font font_;
   sf::Text text_;
-
+  sf::Color text_color_;
   bool is_focused_{false};
 };
 

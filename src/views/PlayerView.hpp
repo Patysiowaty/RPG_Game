@@ -15,7 +15,7 @@ enum class PlayerState {
   kNone, kWalk, kAttack
 };
 
-class PlayerView : sf::Transformable, public sf::Drawable, public IUpdatable, public IItemHandler {
+class PlayerView : public sf::Drawable, public IUpdatable, public IItemHandler {
  public:
   PlayerView();
   void CreateSprite(const std::string &texture_path);
@@ -25,15 +25,15 @@ class PlayerView : sf::Transformable, public sf::Drawable, public IUpdatable, pu
 
   void Update(float delta_time) override;
 
-  void OnMoveUp(const sf::Vector2f &offset);
-  void OnMoveDown(const sf::Vector2f &offset);
-  void OnMoveLeft(const sf::Vector2f &offset);
-  void OnMoveRight(const sf::Vector2f &offset);
+  void PlayAnimation(AnimationType animation_type, bool force = false);
+
+  void OnMove(Direction direction);
+  void OnAttack();
   void OnEquipItem(const std::shared_ptr<Item> &item) override;
   void OnTakeOffItem(const std::shared_ptr<Item> &item) override;
   void OnTakeOffItem(ItemType item_type);
   void OnUsedItem(const std::shared_ptr<IConsumable> &item) override;
-  void OnAttack();
+
   bool HasActiveAnimation() const { return animation_manager_.GetCurrentAnimation() != AnimationType::kNone; }
 
  private:
@@ -54,6 +54,8 @@ class PlayerView : sf::Transformable, public sf::Drawable, public IUpdatable, pu
   std::map<ItemType, bool> equipped_items_;
   AnimationManager animation_manager_;
   Direction direction_{Direction::kDown};
+
+  AnimationType next_animation{AnimationType::kNone};
 };
 
 #endif //PLAYERVIEW_HPP

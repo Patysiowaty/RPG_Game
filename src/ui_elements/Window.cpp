@@ -49,14 +49,15 @@ void Window::Update(float delta_time) {
 }
 
 void Window::CenterTextToFit(sf::Text &text, const sf::Shape &shape) {
-  const auto &global_rect_bounds = shape.getGlobalBounds();
-  const auto &local_text_bounds = text.getLocalBounds();
-  const auto centered_text = sf::Vector2f((global_rect_bounds.width - local_text_bounds.width) / 2,
-										  (global_rect_bounds.height - local_text_bounds.height) / 2);
-  const auto
-	  text_position = sf::Vector2f(static_cast<int>(centered_text.x + global_rect_bounds.left - local_text_bounds.left),
-								   static_cast<int>(centered_text.y + global_rect_bounds.top - local_text_bounds.top));
-  text.setPosition(text_position);
+  const auto &kShapeGlobalBounds = shape.getGlobalBounds();
+  const auto &kLocalTextBounds = text.getLocalBounds();
+  const auto kCenteredText = sf::Vector2f((kShapeGlobalBounds.width - kLocalTextBounds.width) / 2,
+										  (kShapeGlobalBounds.height - kLocalTextBounds.height) / 2);
+  const auto kTextPosition = sf::Vector2f(
+	  static_cast<int>(kCenteredText.x + kShapeGlobalBounds.left - kLocalTextBounds.left),
+	  static_cast<int>(kCenteredText.y + kShapeGlobalBounds.top - kLocalTextBounds.top));
+
+  text.setPosition(kTextPosition);
 }
 
 void Window::SetWindowTexture(sf::Texture *texture, const sf::IntRect &texture_pos) {
@@ -81,11 +82,12 @@ void Window::Activate() {
 
 void Window::Deactivate() {
   is_active_ = false;
-  shape_.setFillColor({0, 0, 0, 60});
+  shape_.setFillColor({255, 255, 255, 180});
 }
 
 void Window::RestoreDefault() {
   is_active_ = true;
+  shape_.setFillColor(sf::Color::White);
   Window::SetWindowTexture(&texture_, texture_rect_);
 }
 
@@ -97,6 +99,10 @@ void Window::LoadWindowTexture(const std::string &file_path, const sf::IntRect &
 
 void Window::SetRelativePosition(const sf::Vector2f &new_position) {
   relative_position_ = new_position;
+}
+
+void Window::Rotate(float angle) {
+  shape_.rotate(angle);
 }
 
 
